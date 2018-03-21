@@ -1,0 +1,56 @@
+- dorobić metoda IsingQuantities.computeResultsWithoutM()
+- niektóre klasy uczynić niewidoczne poza biblioteka
+- jesli FalicovKimball tyż mo siatka spinów, to zrobić interfejs, z kerego IsingModel i FalicovKimballModel bydom dziedziczyć, wówczas phtio::IO bd mioł metoda saveSpins()
+
+- do poniższego zrobić może wrappera (IftreamWrapper, FstreamWrapper), kery do konstruktora przyjmie nazwa pliku i bydzie mioł przyciski: 
+* openIfstream()/openFstream()
+* modelType() - przeczyto pierwszo linijka i zwroci rodzaj modelu
+* readIsingInputData()
+* readFalicovKimballInputData
+[zastanowić się, czy close() bd jako osobny przycisk, czy w środku funkcji read()]
+1. otworzyc stream
+2. przeczytac nazwa modelu
+3. if Ising then
+		na otwartym dalej streamie przeczytac IsingInputData
+	else if FalicovKimball then
+		na otwartym dalej streamie przeczytac FalicovKimballInputdata
+- LEPSZY POMYSŁ: zrobić klasa, kero przyjmie w konstruktorze nazwa pliku w konstruktorze przeczyto rodzaj modelu i wczyto do swojego odpowiedniego pola odpowiednie InputData. Klasa bd miała getModelType(), getIsingInputData() i getFalicovKimballData()
+
+
+----------------------------------------------
+
+J=
+latticeSize=
+h=
+
+T		M		E		Cv		X
+
+----------------------------------------------
+
+J=
+latticeSize=
+h=
+
+kT=
+spiny
+
+kT=
+spiny
+
+kT=
+spiny
+
+...
+
+----------------------------------------------
+
+modelName=Ising
+J=
+latticeSize=
+h=
+startkT=
+endkT=
+kTstep=
+kTrepeat=
+resultsFilePath=
+spinsFilePath=
