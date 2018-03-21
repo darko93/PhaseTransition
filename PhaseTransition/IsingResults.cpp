@@ -17,7 +17,7 @@ namespace PhaseTransition
 	{
 	}
 
-	double IsingResults::T()
+	double IsingResults::getT()
 	{
 		return this->T;
 	}

@@ -167,13 +167,13 @@ namespace PhaseTransition
 		double H = hamiltonian();
 		double H2 = H * H;
 		double expMinusBetaH = exp(-beta * H);
-		quantities->PartitionFunction += expMinusBetaH;
-		quantities->HExpMinusBetaH += H * expMinusBetaH;
-		quantities->H2ExpMinusBetaH += H2 * expMinusBetaH;
+		quantities->SumExpMinusBetaH += expMinusBetaH;
+		quantities->SumHExpMinusBetaH += H * expMinusBetaH;
+		quantities->SumH2ExpMinusBetaH += H2 * expMinusBetaH;
 		double M = magnetization();
 		double M2 = M * M;
-		quantities->MExpMinusBetaH += M * expMinusBetaH;
-		quantities->M2ExpMinusBetaH += M2 * expMinusBetaH;
+		quantities->SumMExpMinusBetaH += M * expMinusBetaH;
+		quantities->SumM2ExpMinusBetaH += M2 * expMinusBetaH;
 		return quantities;
 	}
 
