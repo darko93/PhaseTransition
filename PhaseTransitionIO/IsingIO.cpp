@@ -37,7 +37,7 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
-		fstream << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->T() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getM() 
+		fstream << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getT() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getM() 
 			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getU() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getCv() 
 			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getX() << std::endl;
 		fstream.close();

@@ -17,7 +17,7 @@ int main()
 	double h = isingInputData->geth();
 	double minT = isingInputData->getMinT();
 	double maxT = isingInputData->getMaxT();
-	double ktStep = isingInputData->getTStep();
+	double kTStep = isingInputData->getTStep();
 	int TRepeats = isingInputData->getTRepeats();
 	std::string resultsFilePath = isingInputData->getResultsFilePath();
 	std::string spinsFilePath = isingInputData->getSpinsFilePath();
@@ -31,7 +31,7 @@ int main()
 	std::cout << "J=" << isingSimParams->getJ() << std::endl << "latticeSize=" << isingSimParams->getLatticeSize()
 		<< std::endl << "h=" << isingSimParams->geth() << std::endl << std::endl;
 
-	for (double T = minT; T <= maxT; T += ktStep)
+	for (double T = minT; T <= maxT; T += kTStep)
 	{
 		std::cout << "T=" << T << std::endl;
 		isingSimParams->setT(T);
