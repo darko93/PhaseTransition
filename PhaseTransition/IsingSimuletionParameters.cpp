@@ -2,10 +2,11 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(double T, double J, int latticeSize, double h) :
-		J(J), h(h)
+	IsingSimulationParameters::IsingSimulationParameters(double T, ModelType modelType, int latticeSize, double h) :
+		h(h)
 	{
 		setT(T);
+		setModelType(modelType);
 		setLatticeSize(latticeSize);
 	}
 
@@ -24,9 +25,19 @@ namespace PhaseTransition
 		return this->T;
 	}
 
+	ModelType IsingSimulationParameters::getModelType()
+	{
+		return this->modelType;
+	}
+
 	double IsingSimulationParameters::getJ()
 	{
 		return this->J;
+	}
+
+	double IsingSimulationParameters::getkB()
+	{
+		return this->kB;
 	}
 
 	double IsingSimulationParameters::geth()
@@ -37,6 +48,12 @@ namespace PhaseTransition
 	int IsingSimulationParameters::getLatticeSize()
 	{
 		return this->latticeSize;
+	}
+
+	void IsingSimulationParameters::setModelType(ModelType modelType)
+	{
+		this->modelType = modelType;
+		this->J = (double)modelType;
 	}
 
 	void IsingSimulationParameters::setLatticeSize(int latticeSize)

@@ -3,13 +3,13 @@
 
 namespace PhaseTransition
 {
-	IsingResults::IsingResults(double T, double M, double U, double Cv, double X)
-		: T(T), M(M), U(U), Cv(Cv), X(X)
+	IsingResults::IsingResults(double T, double M, double U, double Cv, double X, double aveH, double aveCv, double aveM, double aveX, double aveMExp)
+		: T(T), M(M), U(U), Cv(Cv), X(X), aveH(aveH), aveCv(aveCv), aveM(aveM), aveX(aveX), aveMExp(aveMExp)
 	{
 	}
 
-	IsingResults::IsingResults(double T, double U, double Cv, double X)
-		: T(T), U(U), Cv(Cv), X(X)
+	IsingResults::IsingResults(double T, double U, double Cv, double X, double aveH, double aveCv, double aveM, double aveX, double aveMExp)
+		: T(T), U(U), Cv(Cv), X(X), aveH(aveH), aveCv(aveCv), aveM(aveM), aveX(aveX), aveMExp(aveMExp)
 	{
 	}
 

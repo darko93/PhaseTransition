@@ -38,7 +38,7 @@ namespace PhaseTransition
 	void IsingModel::initialize(IsingSimulationParameters* simParams)
 	{
 		this->simParams = simParams;
-		this->quantities = new IsingQuantities(simParams->latticeSitesAmount);
+		this->quantities = new IsingQuantities(simParams->latticeSitesAmount, simParams->stepsAmount);
 		initializeSpinsConfiguration();
 	}
 
@@ -174,6 +174,12 @@ namespace PhaseTransition
 		double M2 = M * M;
 		quantities->SumMExpMinusBetaH += M * expMinusBetaH;
 		quantities->SumM2ExpMinusBetaH += M2 * expMinusBetaH;
+		
+		quantities->sumH += H;
+		quantities->sumH2 += H2;
+		quantities->sumM += M;
+		quantities->sumM2 += M2;
+		
 		return quantities;
 	}
 

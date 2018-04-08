@@ -24,11 +24,13 @@ namespace PhaseTransitionIO
 	{
 		std::fstream fstream;
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "J=" << simParams->getJ() << std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl
-			<< "h=" << simParams->geth() << std::endl << std::endl;
+		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize=" 
+			<< simParams->getLatticeSize() << std::endl	<< "h=" << simParams->geth() << std::endl << std::endl;
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
-		fstream << std::setw(IsingIO::COLUMN_WIDTH) << "T" << std::setw(IsingIO::COLUMN_WIDTH) << "M" << std::setw(IsingIO::COLUMN_WIDTH) 
-			<< "U" << std::setw(IsingIO::COLUMN_WIDTH) << "Cv" << std::setw(IsingIO::COLUMN_WIDTH) << "X" << std::endl << std::endl;
+		fstream << std::setw(IsingIO::COLUMN_WIDTH) << "T" << std::setw(IsingIO::COLUMN_WIDTH) << "M" << std::setw(IsingIO::COLUMN_WIDTH)
+			<< "U" << std::setw(IsingIO::COLUMN_WIDTH) << "Cv" << std::setw(IsingIO::COLUMN_WIDTH) << "X" << std::setw(IsingIO::COLUMN_WIDTH)
+			<< "aveH" << std::setw(IsingIO::COLUMN_WIDTH) << "aveCv" << std::setw(IsingIO::COLUMN_WIDTH) << "aveM" 
+			<< std::setw(IsingIO::COLUMN_WIDTH) << "aveX" << std::setw(IsingIO::COLUMN_WIDTH) << "aveMExp" << std::endl << std::endl;
 		fstream.close();
 	}
 
@@ -37,9 +39,12 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
-		fstream << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getT() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getM() 
-			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getU() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getCv() 
-			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getX() << std::endl;
+		fstream << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getT() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getM()
+			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getU() << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getCv()
+			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->getX()
+			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->aveH << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->aveCv
+			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->aveM << std::setw(IsingIO::COLUMN_WIDTH) << isingResults->aveX
+			<< std::setw(IsingIO::COLUMN_WIDTH) << isingResults->aveMExp << std::endl;
 		fstream.close();
 	}
 
@@ -47,8 +52,8 @@ namespace PhaseTransitionIO
 	{
 		std::fstream fstream;
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "J=" << simParams->getJ() << std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl
-			<< "h=" << simParams->geth() << std::endl << std::endl;
+		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize=" 
+			<< simParams->getLatticeSize() << std::endl	<< "h=" << simParams->geth() << std::endl << std::endl;
 		fstream.close();
 	}
 

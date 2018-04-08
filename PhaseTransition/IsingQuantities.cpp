@@ -2,10 +2,11 @@
 
 namespace PhaseTransition
 {
-	IsingQuantities::IsingQuantities(int latticeSitesAmount)
+	IsingQuantities::IsingQuantities(int latticeSitesAmount, int simStepsAmount)
 		: SumExpMinusBetaH(0.0), SumHExpMinusBetaH(0.0), SumH2ExpMinusBetaH(0.0), SumMExpMinusBetaH(0.0), SumM2ExpMinusBetaH(0.0)
 	{
 		this->siteFraction = 1.0 / latticeSitesAmount;
+		this->simStepsFraction = 1.0 / simStepsAmount;
 	}
 
 	IsingQuantities::~IsingQuantities()
@@ -34,13 +35,56 @@ namespace PhaseTransition
 		return this->siteFraction * (aveM2 - aveM * aveM) / (T); // X = 1/N * (<M^2> - <M>^2) / T
 	}
 
+	double IsingQuantities::aveH()
+	{
+		return this->simStepsFraction * this->sumH;
+	}
+
+	double IsingQuantities::aveH2()
+	{
+		return this->simStepsFraction * this->sumH2;
+	}
+
+	double IsingQuantities::aveM()
+	{
+		return this->simStepsFraction * this->sumM;
+	}
+
+	double IsingQuantities::aveM2()
+	{
+		return this->simStepsFraction * this->sumM2;
+	}
+
+	double IsingQuantities::aveCv(double aveH, double aveH2, double T)
+	{
+		return this->siteFraction * (aveH2 - aveH*aveH) / (T*T);
+	}
+
+	double IsingQuantities::aveX(double aveM, double aveM2, double T)
+	{
+		return this->siteFraction * (aveM2 - aveM * aveM) / (T); // X = 1/N * (<M^2> - <M>^2) / T
+	}
+
 	IsingResults* IsingQuantities::computePartOfResults(double T)
 	{
 		double U = internalEnergy();
 		double U2 = internalEnergy2();
 		double Cv = specificHeat(U, U2, T);
 		double X = megneticSusceptibility(T);
-		IsingResults* results = new IsingResults(T, U, Cv, X);
+
+		double ave_H = aveH();
+		double ave_H2 = aveH2();
+		double ave_M = aveM();
+		double ave_M2 = aveM2();
+		double ave_Cv = aveCv(ave_H, ave_H2, T);
+		double ave_X = aveX(ave_M, ave_M2, T);
+
+		double ave_H_PerSite = this->siteFraction * ave_H;
+		double ave_M_PerSite = this->siteFraction * ave_M;
+
+		double aveMExp = this->siteFraction * (this->SumMExpMinusBetaH / this->SumExpMinusBetaH);
+
+		IsingResults* results = new IsingResults(T, U, Cv, X, ave_H_PerSite, ave_Cv, ave_M_PerSite, ave_X, aveMExp);
 		return results;
 	}
 }

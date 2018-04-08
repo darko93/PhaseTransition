@@ -1,9 +1,9 @@
 J=1
 latticeSize=20
 h=0
-minkT=0
-maxkT=4
-kTstep=0.1
-kTrepeat=1
+minT=1.5
+maxT=4
+Tstep=0.3
+Trepeat=1
 resultsFilePath=IsingResults.txt
 spinsFilePath=IsingSpins.txt

@@ -134,6 +134,7 @@
     <ClInclude Include="IsingQuantities.h" />
     <ClInclude Include="IsingResults.h" />
     <ClInclude Include="IsingSimulationParameters.h" />
+    <ClInclude Include="ModelType.h" />
     <ClInclude Include="Randomizer.h" />
   </ItemGroup>
   <ItemGroup>
