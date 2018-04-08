@@ -19,8 +19,10 @@ namespace PhaseTransitionIO
 	public:
 		static IsingInputData* readIsingInputData(std::ifstream& isingIfstream);
 		static void createResultsFile(std::string filePath, pht::IsingSimulationParameters* simParams);
-		static void saveToFile(std::string filePath, pht::IsingResults* isingResults);
+		static void saveResults(std::string filePath, pht::IsingResults* isingResults);
 		static void createSpinsFile(std::string filePath, pht::IsingSimulationParameters* simParams);
-		static void saveToFile(std::string filePath, pht::IsingModel& isingModel);
+		static void saveSpins(std::string filePath, pht::IsingModel& isingModel);
+		static void createMeanTimeQuantities(std::string filePath, pht::IsingSimulationParameters* simParams);
+		static void saveMeanTimeQuantities(std::string filePath, pht::IsingQuantities quantities, int step);
 	};
 }

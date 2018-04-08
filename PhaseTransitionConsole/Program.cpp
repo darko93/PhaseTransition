@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "IsingModel.h"
-#include "ModelType.h"
+#include "IsingModelType.h"
 #include "IsingSimulationParameters.h"
 #include "IsingIO.h"
 
@@ -14,7 +14,7 @@ int main()
 	phtio::IsingInputData* isingInputData = phtio::IsingIO::readIsingInputData(isingIfstream);
 	
 	double J = isingInputData->getJ();
-	ModelType modelType = (ModelType)(int)J;
+	IsingModelType modelType = (IsingModelType)(int)J;
 	int latticeSize = isingInputData->getLatticeSize();
 	double h = isingInputData->geth();
 	double minT = isingInputData->getMinT();
@@ -41,8 +41,8 @@ int main()
 		{
 			std::cout << "TRepeat=" << i + 1 << std::endl;
 			pht::IsingResults* isingResults = isingModel.fullSimulation(isingSimParams);
-			phtio::IsingIO::saveToFile(resultsFilePath, isingResults);
-			phtio::IsingIO::saveToFile(spinsFilePath, isingModel);
+			phtio::IsingIO::saveResults(resultsFilePath, isingResults);
+			phtio::IsingIO::saveSpins(spinsFilePath, isingModel);
 		}
 	}
 	delete isingSimParams;

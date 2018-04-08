@@ -57,4 +57,19 @@ namespace PhaseTransitionIO
 	{
 		return this->spinsFilePath;
 	}
+
+	bool IsingInputData::getSaveMeantimeQuanities()
+	{
+		return this->saveMeantimeQuantities;
+	}
+
+	int IsingInputData::getSavingMeantimeQuantitiesInterval()
+	{
+		return this->savingMeantimeQuantitiesInterval;
+	}
+
+	std::string IsingInputData::getMeantimeQuantitiesFilePathPattern()
+	{
+		return this->meantimeQuantitiesFilePathPattern;
+	}
 }

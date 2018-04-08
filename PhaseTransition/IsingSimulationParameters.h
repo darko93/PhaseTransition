@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ModelType.h"
+#include "IsingModelType.h"
 
 namespace PhaseTransition
 {
@@ -10,7 +10,7 @@ namespace PhaseTransition
 	private:
 		double T;
 		const double kB = 1; // Boltzman constant
-		ModelType modelType;
+		IsingModelType modelType;
 		double J; // coupling strength
 		double h; // mu * H - external field strength
 		double beta; // 1/T
@@ -18,14 +18,14 @@ namespace PhaseTransition
 		int latticeSizeLessOne;
 		int latticeSitesAmount;
 		int stepsAmount;
-		void setModelType(ModelType modelType);
+		void setModelType(IsingModelType modelType);
 		void setLatticeSize(int latticeSize);
 	public:
-		IsingSimulationParameters(double T, ModelType modelType, int latticeSize, double h = 0);
+		IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h = 0);
 		~IsingSimulationParameters();
 		void setT(double T);
 		double getT();
-		ModelType getModelType();
+		IsingModelType getModelType();
 		double getJ();
 		double getkB();
 		double geth();

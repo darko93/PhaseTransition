@@ -183,12 +183,6 @@ namespace PhaseTransition
 		for (int i = 0; i < stepsAmount; i++)
 		{
 			simulationStep();
-			//if (i % 1000000 == 0)
-			//{
-			//	std::cout << "H = " << this->hamiltonian() << std::endl;
-			//	std::cout << "ExpMinusBetaH = " << this->quantities->PartitionFunction << std::endl;
-			//	std::cout << "U = " << this->quantities->internalEnergy() << std::endl;
-			//}
 		}
 		IsingResults* isingResults = computeResults();
 		return isingResults;

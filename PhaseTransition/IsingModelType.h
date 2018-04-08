@@ -1,5 +1,5 @@
 #pragma once
-enum ModelType : char
+enum IsingModelType : char
 {
 	FERROMAGNETIC = 1,
 	ANTIFERROMAGNETIC = -1

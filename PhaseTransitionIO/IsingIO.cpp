@@ -33,7 +33,7 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveToFile(std::string filePath, pht::IsingResults* isingResults)
+	void IsingIO::saveResults(std::string filePath, pht::IsingResults* isingResults)
 	{
 		std::fstream fstream;
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
@@ -54,7 +54,7 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveToFile(std::string filePath, pht::IsingModel& isingModel)
+	void IsingIO::saveSpins(std::string filePath, pht::IsingModel& isingModel)
 	{
 		pht::IsingSimulationParameters* simParams = isingModel.getSimParams();
 		std::stringstream spinsString;
