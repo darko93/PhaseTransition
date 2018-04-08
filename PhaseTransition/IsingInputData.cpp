@@ -2,7 +2,7 @@
 
 namespace PhaseTransitionIO
 {
-	IsingInputData::IsingInputData(double J, int latticeSize, double h, double minT, double maxT, double ktStep,
+	IsingInputData::IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep,
 		int TRepeats, std::string resultsFilePath, std::string spinsFilePath)
 		: J(J), latticeSize(latticeSize), h(h), minT(minT), maxT(maxT), TStep(ktStep),
 		  TRepeats(TRepeats), resultsFilePath(resultsFilePath), spinsFilePath(spinsFilePath)

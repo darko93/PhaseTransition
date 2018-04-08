@@ -163,18 +163,11 @@ namespace PhaseTransition
 			spins[i][j] = -ijSpin;
 		}
 
-		IsingQuantities* quantities = this->quantities;
 		double H = hamiltonian();
 		double H2 = H * H;
-		double expMinusBetaH = exp(-beta * H);
-		quantities->SumExpMinusBetaH += expMinusBetaH;
-		quantities->SumHExpMinusBetaH += H * expMinusBetaH;
-		quantities->SumH2ExpMinusBetaH += H2 * expMinusBetaH;
 		double M = magnetization();
-		double M2 = M * M;
-		quantities->SumMExpMinusBetaH += M * expMinusBetaH;
-		quantities->SumM2ExpMinusBetaH += M2 * expMinusBetaH;
-		
+		double M2 = M * M;		
+		IsingQuantities* quantities = this->quantities;
 		quantities->sumH += H;
 		quantities->sumH2 += H2;
 		quantities->sumM += M;
@@ -209,7 +202,7 @@ namespace PhaseTransition
 	IsingResults* IsingModel::computeResults()
 	{
 		IsingSimulationParameters* simParams = this->simParams;
-		IsingResults* results = this->quantities->computePartOfResults(simParams->T);
+		IsingResults* results = this->quantities->computeResults(simParams->T);
 		double M = (double)magnetization() / simParams->latticeSitesAmount;
 		results->M = M;
 		return results;

@@ -7,7 +7,7 @@ namespace PhaseTransitionIO
 	class IsingInputData
 	{
 	private:
-		double J;
+		int J; // +1 for ferromagnetic model, -1 for antiferromagnetic model
 		int latticeSize;
 		double h;
 		double minT;
@@ -17,7 +17,7 @@ namespace PhaseTransitionIO
 		std::string resultsFilePath;
 		std::string spinsFilePath;
 	public:
-		IsingInputData(double J, int latticeSize, double h, double minT, double maxT, double ktStep,
+		IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep,
 			int TRepeat, std::string resultsFilePath, std::string spinsFilePath);
 		~IsingInputData();
 		double getJ();

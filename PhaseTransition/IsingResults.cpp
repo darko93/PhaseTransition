@@ -3,13 +3,8 @@
 
 namespace PhaseTransition
 {
-	IsingResults::IsingResults(double T, double M, double U, double Cv, double X, double aveH, double aveCv, double aveM, double aveX, double aveMExp)
-		: T(T), M(M), U(U), Cv(Cv), X(X), aveH(aveH), aveCv(aveCv), aveM(aveM), aveX(aveX), aveMExp(aveMExp)
-	{
-	}
-
-	IsingResults::IsingResults(double T, double U, double Cv, double X, double aveH, double aveCv, double aveM, double aveX, double aveMExp)
-		: T(T), U(U), Cv(Cv), X(X), aveH(aveH), aveCv(aveCv), aveM(aveM), aveX(aveX), aveMExp(aveMExp)
+	IsingResults::IsingResults(double T, double U, double Cv, double M, double X)
+		: T(T), U(U), Cv(Cv), M(M), X(X)
 	{
 	}
 
@@ -22,11 +17,6 @@ namespace PhaseTransition
 		return this->T;
 	}
 
-	double IsingResults::getM()
-	{
-		return this->M;
-	}
-
 	double IsingResults::getU()
 	{
 		return this->U;
@@ -35,6 +25,11 @@ namespace PhaseTransition
 	double IsingResults::getCv()
 	{
 		return this->Cv;
+	}
+
+	double IsingResults::getM()
+	{
+		return this->M;
 	}
 
 	double IsingResults::getX()
