@@ -120,9 +120,6 @@
     <ProjectReference Include="..\PhaseTransitionIO\PhaseTransitionIO.vcxproj">
       <Project>{62fda671-25ab-466f-9603-6d9059370cce}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\PhaseTransition\PhaseTransition.vcxproj">
-      <Project>{df29341e-e212-43d2-bf16-aa54ce011bcd}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

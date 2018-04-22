@@ -7,7 +7,7 @@
     </Filter>
     <Filter Include="Header Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -15,16 +15,22 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="IIsingInputData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IIsingIO.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IsingMeantimeQuantities.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="IsingModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingQuantities.h">
+    <ClInclude Include="IsingModelType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Randomizer.h">
+    <ClInclude Include="IsingQuantities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IsingResults.h">
@@ -33,21 +39,18 @@
     <ClInclude Include="IsingSimulationParameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingMeantimeQuantities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IsingModelType.h">
+    <ClInclude Include="Randomizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="IsingMeantimeQuantities.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="IsingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IsingQuantities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Randomizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IsingResults.cpp">
@@ -56,7 +59,7 @@
     <ClCompile Include="IsingSimuletionParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsingMeantimeQuantities.cpp">
+    <ClCompile Include="Randomizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
