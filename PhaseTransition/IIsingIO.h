@@ -2,10 +2,10 @@
 
 #include<iostream>
 
-#include "IIsingInputData.h";
-#include "IsingQuantities.h";
-#include "IsingResults.h";
-#include "IsingSimulationParameters.h";
+#include "IIsingInputData.h"
+#include "IsingQuantities.h"
+#include "IsingResults.h"
+#include "IsingSimulationParameters.h"
 
 namespace PhaseTransition
 {

@@ -1,10 +1,14 @@
 #pragma once
 
-#include<iostream>
+#include <iostream>
+
+#include "IIsingInputData.h"
+
+namespace pht = PhaseTransition;
 
 namespace PhaseTransitionIO
 {
-	class IsingInputData
+	class IsingInputData : public pht::IIsingInputData
 	{
 	private:
 		int J; // +1 for ferromagnetic model, -1 for antiferromagnetic model

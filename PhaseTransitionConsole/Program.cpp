@@ -11,7 +11,8 @@ namespace phtio = PhaseTransitionIO;
 int main()
 {	
 	std::ifstream isingIfstream("PhaseTransitionInput.txt");
-	phtio::IsingInputData* isingInputData = phtio::IsingIO::readIsingInputData(isingIfstream);
+	phtio::IsingIO isingIO;
+	pht::IIsingInputData* isingInputData = isingIO.readIsingInputData(isingIfstream);
 	
 	double J = isingInputData->getJ();
 	IsingModelType modelType = (IsingModelType)(int)J;
@@ -26,8 +27,8 @@ int main()
 	delete isingInputData;
 
 	pht::IsingSimulationParameters* isingSimParams = new pht::IsingSimulationParameters(minT, modelType, latticeSize, h);
-	phtio::IsingIO::createResultsFile(resultsFilePath, isingSimParams);
-	phtio::IsingIO::createSpinsFile(spinsFilePath, isingSimParams);
+	isingIO.createResultsFile(resultsFilePath, isingSimParams);
+	isingIO.createSpinsFile(spinsFilePath, isingSimParams);
 	pht::IsingModel isingModel;
 	
 	std::cout << "J=" << isingSimParams->getJ() << std::endl << "kB=" << isingSimParams->getkB() << std::endl << "latticeSize=" 
@@ -41,8 +42,8 @@ int main()
 		{
 			std::cout << "TRepeat=" << i + 1 << std::endl;
 			pht::IsingResults* isingResults = isingModel.fullSimulation(isingSimParams);
-			phtio::IsingIO::saveResults(resultsFilePath, isingResults);
-			phtio::IsingIO::saveSpins(spinsFilePath, isingModel);
+			isingIO.saveResults(resultsFilePath, isingResults);
+			isingIO.saveSpins(spinsFilePath, isingModel);
 		}
 	}
 	delete isingSimParams;

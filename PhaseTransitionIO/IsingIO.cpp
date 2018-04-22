@@ -5,9 +5,9 @@
 
 namespace PhaseTransitionIO
 {
-	IsingInputData* IsingIO::readIsingInputData(std::ifstream& isingIfstream)
+	pht::IIsingInputData* IsingIO::readIsingInputData(std::ifstream& isingIfstream)
 	{
-		int J = readDoubleValue(isingIfstream);
+		int J = readIntValue(isingIfstream);
 		int latticeSize = readIntValue(isingIfstream);
 		double h = readDoubleValue(isingIfstream);
 		double minT = readDoubleValue(isingIfstream);
@@ -16,7 +16,7 @@ namespace PhaseTransitionIO
 		int TRepeats = readIntValue(isingIfstream);
 		std::string resultsFilePath = readStringValue(isingIfstream);
 		std::string spinsFilePath = readStringValue(isingIfstream);
-		IsingInputData* isingInputData = new IsingInputData(J, latticeSize, h, minT, maxT, TStep, TRepeats, resultsFilePath, spinsFilePath);
+		pht::IIsingInputData* isingInputData = new IsingInputData(J, latticeSize, h, minT, maxT, TStep, TRepeats, resultsFilePath, spinsFilePath);
 		return isingInputData;
 	}
 
@@ -78,5 +78,13 @@ namespace PhaseTransitionIO
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << spinsString.str();
 		fstream.close();
+	}
+
+	void IsingIO::createMeanTimeQuantities(std::string filePath, pht::IsingSimulationParameters * simParams)
+	{
+	}
+
+	void IsingIO::saveMeanTimeQuantities(std::string filePath, pht::IsingQuantities* quantities, int step)
+	{
 	}
 }

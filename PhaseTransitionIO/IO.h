@@ -9,12 +9,11 @@ namespace PhaseTransitionIO
 {
 	class IO
 	{
-	private:
-		IO();
 	protected:
-		static std::string readStringValue(std::ifstream& ifstream);
-		static double readDoubleValue(std::ifstream& ifstream);
-		static int readIntValue(std::ifstream& ifstream);
+		IO();
+		std::string readStringValue(std::ifstream& ifstream);
+		double readDoubleValue(std::ifstream& ifstream);
+		int readIntValue(std::ifstream& ifstream);
 		//static std::ifstream* openIfstream(std::string filePath);
 		//static std::fstream* openFstream(std::string filePath);
 	public:
