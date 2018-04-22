@@ -21,10 +21,10 @@
     <ClInclude Include="IO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\PhaseTransition\IsingInputData.h">
+    <ClInclude Include="IsingIO.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingIO.h">
+    <ClInclude Include="IsingInputData.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClCompile Include="IO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\PhaseTransition\IsingInputData.cpp">
+    <ClCompile Include="IsingIO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsingIO.cpp">
+    <ClCompile Include="IsingInputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

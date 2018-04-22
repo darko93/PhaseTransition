@@ -134,13 +134,13 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\PhaseTransition\IsingInputData.h" />
     <ClInclude Include="IO.h" />
+    <ClInclude Include="IsingInputData.h" />
     <ClInclude Include="IsingIO.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\PhaseTransition\IsingInputData.cpp" />
     <ClCompile Include="IO.cpp" />
+    <ClCompile Include="IsingInputData.cpp" />
     <ClCompile Include="IsingIO.cpp" />
   </ItemGroup>
   <ItemGroup>
