@@ -1,6 +1,9 @@
 #pragma once
 
 #include<iostream>
+#include<vector>
+
+#include "CorrelationTime.h"
 
 namespace PhaseTransition
 {
@@ -20,5 +23,6 @@ namespace PhaseTransition
 		virtual bool getSaveMeantimeQuanities() = 0;
 		virtual int getSavingMeantimeQuantitiesInterval() = 0;
 		virtual std::string getMeantimeQuantitiesFilePathPattern() = 0;
+		virtual std::vector<CorrelationTime*> getCorrelationTimes() = 0;
 	};
 }

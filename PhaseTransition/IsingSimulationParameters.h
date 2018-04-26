@@ -18,10 +18,13 @@ namespace PhaseTransition
 		int latticeSizeLessOne;
 		int latticeSitesAmount;
 		int stepsAmount;
+		bool saveMeantimeQuantities;
+		int correlationTime;
 		void setModelType(IsingModelType modelType);
 		void setLatticeSize(int latticeSize);
 	public:
-		IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h = 0);
+		IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h = 0, 
+			bool saveMeantimeQuantities = false, int correlationTime = 1);
 		~IsingSimulationParameters();
 		void setT(double T);
 		double getT();

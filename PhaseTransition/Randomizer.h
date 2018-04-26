@@ -18,6 +18,7 @@ namespace PhaseTransition
 #pragma endregion
 
 	public:
+		int randomNr(int max);
 		double randomNrBetween0And1();
 		double randomNr(double min, double max);
 	};

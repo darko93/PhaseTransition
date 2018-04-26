@@ -1,32 +1,38 @@
 #include "IsingMeantimeQuantities.h"
 
-
-
-IsingMeantimeQuantities::IsingMeantimeQuantities(double H, double H2, double M, double M2)
-	: H(H), H2(H2), M(M), M2(M2)
+namespace PhaseTransition
 {
-}
+	IsingMeantimeQuantities::IsingMeantimeQuantities(double T, double H, double H2, double M, double M2)
+		: T(T), H(H), H2(H2), M(M), M2(M2)
+	{
+	}
 
-IsingMeantimeQuantities::~IsingMeantimeQuantities()
-{
-}
+	IsingMeantimeQuantities::~IsingMeantimeQuantities()
+	{
+	}
 
-double IsingMeantimeQuantities::getH()
-{
-	return this->H;
-}
+	double PhaseTransition::IsingMeantimeQuantities::getT()
+	{
+		return this->T;
+	}
 
-double IsingMeantimeQuantities::getH2()
-{
-	return this->H2;
-}
+	double IsingMeantimeQuantities::getH()
+	{
+		return this->H;
+	}
 
-double IsingMeantimeQuantities::getM()
-{
-	return this->M;
-}
+	double IsingMeantimeQuantities::getH2()
+	{
+		return this->H2;
+	}
 
-double IsingMeantimeQuantities::getM2()
-{
-	return this->M2;
+	double IsingMeantimeQuantities::getM()
+	{
+		return this->M;
+	}
+
+	double IsingMeantimeQuantities::getM2()
+	{
+		return this->M2;
+	}
 }

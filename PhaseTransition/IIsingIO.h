@@ -3,9 +3,12 @@
 #include<iostream>
 
 #include "IIsingInputData.h"
-#include "IsingQuantities.h"
 #include "IsingResults.h"
 #include "IsingSimulationParameters.h"
+#include "IsingModel.h"
+#include "IsingMeantimeQuantities.h"
+
+namespace pht = PhaseTransition;
 
 namespace PhaseTransition
 {
@@ -17,8 +20,8 @@ namespace PhaseTransition
 		virtual void createResultsFile(std::string filePath, IsingSimulationParameters* simParams) = 0;
 		virtual void saveResults(std::string filePath, IsingResults* isingResults) = 0;
 		virtual void createSpinsFile(std::string filePath, IsingSimulationParameters* simParams) = 0;
-		//virtual void saveSpins(std::string filePath, pht::IsingModel& isingModel) = 0;
-		virtual void createMeanTimeQuantities(std::string filePath, IsingSimulationParameters* simParams) = 0;
-		virtual void saveMeanTimeQuantities(std::string filePath, IsingQuantities* quantities, int step) = 0;
+		virtual void saveSpins(std::string filePath, pht::IsingModel& isingModel) = 0;
+		virtual void createMeanTimeQuantitiesFile(std::string filePathPattern, IsingSimulationParameters* simParams) = 0;
+		virtual void saveMeanTimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step) = 0;
 	};
 }

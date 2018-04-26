@@ -1,4 +1,9 @@
-- dorobić metoda IsingQuantities.computeResultsWithoutM()
+- do saveSpins() zamiast całego modelu, przesłać tylko wskaźnik na getSpin()
+- sprawdzić, czy wektor żyje na stosie, czy stercie (jeśli na stosie, to musi być vectorem wskaźników)
+- sprawdzić, czy vector i string jest przesyłany by reference
+- w pliku wejściowym nie podawać correlationTimesAmount
+- sprawdzić, czy interfejsy nie mogą mieć forward deklaracji zamiast includa
+
 - niektóre klasy uczynić niewidoczne poza biblioteka
 - jesli FalicovKimball tyż mo siatka spinów, to zrobić interfejs, z kerego IsingModel i FalicovKimballModel bydom dziedziczyć, wówczas phtio::IO bd mioł metoda saveSpins()
 
@@ -16,6 +21,9 @@
 		na otwartym dalej streamie przeczytac FalicovKimballInputdata
 - LEPSZY POMYSŁ: zrobić klasa, kero przyjmie w konstruktorze nazwa pliku w konstruktorze przeczyto rodzaj modelu i wczyto do swojego odpowiedniego pola odpowiednie InputData. Klasa bd miała getModelType(), getIsingInputData() i getFalicovKimballData()
 
+----------------------------------------------
+
+correlationTime=5;minT=0.5;maxT=1.3
 
 ----------------------------------------------
 

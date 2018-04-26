@@ -1,16 +1,22 @@
 #pragma once
-class IsingMeantimeQuantities
+
+namespace PhaseTransition
 {
-	double H;
-	double H2;
-	double M;
-	double M2;
-public:
-	IsingMeantimeQuantities(double H, double H2, double M, double M2);
-	~IsingMeantimeQuantities();
-	double getH();
-	double getH2();
-	double getM();
-	double getM2();
-};
+	class IsingMeantimeQuantities
+	{
+		double T;
+		double H;
+		double H2;
+		double M;
+		double M2;
+	public:
+		IsingMeantimeQuantities(double T, double H, double H2, double M, double M2);
+		~IsingMeantimeQuantities();
+		double getT();
+		double getH();
+		double getH2();
+		double getM();
+		double getM2();
+	};
+}
 

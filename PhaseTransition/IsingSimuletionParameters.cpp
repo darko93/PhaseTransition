@@ -2,8 +2,9 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h) :
-		h(h)
+	IsingSimulationParameters::IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h, 
+		bool saveMeantimeQuantities, int correlationTime)
+		: h(h), saveMeantimeQuantities(saveMeantimeQuantities), correlationTime(correlationTime)
 	{
 		setT(T);
 		setModelType(modelType);

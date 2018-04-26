@@ -4,6 +4,11 @@
 
 namespace PhaseTransition
 {
+	int Randomizer::randomNr(int max)
+	{
+		return rand() % max;
+	}
+
 	double Randomizer::randomNrBetween0And1()
 	{
 		return (double)rand() / (double)RAND_MAX;

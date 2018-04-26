@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CorrelationTime.h" />
     <ClInclude Include="IIsingInputData.h" />
     <ClInclude Include="IIsingIO.h" />
     <ClInclude Include="IsingMeantimeQuantities.h" />
@@ -30,6 +31,7 @@
     <ClInclude Include="Randomizer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CorrelationTime.cpp" />
     <ClCompile Include="IsingMeantimeQuantities.cpp" />
     <ClCompile Include="IsingModel.cpp" />
     <ClCompile Include="IsingQuantities.cpp" />

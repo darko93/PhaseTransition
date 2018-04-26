@@ -1,8 +1,10 @@
 #pragma once
 
 #include <iostream>
+#include <vector>
 
 #include "IIsingInputData.h"
+#include "CorrelationTime.h"
 
 namespace pht = PhaseTransition;
 
@@ -23,9 +25,10 @@ namespace PhaseTransitionIO
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesInterval;
 		std::string meantimeQuantitiesFilePathPattern;
+		std::vector<pht::CorrelationTime*> correlationTimes;
 	public:
-		IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep,
-			int TRepeat, std::string resultsFilePath, std::string spinsFilePath);
+		IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep, int TRepeat, 
+			std::string resultsFilePath, std::string spinsFilePath, std::vector<pht::CorrelationTime*> correlationTimes);
 		~IsingInputData();
 		double getJ();
 		int getLatticeSize();
@@ -39,5 +42,6 @@ namespace PhaseTransitionIO
 		bool getSaveMeantimeQuanities();
 		int getSavingMeantimeQuantitiesInterval();
 		std::string getMeantimeQuantitiesFilePathPattern();
+		std::vector<pht::CorrelationTime*> getCorrelationTimes();
 	};
 }

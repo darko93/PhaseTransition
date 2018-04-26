@@ -3,6 +3,7 @@
 #include "IsingSimulationParameters.h"
 #include "IsingQuantities.h"
 #include "IsingResults.h"
+#include "IIsingIO.h"
 
 namespace PhaseTransition
 {
@@ -12,6 +13,7 @@ namespace PhaseTransition
 		int** spins;
 		IsingSimulationParameters* simParams;
 		IsingQuantities* quantities;
+		//IIsingIO* isingIO;
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j, int ijSpin);
 		double spinEnergy(int i, int j, int ijSpin);
@@ -19,8 +21,8 @@ namespace PhaseTransition
 		double hamiltonian();
 		int magnetization();
 	public:
-		IsingModel();
-		IsingModel(IsingSimulationParameters* simParams);
+		IsingModel(/*IIsingIO* isingIO*/);
+		IsingModel(/*IIsingIO* isingIO, */IsingSimulationParameters* simParams);
 		~IsingModel();
 		int getSpin(int i, int j);
 		IsingSimulationParameters* getSimParams();

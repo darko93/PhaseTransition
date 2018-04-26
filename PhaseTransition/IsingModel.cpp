@@ -4,12 +4,13 @@
 
 namespace PhaseTransition
 {
-	IsingModel::IsingModel()
+	IsingModel::IsingModel(/*IIsingIO* isingIO*/)
+		//: isingIO(isingIO)
 	{
 	}
 
-	IsingModel::IsingModel(IsingSimulationParameters* simParams)
-		: simParams(simParams)
+	IsingModel::IsingModel(/*IIsingIO* isingIO, */IsingSimulationParameters* simParams)
+		//: isingIO(isingIO), simParams(simParams)
 	{
 	}
 
@@ -144,7 +145,7 @@ namespace PhaseTransition
 		bool applySpinChange = true;
 		double beta = simParams->beta;
 		// Choose random atom
-		int randomSpinNr = rand() % simParams->latticeSitesAmount;
+		int randomSpinNr = Randomizer::getInstance().randomNr(simParams->latticeSitesAmount);
 		int i = randomSpinNr % simParams->latticeSize;
 		int j = randomSpinNr / simParams->latticeSize;
 		int ijSpin = spins[i][j];
@@ -180,9 +181,24 @@ namespace PhaseTransition
 	{
 		initialize(simParams);
 		int stepsAmount = simParams->stepsAmount;
-		for (int i = 0; i < stepsAmount; i++)
+		if (!simParams->saveMeantimeQuantities)
 		{
-			simulationStep();
+			for (int i = 0; i < stepsAmount; i++)
+			{
+				simulationStep();
+			}
+		}
+		else
+		{
+			for (int i = 0; i < stepsAmount; i++)
+			{
+				simulationStep();
+				bool saveMeantimeQuantities = simParams->correlationTime % i == 0;
+				if (saveMeantimeQuantities)
+				{
+					//TODO: save meantime quantites using IIsingIO
+				}
+			}
 		}
 		IsingResults* isingResults = computeResults();
 		return isingResults;
@@ -197,8 +213,6 @@ namespace PhaseTransition
 	{
 		IsingSimulationParameters* simParams = this->simParams;
 		IsingResults* results = this->quantities->computeResults(simParams->T);
-		double M = (double)magnetization() / simParams->latticeSitesAmount;
-		results->M = M;
 		return results;
 	}
 }
