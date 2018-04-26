@@ -1,3 +1,4 @@
+- TODO: save meantime quantites using IIsingIO
 - do saveSpins() zamiast całego modelu, przesłać tylko wskaźnik na getSpin()
 - sprawdzić, czy wektor żyje na stosie, czy stercie (jeśli na stosie, to musi być vectorem wskaźników)
 - sprawdzić, czy vector i string jest przesyłany by reference
