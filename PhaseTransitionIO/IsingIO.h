@@ -13,7 +13,7 @@ namespace pht = PhaseTransition;
 
 namespace PhaseTransitionIO
 {
-	class IsingIO : public IO, pht::IIsingIO
+	class IsingIO : public IO, public pht::IIsingIO
 	{
 	private:
 		static const int COLUMN_WIDTH = 22;

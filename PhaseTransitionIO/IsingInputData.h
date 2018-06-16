@@ -43,5 +43,6 @@ namespace PhaseTransitionIO
 		int getSavingMeantimeQuantitiesInterval();
 		std::string getMeantimeQuantitiesFilePathPattern();
 		std::vector<pht::CorrelationTime*> getCorrelationTimes();
+		int getCorrelationTime(double T);
 	};
 }

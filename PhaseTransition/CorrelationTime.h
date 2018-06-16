@@ -10,5 +10,9 @@ namespace PhaseTransition
 	public:
 		CorrelationTime(int correlationTime, double minT, double maxT);
 		~CorrelationTime();
+		int getCorrelationTime();
+		double getMinT();
+		double getMaxT();
+		bool contains(double T);
 	};
 }

@@ -77,4 +77,19 @@ namespace PhaseTransitionIO
 	{
 		return this->correlationTimes;
 	}
+
+	int IsingInputData::getCorrelationTime(double T)
+	{
+		std::vector<pht::CorrelationTime*> correlationTimes = this->correlationTimes;
+		size_t correlTimesAmount = correlationTimes.size();
+		for (std::vector<pht::CorrelationTime>::size_type i = 0; i < correlTimesAmount; i++)
+		{
+			pht::CorrelationTime* iCorrelTime = correlationTimes[i];
+			if (iCorrelTime->contains(T))
+			{
+				return iCorrelTime->getCorrelationTime();
+			}
+		}
+		throw std::invalid_argument("No correlation time for given T found.");
+	}
 }
