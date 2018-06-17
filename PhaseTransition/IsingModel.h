@@ -13,7 +13,7 @@ namespace PhaseTransition
 		int** spins;
 		IsingSimulationParameters* simParams;
 		IsingQuantities* quantities;
-		//IIsingIO* isingIO;
+		IIsingIO* isingIO;
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j, int ijSpin);
 		double spinEnergy(int i, int j, int ijSpin);
@@ -21,10 +21,10 @@ namespace PhaseTransition
 		double hamiltonian();
 		int magnetization();
 	public:
-		IsingModel(/*IIsingIO* isingIO*/);
+		IsingModel(IIsingIO* isingIO);
 		~IsingModel();
-		int getSpin(int i, int j);
 		IsingSimulationParameters* getSimParams();
+		int getSpin(int i, int j);
 		void initialize(IsingSimulationParameters* simParams);
 		IsingQuantities* simulationStep();
 		IsingResults* fullSimulation(IsingSimulationParameters* simParams);

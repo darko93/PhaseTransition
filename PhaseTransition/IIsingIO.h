@@ -5,8 +5,9 @@
 #include "IIsingInputData.h"
 #include "IsingResults.h"
 #include "IsingSimulationParameters.h"
-#include "IsingModel.h"
 #include "IsingMeantimeQuantities.h"
+
+class IsingModel;
 
 namespace pht = PhaseTransition;
 

@@ -7,6 +7,7 @@ https://stackoverflow.com/questions/40264/how-many-constructor-arguments-is-too-
 - IsingSimulationParameters powinien mieć settery, bo parametry mogą się ciągle zmieniać. Dajmy też duży konstruktor, ale...
 - Wyodrębnijmy SavingParameters do osobnej klasy, równierz z setterami i konstruktorem.
 - Ustawienia pojedynczych parametrów powinny być przez settery w IsingModelu, bo niektóre można zmienić tylko w initialize (lattice size, saveFinalResults? zależy kiedy tworzony jest plik)
+- IsingSimulationParameters ma być bez setterów publicznych, bo zmiana parametrów ma sens tylko razem, jeśli jest robiona z zewnątrz. Pojedyncze ewentualnie można zmieniać tylko przez metody IsingModelu
 - Kozaki, które chcą same zarządzać symulację, same muszą zadbać o zapisywanie. Dlatego konstruktor IsingModelu ma nie mieć SavingParams, ani initialize() ma nie mieć. Jedynie fullSimulation() ma miec - zabezpieczenie dla fajnych ludzi, by nie rzucało nullami.
 
 Symulacje można przeprowadzać dla parametrów z zadanego przedziału. Dotyczy to nie tylko T, ale też rozmiaru, h (J chyba nie, bo przyjujemy 1). SimulationManager i InputData powinien uwzględnić zmiany T, rozmiaru i h. Na razie jednak, żeby pochwilić się, że coś robię, zróbmy program tak, by uwzględniał jedynie zmianę T.

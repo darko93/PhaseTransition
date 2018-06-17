@@ -25,12 +25,13 @@ namespace PhaseTransition
 		return simParams;
 	}
 
-	bool IIsingInputData::nextSimulationParameters(IsingSimulationParameters* simParams)
+	bool IIsingInputData::toNextSimulationParameters(IsingSimulationParameters* simParams)
 	{
 		double nextT = simParams->getT() + getTStep();
 		bool isInRange = nextT <= getMaxT();
 		int correlationTime = getCorrelationTime(nextT);
-		simParams->setT(nextT, correlationTime);
+		simParams->setT(nextT);
+		simParams->correlationTime = correlationTime;
 		return isInRange;
 	}
 }

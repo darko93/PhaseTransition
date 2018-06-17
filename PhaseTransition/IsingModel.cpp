@@ -4,8 +4,8 @@
 
 namespace PhaseTransition
 {
-	IsingModel::IsingModel(/*IIsingIO* isingIO*/)
-		//: isingIO(isingIO)
+	IsingModel::IsingModel(IIsingIO* isingIO)
+		: isingIO(isingIO)
 	{
 	}
 
@@ -21,14 +21,14 @@ namespace PhaseTransition
 		delete this->quantities;
 	}
 
+	IsingSimulationParameters* IsingModel::getSimParams()
+	{
+		return this->simParams;
+	}
+
 	int IsingModel::getSpin(int i, int j)
 	{
 		return this->spins[i][j];
-	}
-
-	IsingSimulationParameters * IsingModel::getSimParams()
-	{
-		return this->simParams;
 	}
 
 	void IsingModel::initialize(IsingSimulationParameters* simParams)
@@ -154,16 +154,19 @@ namespace PhaseTransition
 			spins[i][j] = -ijSpin;
 		}
 
-		double H = hamiltonian();
-		double H2 = H * H;
-		double M = magnetization();
-		double M2 = M * M;		
-		IsingQuantities* quantities = this->quantities;
-		quantities->sumH += H;
-		quantities->sumH2 += H2;
-		quantities->sumM += M;
-		quantities->sumM2 += M2;
-		
+		if (simParams->correlationTime % i == 0)
+		{
+			double H = hamiltonian();
+			double H2 = H * H;
+			double M = magnetization();
+			double M2 = M * M;
+			IsingQuantities* quantities = this->quantities;
+			quantities->sumH += H;
+			quantities->sumH2 += H2;
+			quantities->sumM += M;
+			quantities->sumM2 += M2;
+		}
+
 		return quantities;
 	}
 
@@ -183,10 +186,10 @@ namespace PhaseTransition
 			for (int i = 0; i < stepsAmount; i++)
 			{
 				simulationStep();
-				bool saveMeantimeQuantities = simParams->correlationTime % i == 0;
-				if (saveMeantimeQuantities)
+				if (simParams->savingMeantimeQuantitiesInterval % i == 0)
 				{
 					//TODO: save meantime quantites using IIsingIO
+					//this->isingIO->saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, i);
 				}
 			}
 		}

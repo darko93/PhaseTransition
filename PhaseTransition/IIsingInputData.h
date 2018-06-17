@@ -30,6 +30,6 @@ namespace PhaseTransition
 		int getCorrelationTime(double T);
 	public:
 		IsingSimulationParameters* toFirstSimulationParameters();
-		bool nextSimulationParameters(IsingSimulationParameters* simParams);
+		bool toNextSimulationParameters(IsingSimulationParameters* simParams);
 	};
 }

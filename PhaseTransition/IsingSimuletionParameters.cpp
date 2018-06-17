@@ -1,14 +1,15 @@
+#include <stdexcept>
 #include "IsingSimulationParameters.h"
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h,
-		int correlationTime, bool saveFinalResults, bool saveSpins, bool saveMeantimeQuantities)
+	IsingSimulationParameters::IsingSimulationParameters(double T, int J, int latticeSize, double h,
+		int correlationTime, bool saveFinalResults, bool saveSpins, bool saveMeantimeQuantities, int savingMeantimeQuantitiesInterval)
 		: h(h), correlationTime(correlationTime), saveFinalResults(saveFinalResults), saveSpins(saveSpins),
-			saveMeantimeQuantities(saveMeantimeQuantities)
+			saveMeantimeQuantities(saveMeantimeQuantities), savingMeantimeQuantitiesInterval(savingMeantimeQuantitiesInterval)
 	{
 		setT(T);
-		setModelType(modelType);
+		setJ(J);
 		setLatticeSize(latticeSize);
 	}
 
@@ -16,24 +17,12 @@ namespace PhaseTransition
 	{
 	}
 
-	void IsingSimulationParameters::setT(double T, int correlationTime)
-	{
-		this->T = T;
-		this->beta = 1 / T;
-		this->correlationTime = correlationTime;
-	}
-
 	double IsingSimulationParameters::getT()
 	{
 		return this->T;
 	}
 
-	IsingModelType IsingSimulationParameters::getModelType()
-	{
-		return this->modelType;
-	}
-
-	int IsingSimulationParameters::getJ()
+	double IsingSimulationParameters::getJ()
 	{
 		return this->J;
 	}
@@ -53,10 +42,19 @@ namespace PhaseTransition
 		return this->latticeSize;
 	}
 
-	void IsingSimulationParameters::setModelType(IsingModelType modelType)
+	void IsingSimulationParameters::setT(double T)
 	{
-		this->modelType = modelType;
-		this->J = (int)modelType;
+		this->T = T;
+		this->beta = 1 / T;
+	}
+
+	void IsingSimulationParameters::setJ(int J)
+	{
+		if (J != 1 && J != -1)
+		{
+			throw std::invalid_argument("J must be equal +1 for ferromagnetic model or -1 for antiferromagnetic model.");
+		}
+		this->J = J;
 	}
 
 	void IsingSimulationParameters::setLatticeSize(int latticeSize)
