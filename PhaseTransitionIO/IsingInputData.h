@@ -31,21 +31,21 @@ namespace PhaseTransitionIO
 		std::string meantimeQuantitiesFilePathPattern;
 		std::vector<pht::CorrelationTime*> correlationTimes;
 	protected:
-		int getJ();
-		int getLatticeSize();
-		double geth();
-		double getMinT();
-		double getMaxT();
-		double getTStep();
-		int getTRepeats();
-		bool getSaveFinalResults();
-		std::string getResultsFilePath();
-		bool getSaveSpins();
-		std::string getSpinsFilePath();
-		bool getSaveMeantimeQuanities();
-		int getSavingMeantimeQuantitiesInterval();
-		std::string getMeantimeQuantitiesFilePathPattern();
-		std::vector<pht::CorrelationTime*> getCorrelationTimes();
+		int getJ() override;
+		int getLatticeSize() override;
+		double geth() override;
+		double getMinT() override;
+		double getMaxT() override;
+		double getTStep() override;
+		int getTRepeats() override;
+		bool getSaveFinalResults() override;
+		std::string getResultsFilePath() override;
+		bool getSaveSpins() override;
+		std::string getSpinsFilePath() override;
+		bool getSaveMeantimeQuanities() override;
+		int getSavingMeantimeQuantitiesInterval() override;
+		std::string getMeantimeQuantitiesFilePathPattern() override;
+		std::vector<pht::CorrelationTime*> getCorrelationTimes() override;
 	public:
 		//IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep, int TRepeats, 
 		//	bool saveFinalResults, std::string resultsFilePath, bool saveSpins, std::string spinsFilePath, 

@@ -1,3 +1,5 @@
+- IIsingIO musi mieć w konstruktorze: inputDataFilePath, resultsFilePath, spinsFilePath, meantimeQuantitiesFilePathPattern (kiedy latticeSize i h będę podawał w przedziale, to resultsFilePath i spinsFilePath to też będą patterny)
+
 Tworzenie instancji z wieloma paramsami przez fluent API + interfejsy + build() dla zachowanie kolejności i zapewnienia, że wszystkie parametry podamy: 
 https://stackoverflow.com/questions/6613429/how-to-ensure-that-builder-pattern-is-completed
 https://stackoverflow.com/questions/40264/how-many-constructor-arguments-is-too-many

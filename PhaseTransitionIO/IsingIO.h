@@ -18,14 +18,22 @@ namespace PhaseTransitionIO
 	private:
 		static const int COLUMN_WIDTH = 22;
 		static const int PRECISION = 4;
-		std::string getMeantimeQuantitesFilePath(std::string filePathPattern, double T);
+		std::string inputDataFilePath;
+		std::string resultsFilePath;
+		std::string spinsFilePath;
+		std::string meantimeQuantitiesFilePathPattern;
+		std::string getMeantimeQuantitesFilePath(double T);
 	public:
-		pht::IIsingInputData* readIsingInputData(std::ifstream& isingIfstream);
-		void createResultsFile(std::string filePath, pht::IsingSimulationParameters* simParams);
-		void saveResults(std::string filePath, pht::IsingResults* isingResults);
-		void createSpinsFile(std::string filePath, pht::IsingSimulationParameters* simParams);
-		void saveSpins(std::string filePath, pht::IsingModel& isingModel);
-		void createMeantimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams);
-		void saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step);
+		IsingIO(std::string inputDataFilePath, std::string resultsFilePath, std::string spinsFilePath, 
+			std::string meantimeQuantitiesFilePathPattern);
+		~IsingIO();
+
+		pht::IIsingInputData* readIsingInputData() override;
+		void createResultsFile(pht::IsingSimulationParameters* simParams) override;
+		void saveResults(pht::IsingResults* isingResults) override;
+		void createSpinsFile(pht::IsingSimulationParameters* simParams) override;
+		void saveSpins(pht::IsingModel& isingModel) override;
+		void createMeantimeQuantitiesFile(pht::IsingSimulationParameters* simParams) override;
+		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step) override;
 	};
 }

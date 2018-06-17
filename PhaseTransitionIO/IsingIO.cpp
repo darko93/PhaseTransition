@@ -5,13 +5,24 @@
 
 namespace PhaseTransitionIO
 {
-	std::string IsingIO::getMeantimeQuantitesFilePath(std::string filePathPattern, double T)
+	std::string IsingIO::getMeantimeQuantitesFilePath(double T)
 	{
-		return filePathPattern + "T" + std::to_string(T) + ".txt";
+		return this->meantimeQuantitiesFilePathPattern + "T" + std::to_string(T) + ".txt";
 	}
 
-	pht::IIsingInputData* IsingIO::readIsingInputData(std::ifstream& isingIfstream)
+	IsingIO::IsingIO(std::string inputDataFilePath, std::string resultsFilePath, std::string spinsFilePath, std::string meantimeQuantitiesFilePathPattern)
+		: inputDataFilePath(inputDataFilePath), resultsFilePath(resultsFilePath), spinsFilePath(spinsFilePath),
+		  meantimeQuantitiesFilePathPattern(meantimeQuantitiesFilePathPattern)
 	{
+	}
+
+	IsingIO::~IsingIO()
+	{
+	}
+
+	pht::IIsingInputData* IsingIO::readIsingInputData()
+	{
+		std::ifstream isingIfstream(this->inputDataFilePath);
 		int J = readIntValue(isingIfstream);
 		int latticeSize = readIntValue(isingIfstream);
 		double h = readDoubleValue(isingIfstream);
@@ -59,12 +70,12 @@ namespace PhaseTransitionIO
 		return isingInputData;
 	}
 
-	void IsingIO::createResultsFile(std::string filePath, pht::IsingSimulationParameters* simParams)
+	void IsingIO::createResultsFile(pht::IsingSimulationParameters* simParams)
 	{
 		std::fstream fstream;
-		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize=" 
-			<< simParams->getLatticeSize() << std::endl	<< "h=" << simParams->geth() << std::endl << std::endl;
+		fstream.open(this->resultsFilePath.c_str(), std::ios::out | std::ios::app);
+		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize="
+			<< simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() << std::endl << std::endl;
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << std::setw(width) << "T" << std::setw(width) << "U" << std::setw(width)
@@ -72,28 +83,28 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveResults(std::string filePath, pht::IsingResults* isingResults)
+	void IsingIO::saveResults(pht::IsingResults* isingResults)
 	{
 		std::fstream fstream;
-		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
+		fstream.open(this->resultsFilePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << std::setw(width) << isingResults->getT() << std::setw(width) << isingResults->getU()
-			<< std::setw(width) << isingResults->getCv() << std::setw(width) << isingResults->getM() 
+			<< std::setw(width) << isingResults->getCv() << std::setw(width) << isingResults->getM()
 			<< std::setw(width) << isingResults->getX() << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::createSpinsFile(std::string filePath, pht::IsingSimulationParameters* simParams)
+	void IsingIO::createSpinsFile(pht::IsingSimulationParameters* simParams)
 	{
 		std::fstream fstream;
-		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize=" 
-			<< simParams->getLatticeSize() << std::endl	<< "h=" << simParams->geth() << std::endl << std::endl;
+		fstream.open(this->spinsFilePath.c_str(), std::ios::out | std::ios::app);
+		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize="
+			<< simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() << std::endl << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(std::string filePath, pht::IsingModel& isingModel)
+	void IsingIO::saveSpins(pht::IsingModel& isingModel)
 	{
 		pht::IsingSimulationParameters* simParams = isingModel.getSimParams();
 		std::stringstream spinsString;
@@ -114,15 +125,15 @@ namespace PhaseTransitionIO
 		}
 		spinsString << std::endl;
 		std::fstream fstream;
-		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
+		fstream.open(this->spinsFilePath.c_str(), std::ios::out | std::ios::app);
 		fstream << spinsString.str();
 		fstream.close();
 	}
 
-	void IsingIO::createMeantimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams)
+	void IsingIO::createMeantimeQuantitiesFile(pht::IsingSimulationParameters* simParams)
 	{
 		std::fstream fstream;
-		std::string filePath = getMeantimeQuantitesFilePath(filePathPattern, simParams->getT());
+		std::string filePath = getMeantimeQuantitesFilePath(simParams->getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize="
 			<< simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() << std::endl << std::endl
@@ -133,10 +144,10 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step)
+	void IsingIO::saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step)
 	{
 		std::fstream fstream;
-		std::string filePath = getMeantimeQuantitesFilePath(filePathPattern, meantimeQuantities.getT());
+		std::string filePath = getMeantimeQuantitesFilePath(meantimeQuantities.getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
