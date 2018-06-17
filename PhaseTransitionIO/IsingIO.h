@@ -25,7 +25,7 @@ namespace PhaseTransitionIO
 		void saveResults(std::string filePath, pht::IsingResults* isingResults);
 		void createSpinsFile(std::string filePath, pht::IsingSimulationParameters* simParams);
 		void saveSpins(std::string filePath, pht::IsingModel& isingModel);
-		void createMeanTimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams);
-		void saveMeanTimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step);
+		void createMeantimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams);
+		void saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step);
 	};
 }

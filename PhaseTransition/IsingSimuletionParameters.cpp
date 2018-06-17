@@ -2,9 +2,10 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h, 
-		int correlationTime, bool saveFinalResults, bool saveMeantimeQuantities)
-		: h(h), correlationTime(correlationTime), saveFinalResults(saveFinalResults), saveMeantimeQuantities(saveMeantimeQuantities)
+	IsingSimulationParameters::IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h,
+		int correlationTime, bool saveFinalResults, bool saveSpins, bool saveMeantimeQuantities)
+		: h(h), correlationTime(correlationTime), saveFinalResults(saveFinalResults), saveSpins(saveSpins),
+			saveMeantimeQuantities(saveMeantimeQuantities)
 	{
 		setT(T);
 		setModelType(modelType);
@@ -32,7 +33,7 @@ namespace PhaseTransition
 		return this->modelType;
 	}
 
-	double IsingSimulationParameters::getJ()
+	int IsingSimulationParameters::getJ()
 	{
 		return this->J;
 	}
@@ -55,7 +56,7 @@ namespace PhaseTransition
 	void IsingSimulationParameters::setModelType(IsingModelType modelType)
 	{
 		this->modelType = modelType;
-		this->J = (double)modelType;
+		this->J = (int)modelType;
 	}
 
 	void IsingSimulationParameters::setLatticeSize(int latticeSize)

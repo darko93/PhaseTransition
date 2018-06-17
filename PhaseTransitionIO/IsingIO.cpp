@@ -19,8 +19,13 @@ namespace PhaseTransitionIO
 		double maxT = readDoubleValue(isingIfstream);
 		double TStep = readDoubleValue(isingIfstream);
 		int TRepeats = readIntValue(isingIfstream);
+		bool saveFinalResults = readBoolValue(isingIfstream);
 		std::string resultsFilePath = readStringValue(isingIfstream);
+		bool saveSpins = readBoolValue(isingIfstream);
 		std::string spinsFilePath = readStringValue(isingIfstream);
+		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
+		int savingMeantimeQuantitesInterval = readIntValue(isingIfstream);
+		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
 
 		int correlationTimesAmount = readIntValue(isingIfstream);
 		std::vector<pht::CorrelationTime*> correlationTimes;
@@ -35,8 +40,22 @@ namespace PhaseTransitionIO
 			correlationTimes[i] = correlationTime;
 		}
 
-		pht::IIsingInputData* isingInputData = new IsingInputData(J, latticeSize, h, minT, maxT, TStep, 
-			TRepeats, resultsFilePath, spinsFilePath, correlationTimes);
+		IsingInputData* isingInputData = new IsingInputData();
+		isingInputData->J = J;
+		isingInputData->latticeSize = latticeSize;
+		isingInputData->h = h;
+		isingInputData->minT = minT;
+		isingInputData->maxT = maxT;
+		isingInputData->TStep = TStep;
+		isingInputData->TRepeats = TRepeats;
+		isingInputData->saveFinalResults = saveFinalResults;
+		isingInputData->resultsFilePath = resultsFilePath;
+		isingInputData->saveSpins = saveSpins;
+		isingInputData->spinsFilePath = spinsFilePath;
+		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;
+		isingInputData->savingMeantimeQuantitiesInterval = savingMeantimeQuantitesInterval;
+		isingInputData->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
+		isingInputData->correlationTimes = correlationTimes;
 		return isingInputData;
 	}
 
@@ -100,7 +119,7 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::createMeanTimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams)
+	void IsingIO::createMeantimeQuantitiesFile(std::string filePathPattern, pht::IsingSimulationParameters* simParams)
 	{
 		std::fstream fstream;
 		std::string filePath = getMeantimeQuantitesFilePath(filePathPattern, simParams->getT());
@@ -114,7 +133,7 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveMeanTimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step)
+	void IsingIO::saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, int step)
 	{
 		std::fstream fstream;
 		std::string filePath = getMeantimeQuantitesFilePath(filePathPattern, meantimeQuantities.getT());

@@ -36,6 +36,18 @@ namespace PhaseTransitionIO
 		return intValue;
 	}
 
+	bool IO::readBoolValue(std::ifstream& ifstream)
+	{
+		std::string stringValue = readStringValue(ifstream);
+		bool boolValue = toBool(stringValue.c_str());
+		return boolValue;
+	}
+
+	bool IO::toBool(std::string s)
+	{
+		return s == "1";
+	}
+
 	template<typename T>
 	void IO::split(std::string s, char delimiter, T result)
 	{

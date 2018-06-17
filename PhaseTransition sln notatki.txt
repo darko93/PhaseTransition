@@ -1,4 +1,44 @@
-- czy potrzebny jest IIsingInpuData?
+Tworzenie instancji z wieloma paramsami przez fluent API + interfejsy + build() dla zachowanie kolejności i zapewnienia, że wszystkie parametry podamy: 
+https://stackoverflow.com/questions/6613429/how-to-ensure-that-builder-pattern-is-completed
+https://stackoverflow.com/questions/40264/how-many-constructor-arguments-is-too-many
+
+- zamiast epnych konstruktorów zrobić friend class albo settery
+- W IsingInputData settery są niewskazane (chyba, że prywatne), bo to są dane z zewnątrz i nie można ich zmieniać - zatem friend klas IingIO ma tu sens
+- IsingSimulationParameters powinien mieć settery, bo parametry mogą się ciągle zmieniać. Dajmy też duży konstruktor, ale...
+- Wyodrębnijmy SavingParameters do osobnej klasy, równierz z setterami i konstruktorem.
+- Ustawienia pojedynczych parametrów powinny być przez settery w IsingModelu, bo niektóre można zmienić tylko w initialize (lattice size, saveFinalResults? zależy kiedy tworzony jest plik)
+- Kozaki, które chcą same zarządzać symulację, same muszą zadbać o zapisywanie. Dlatego konstruktor IsingModelu ma nie mieć SavingParams, ani initialize() ma nie mieć. Jedynie fullSimulation() ma miec - zabezpieczenie dla fajnych ludzi, by nie rzucało nullami.
+
+Symulacje można przeprowadzać dla parametrów z zadanego przedziału. Dotyczy to nie tylko T, ale też rozmiaru, h (J chyba nie, bo przyjujemy 1). SimulationManager i InputData powinien uwzględnić zmiany T, rozmiaru i h. Na razie jednak, żeby pochwilić się, że coś robię, zróbmy program tak, by uwzględniał jedynie zmianę T.
+
+class IsingSimulationsManager
+{
+	IsingSimulationsManager();
+	PerformAllSimulations(IIsingInputData); // W pętli: tworzy IsingSimulationParameters i robi isingModel.fullSimulation(simParams)
+}
+
+class IIsingInputData
+{
+	IsingSimulationParameters* toFirstSimulationParameters(); // potem trzeba aktualizować jedynie T i correlation time
+	bool IsingSimulationParameters* nextSimParams(currentSimParams*) // true, jeśli T i size tych następnych parametrów mieszczą się w zadanym zakresie
+}
+
+class IsingSimulationParameters
+{
+	int DEFAULT_CORREL_TIME
+	int currentCorrelTime = DEFAULT_CORREL_TIME
+	
+	set T(double T, int correlTime)
+	{
+		...
+	}
+	set T(double T)
+	{
+		setT(T, currentCorrelTime);
+	}
+}
+
+
 - TODO: save meantime quantites using IIsingIO
 - do saveSpins() zamiast całego modelu, przesłać tylko wskaźnik na getSpin()
 - sprawdzić, czy wektor żyje na stosie, czy stercie (jeśli na stosie, to musi być vectorem wskaźników)
@@ -60,7 +100,17 @@ latticeSize=
 h=
 startkT=
 endkT=
-kTstep=
-kTrepeat=
+Tstep=
+Trepeat=
+saveFinalResults=1 lub 0
 resultsFilePath=
+saveSpins=
 spinsFilePath=
+saveMeantimeQuantities=
+savingMeantimeQuantitesInterval=
+meantimeQuantitiesFilePathPattern=
+correlationTimesAmount=
+correlationTime=5;minT=0.5;maxT=1.3
+correlationTime=5;minT=0.5;maxT=1.3
+correlationTime=5;minT=0.5;maxT=1.3
+correlationTime=5;minT=0.5;maxT=1.3

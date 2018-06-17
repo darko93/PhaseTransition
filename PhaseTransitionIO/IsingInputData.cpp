@@ -1,19 +1,29 @@
 #include "IsingInputData.h"
+#include "IsingModelType.h"
 
 namespace PhaseTransitionIO
 {
-	IsingInputData::IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep, int TRepeats, 
-		std::string resultsFilePath, std::string spinsFilePath, std::vector<pht::CorrelationTime*> correlationTimes)
-		: J(J), latticeSize(latticeSize), h(h), minT(minT), maxT(maxT), TStep(ktStep),
-		  TRepeats(TRepeats), resultsFilePath(resultsFilePath), spinsFilePath(spinsFilePath)
+	//IsingInputData::IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double TStep, int TRepeats,
+	//	bool saveFinalResults, std::string resultsFilePath, bool saveSpins, std::string spinsFilePath,
+	//	bool saveMeantimeQuantities, int savingMeantimeQuantitiesInterval, std::string meantimeQuantitiesFilePathPattern,
+	//	std::vector<pht::CorrelationTime*> correlationTimes)
+	//	: J(J), latticeSize(latticeSize), h(h), minT(minT), maxT(maxT), TStep(TStep), TRepeats(TRepeats),
+	//	saveFinalResults(saveFinalResults), resultsFilePath(resultsFilePath), saveSpins(saveSpins), spinsFilePath(spinsFilePath),
+	//	saveMeantimeQuantities(saveMeantimeQuantities), savingMeantimeQuantitiesInterval(savingMeantimeQuantitiesInterval),
+	//	meantimeQuantitiesFilePathPattern(meantimeQuantitiesFilePathPattern), correlationTimes(correlationTimes)
+	//{
+	//}
+
+	IsingInputData::IsingInputData()
 	{
 	}
+
 
 	IsingInputData::~IsingInputData()
 	{
 	}
 
-	double IsingInputData::getJ()
+	int IsingInputData::getJ()
 	{
 		return this->J;
 	}
@@ -48,9 +58,19 @@ namespace PhaseTransitionIO
 		return this->TRepeats;
 	}
 
+	bool IsingInputData::getSaveFinalResults()
+	{
+		return this->saveFinalResults;
+	}
+
 	std::string IsingInputData::getResultsFilePath()
 	{
 		return this->resultsFilePath;
+	}
+
+	bool IsingInputData::getSaveSpins()
+	{
+		return this->saveSpins;
 	}
 
 	std::string IsingInputData::getSpinsFilePath()
@@ -76,20 +96,5 @@ namespace PhaseTransitionIO
 	std::vector<pht::CorrelationTime*> IsingInputData::getCorrelationTimes()
 	{
 		return this->correlationTimes;
-	}
-
-	int IsingInputData::getCorrelationTime(double T)
-	{
-		std::vector<pht::CorrelationTime*> correlationTimes = this->correlationTimes;
-		size_t correlTimesAmount = correlationTimes.size();
-		for (std::vector<pht::CorrelationTime*>::size_type i = 0; i < correlTimesAmount; i++)
-		{
-			pht::CorrelationTime* iCorrelTime = correlationTimes[i];
-			if (iCorrelTime->contains(T))
-			{
-				return iCorrelTime->getCorrelationTime();
-			}
-		}
-		throw std::invalid_argument("No correlation time found for given  T.");
 	}
 }

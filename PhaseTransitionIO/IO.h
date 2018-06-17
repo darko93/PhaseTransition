@@ -19,6 +19,8 @@ namespace PhaseTransitionIO
 		std::string readStringValue(std::ifstream& ifstream);
 		double readDoubleValue(std::ifstream& ifstream);
 		int readIntValue(std::ifstream& ifstream);
+		bool readBoolValue(std::ifstream& ifstream);
+		bool toBool(std::string s);
 		std::vector<std::string> split(std::string s, char delimiter);
 		//static std::ifstream* openIfstream(std::string filePath);
 		//static std::fstream* openFstream(std::string filePath);

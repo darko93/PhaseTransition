@@ -32,6 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CorrelationTime.cpp" />
+    <ClCompile Include="IIsingInputData.cpp" />
     <ClCompile Include="IsingMeantimeQuantities.cpp" />
     <ClCompile Include="IsingModel.cpp" />
     <ClCompile Include="IsingQuantities.cpp" />

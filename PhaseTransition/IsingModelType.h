@@ -1,6 +1,10 @@
 #pragma once
-enum IsingModelType : char
+
+namespace PhaseTransition
 {
-	FERROMAGNETIC = 1,
-	ANTIFERROMAGNETIC = -1
-};
+	enum IsingModelType : char
+	{
+		FERROMAGNETIC = 1,
+		ANTIFERROMAGNETIC = -1
+	};
+}

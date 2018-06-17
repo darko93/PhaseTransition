@@ -22,15 +22,12 @@ namespace PhaseTransition
 		int magnetization();
 	public:
 		IsingModel(/*IIsingIO* isingIO*/);
-		IsingModel(/*IIsingIO* isingIO, */IsingSimulationParameters* simParams);
 		~IsingModel();
 		int getSpin(int i, int j);
 		IsingSimulationParameters* getSimParams();
 		void initialize(IsingSimulationParameters* simParams);
-		void initialize();
 		IsingQuantities* simulationStep();
 		IsingResults* fullSimulation(IsingSimulationParameters* simParams);
-		IsingResults* fullSimulation();
 		IsingResults* computeResults();
 	};
 }

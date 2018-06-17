@@ -12,7 +12,7 @@ namespace PhaseTransition
 		double T;
 		const double kB = 1; // Boltzman constant
 		IsingModelType modelType;
-		double J; // coupling strength
+		double J; // coupling strength, +1 - ferromagnetic, -1 - antiferromagnetic
 		double h; // mu * H - external field strength
 		double beta; // 1/T
 		int latticeSize;
@@ -21,17 +21,19 @@ namespace PhaseTransition
 		int stepsAmount;
 		int correlationTime;
 		bool saveFinalResults;
+		bool saveSpins;
 		bool saveMeantimeQuantities;
 		void setModelType(IsingModelType modelType);
 		void setLatticeSize(int latticeSize);
 	public:
 		IsingSimulationParameters(double T, IsingModelType modelType, int latticeSize, double h = 0,
-			int correlationTime = DEFAULT_CORRELATION_TIME, bool saveFinalResults = true, bool saveMeantimeQuantities = false);
+			int correlationTime = DEFAULT_CORRELATION_TIME, bool saveFinalResults = false, bool saveSpins = false,
+			bool saveMeantimeQuantities = false);
 		~IsingSimulationParameters();
 		void setT(double T, int correlationTime = DEFAULT_CORRELATION_TIME);
 		double getT();
 		IsingModelType getModelType();
-		double getJ();
+		int getJ();
 		double getkB();
 		double geth();
 		int getLatticeSize();

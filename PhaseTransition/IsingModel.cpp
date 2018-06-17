@@ -9,11 +9,6 @@ namespace PhaseTransition
 	{
 	}
 
-	IsingModel::IsingModel(/*IIsingIO* isingIO, */IsingSimulationParameters* simParams)
-		//: isingIO(isingIO), simParams(simParams)
-	{
-	}
-
 	IsingModel::~IsingModel()
 	{
 		int size = this->simParams->latticeSize;
@@ -41,11 +36,6 @@ namespace PhaseTransition
 		this->simParams = simParams;
 		this->quantities = new IsingQuantities(simParams->latticeSitesAmount, simParams->stepsAmount);
 		initializeSpinsConfiguration();
-	}
-
-	void IsingModel::initialize()
-	{
-		initialize(this->simParams);
 	}
 
 	void IsingModel::initializeSpinsConfiguration()
@@ -202,11 +192,6 @@ namespace PhaseTransition
 		}
 		IsingResults* isingResults = computeResults();
 		return isingResults;
-	}
-
-	IsingResults* IsingModel::fullSimulation()
-	{
-		return fullSimulation(this->simParams);
 	}
 
 	IsingResults* IsingModel::computeResults()
