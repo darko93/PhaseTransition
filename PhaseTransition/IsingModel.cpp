@@ -183,30 +183,68 @@ namespace PhaseTransition
 	{
 		initialize(simParams);
 		int stepsAmount = simParams->stepsAmount;
-		if (!simParams->saveMeantimeQuantities)
+		if (!simParams->saveMeantimeQuantities && !simParams->saveSpins)
 		{
 			for (int i = 0; i < stepsAmount; i++)
 			{
 				simulationStep();
 			}
 		}
-		else
+		else if (simParams->saveMeantimeQuantities && simParams->saveSpins)
 		{
 			for (int i = 0; i < stepsAmount; i++)
 			{
 				simulationStep();
+				IIsingIO* isingIO = this->isingIO;
 				if (simParams->savingMeantimeQuantitiesInterval % i == 0)
 				{
 					IsingQuantities* quantities = this->quantities;
 					if (quantities->wasQuantitiesCalculatedInCurrentStep())
 					{
 						IsingMeantimeQuantities& currentStepQuantities = quantities->getCurrentStepQuantities();
-						this->isingIO->saveMeantimeQuantities(currentStepQuantities, i);
+						isingIO->saveMeantimeQuantities(currentStepQuantities, i);
 					}
 					else
 					{
 						IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-						this->isingIO->saveMeantimeQuantities(currentStepQuantieties, i);
+						isingIO->saveMeantimeQuantities(currentStepQuantieties, i);
+					}
+				}
+				if (simParams->correlationTime % i == 0)
+				{
+					isingIO->saveSpins(*this);
+				}
+			}
+		}
+		else if (!simParams->saveMeantimeQuantities && simParams->saveSpins)
+		{
+			for (int i = 0; i < stepsAmount; i++)
+			{
+				simulationStep();
+				if (simParams->correlationTime % i == 0)
+				{
+					isingIO->saveSpins(*this);
+				}
+			}
+		}
+		else if (simParams->saveMeantimeQuantities && !simParams->saveSpins)
+		{
+			for (int i = 0; i < stepsAmount; i++)
+			{
+				simulationStep();
+				if (simParams->savingMeantimeQuantitiesInterval % i == 0)
+				{
+					IIsingIO* isingIO = this->isingIO;
+					IsingQuantities* quantities = this->quantities;
+					if (quantities->wasQuantitiesCalculatedInCurrentStep())
+					{
+						IsingMeantimeQuantities& currentStepQuantities = quantities->getCurrentStepQuantities();
+						isingIO->saveMeantimeQuantities(currentStepQuantities, i);
+					}
+					else
+					{
+						IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+						isingIO->saveMeantimeQuantities(currentStepQuantieties, i);
 					}
 				}
 			}

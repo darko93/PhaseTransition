@@ -12,7 +12,7 @@ namespace PhaseTransition
 	{
 	}
 
-	void IsingSimulationsManager::performAllSimulations(IIsingInputData * isingInputData)
+	void IsingSimulationsManager::performAllSimulations(IIsingInputData* isingInputData)
 	{
 		//std::ifstream isingIfstream("PhaseTransitionInput.txt");
 		//phtio::IsingIO isingIO;
