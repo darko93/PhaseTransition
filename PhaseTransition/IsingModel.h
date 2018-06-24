@@ -14,12 +14,14 @@ namespace PhaseTransition
 		IsingSimulationParameters* simParams;
 		IsingQuantities* quantities;
 		IIsingIO* isingIO;
+		IsingMeantimeQuantities currentStepQuantities;
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j, int ijSpin);
 		double spinEnergy(int i, int j, int ijSpin);
 		double spinEnergyChange(int i, int j, int ijSpin);
 		double hamiltonian();
 		int magnetization();
+		IsingMeantimeQuantities& computeCurrentStepQuantities();
 	public:
 		IsingModel(IIsingIO* isingIO);
 		~IsingModel();

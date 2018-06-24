@@ -11,6 +11,11 @@ namespace PhaseTransition
 	{
 	}
 
+	IsingMeantimeQuantities IsingMeantimeQuantities::zeroes()
+	{
+		return IsingMeantimeQuantities(0.0, 0.0, 0.0, 0.0, 0.0);
+	}
+
 	double PhaseTransition::IsingMeantimeQuantities::getT()
 	{
 		return this->T;

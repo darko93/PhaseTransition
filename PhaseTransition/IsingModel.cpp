@@ -5,7 +5,7 @@
 namespace PhaseTransition
 {
 	IsingModel::IsingModel(IIsingIO* isingIO)
-		: isingIO(isingIO)
+		: isingIO(isingIO), currentStepQuantities(IsingMeantimeQuantities::zeroes())
 	{
 	}
 
@@ -34,7 +34,8 @@ namespace PhaseTransition
 	void IsingModel::initialize(IsingSimulationParameters* simParams)
 	{
 		this->simParams = simParams;
-		this->quantities = new IsingQuantities(simParams->latticeSitesAmount, simParams->stepsAmount);
+		IsingMeantimeQuantities zeroes = IsingMeantimeQuantities::zeroes();
+		this->quantities = new IsingQuantities(simParams->latticeSitesAmount, simParams->stepsAmount, zeroes);
 		initializeSpinsConfiguration();
 	}
 
@@ -128,6 +129,16 @@ namespace PhaseTransition
 		return M;
 	}
 
+	IsingMeantimeQuantities& IsingModel::computeCurrentStepQuantities()
+	{
+		double H = hamiltonian();
+		double H2 = H * H;
+		double M = magnetization();
+		double M2 = M * M;
+		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, H2, M, M2);
+		return this->currentStepQuantities;
+	}
+
 	IsingQuantities* IsingModel::simulationStep()
 	{
 		IsingSimulationParameters* simParams = this->simParams;
@@ -154,17 +165,15 @@ namespace PhaseTransition
 			spins[i][j] = -ijSpin;
 		}
 
+		IsingQuantities* quantities = this->quantities;
 		if (simParams->correlationTime % i == 0)
 		{
-			double H = hamiltonian();
-			double H2 = H * H;
-			double M = magnetization();
-			double M2 = M * M;
-			IsingQuantities* quantities = this->quantities;
-			quantities->sumH += H;
-			quantities->sumH2 += H2;
-			quantities->sumM += M;
-			quantities->sumM2 += M2;
+			IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+			quantities->addCurrentStepQuantities(currentStepQuantieties);
+		}
+		else
+		{
+			quantities->clearCurrentStepQuantities();
 		}
 
 		return quantities;
@@ -188,8 +197,17 @@ namespace PhaseTransition
 				simulationStep();
 				if (simParams->savingMeantimeQuantitiesInterval % i == 0)
 				{
-					//TODO: save meantime quantites using IIsingIO
-					//this->isingIO->saveMeantimeQuantities(std::string filePathPattern, pht::IsingMeantimeQuantities& meantimeQuantities, i);
+					IsingQuantities* quantities = this->quantities;
+					if (quantities->wasQuantitiesCalculatedInCurrentStep())
+					{
+						IsingMeantimeQuantities& currentStepQuantities = quantities->getCurrentStepQuantities();
+						this->isingIO->saveMeantimeQuantities(currentStepQuantities, i);
+					}
+					else
+					{
+						IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+						this->isingIO->saveMeantimeQuantities(currentStepQuantieties, i);
+					}
 				}
 			}
 		}

@@ -2,8 +2,8 @@
 
 namespace PhaseTransition
 {
-	IsingQuantities::IsingQuantities(int latticeSitesAmount, int simStepsAmount)
-		: sumH(0.0), sumH2(0.0), sumM(0.0), sumM2(0.0)
+	IsingQuantities::IsingQuantities(int latticeSitesAmount, int simStepsAmount, IsingMeantimeQuantities& currentStepQuantities)
+		: sumH(0.0), sumH2(0.0), sumM(0.0), sumM2(0.0), currentStepQuantities(currentStepQuantities)
 	{
 		this->siteFraction = 1.0 / latticeSitesAmount;
 		this->simStepsFraction = 1.0 / simStepsAmount;
@@ -11,6 +11,31 @@ namespace PhaseTransition
 
 	IsingQuantities::~IsingQuantities()
 	{
+	}
+
+	IsingMeantimeQuantities& IsingQuantities::getCurrentStepQuantities()
+	{
+		return this->currentStepQuantities;
+	}
+
+	void IsingQuantities::addCurrentStepQuantities(IsingMeantimeQuantities& quantities)
+	{
+		this->currentStepQuantities = quantities;
+		this->quantitiesWasCalculatedInCurrentStep = true;
+		this->sumH += quantities.getH();
+		this->sumH2 += quantities.getH2();
+		this->sumM += quantities.getM();
+		this->sumM2 += quantities.getM2();
+	}
+
+	void IsingQuantities::clearCurrentStepQuantities()
+	{
+		this->quantitiesWasCalculatedInCurrentStep = false;
+	}
+
+	bool IsingQuantities::wasQuantitiesCalculatedInCurrentStep()
+	{
+		return this->quantitiesWasCalculatedInCurrentStep;
 	}
 
 	double IsingQuantities::internalEnergy()

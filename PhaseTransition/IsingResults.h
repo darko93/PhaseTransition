@@ -4,7 +4,6 @@ namespace PhaseTransition
 {
 	class IsingResults
 	{
-		friend class IsingModel;
 	private:
 		double T;
 		double U; // internal energy per site
