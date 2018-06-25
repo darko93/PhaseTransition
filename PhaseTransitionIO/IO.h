@@ -16,10 +16,16 @@ namespace PhaseTransitionIO
 	protected:
 		IO();
 		std::string readLine(std::ifstream& ifstream);
+		std::string readStringValue(std::string dataLine);
 		std::string readStringValue(std::ifstream& ifstream);
+		double readDoubleValue(std::string data);
 		double readDoubleValue(std::ifstream& ifstream);
+		int readIntValue(std::string data);
 		int readIntValue(std::ifstream& ifstream);
+		bool readBoolValue(std::string data);
 		bool readBoolValue(std::ifstream& ifstream);
+		int toInt(std::string s);
+		double toDouble(std::string s);
 		bool toBool(std::string s);
 		std::vector<std::string> split(std::string s, char delimiter);
 		//static std::ifstream* openIfstream(std::string filePath);

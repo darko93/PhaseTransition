@@ -10,7 +10,7 @@ namespace PhaseTransition
 {
 	class IIsingInputData
 	{
-	protected:
+	public:
 		virtual ~IIsingInputData() {};
 		virtual int getJ() = 0;
 		virtual int getLatticeSize() = 0;
@@ -28,7 +28,6 @@ namespace PhaseTransition
 		virtual std::string getMeantimeQuantitiesFilePathPattern() = 0;
 		virtual std::vector<CorrelationTime*> getCorrelationTimes() = 0;
 		int getCorrelationTime(double T);
-	public:
 		IsingSimulationParameters* toFirstSimulationParameters();
 		bool toNextSimulationParameters(IsingSimulationParameters* simParams);
 	};

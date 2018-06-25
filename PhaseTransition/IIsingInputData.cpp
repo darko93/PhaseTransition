@@ -20,8 +20,8 @@ namespace PhaseTransition
 	IsingSimulationParameters* IIsingInputData::toFirstSimulationParameters()
 	{
 		int correlTime = getCorrelationTime(getMinT());
-		IsingSimulationParameters* simParams = new IsingSimulationParameters(getMinT(), (IsingModelType)getJ(), 
-			getLatticeSize(), geth(), correlTime, getSaveFinalResults(), getSaveSpins(), getSaveMeantimeQuanities());
+		IsingSimulationParameters* simParams = new IsingSimulationParameters(getMinT(), getJ(), getLatticeSize(), 
+			geth(), correlTime, getSaveFinalResults(), getSaveSpins(), getSaveMeantimeQuanities());
 		return simParams;
 	}
 

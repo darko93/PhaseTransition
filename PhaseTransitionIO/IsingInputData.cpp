@@ -3,17 +3,6 @@
 
 namespace PhaseTransitionIO
 {
-	//IsingInputData::IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double TStep, int TRepeats,
-	//	bool saveFinalResults, std::string resultsFilePath, bool saveSpins, std::string spinsFilePath,
-	//	bool saveMeantimeQuantities, int savingMeantimeQuantitiesInterval, std::string meantimeQuantitiesFilePathPattern,
-	//	std::vector<pht::CorrelationTime*> correlationTimes)
-	//	: J(J), latticeSize(latticeSize), h(h), minT(minT), maxT(maxT), TStep(TStep), TRepeats(TRepeats),
-	//	saveFinalResults(saveFinalResults), resultsFilePath(resultsFilePath), saveSpins(saveSpins), spinsFilePath(spinsFilePath),
-	//	saveMeantimeQuantities(saveMeantimeQuantities), savingMeantimeQuantitiesInterval(savingMeantimeQuantitiesInterval),
-	//	meantimeQuantitiesFilePathPattern(meantimeQuantitiesFilePathPattern), correlationTimes(correlationTimes)
-	//{
-	//}
-
 	IsingInputData::IsingInputData()
 	{
 	}
@@ -75,7 +64,7 @@ namespace PhaseTransitionIO
 
 	std::string IsingInputData::getSpinsFilePath()
 	{
-		return this->spinsFilePath;
+		return this->spinsFilePathPattern;
 	}
 
 	bool IsingInputData::getSaveMeantimeQuanities()

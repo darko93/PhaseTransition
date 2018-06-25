@@ -6,41 +6,72 @@ namespace PhaseTransitionIO
 	{
 	}
 
-	std::string IO::readLine(std::ifstream & ifstream)
+	std::string IO::readLine(std::ifstream& ifstream)
 	{
 		std::string line;
 		getline(ifstream, line);
 		return line;
 	}
 
+	// Reads value as string from the string like "variable=500", for which it returns "500"
+	std::string IO::readStringValue(std::string data)
+	{
+		int lineLength = (int)data.length();
+		int indexOfEquals = data.find('=');
+		std::string stringValue = data.substr(indexOfEquals + 1, lineLength - 1);
+		return stringValue;
+	}
+
 	std::string IO::readStringValue(std::ifstream& ifstream)
 	{
 		std::string dataLine = readLine(ifstream);
-		int lineLength = dataLine.length();
-		int indexOfEquals = dataLine.find('=');
-		std::string stringValue = dataLine.substr(indexOfEquals + 1, lineLength - 1);
-		return stringValue;
+		return readStringValue(dataLine);
+	}
+
+	double IO::readDoubleValue(std::string data)
+	{
+		std::string stringValue = readStringValue(data);
+		return toDouble(stringValue);
 	}
 
 	double IO::readDoubleValue(std::ifstream& ifstream)
 	{
 		std::string stringValue = readStringValue(ifstream);
-		double doubleValue = atof(stringValue.c_str());
-		return doubleValue;
+		return toDouble(stringValue);
+	}
+
+	int IO::readIntValue(std::string data)
+	{
+		std::string stringValue = readStringValue(data);
+		return toInt(stringValue);
 	}
 
 	int IO::readIntValue(std::ifstream& ifstream)
 	{
 		std::string stringValue = readStringValue(ifstream);
-		int intValue = atoi(stringValue.c_str());
-		return intValue;
+		return toInt(stringValue);
+	}
+
+	bool IO::readBoolValue(std::string data)
+	{
+		std::string stringValue = readStringValue(data);
+		return toBool(stringValue);
 	}
 
 	bool IO::readBoolValue(std::ifstream& ifstream)
 	{
 		std::string stringValue = readStringValue(ifstream);
-		bool boolValue = toBool(stringValue.c_str());
-		return boolValue;
+		return toBool(stringValue);
+	}
+
+	int IO::toInt(std::string s)
+	{
+		return atoi(s.c_str());;
+	}
+
+	double IO::toDouble(std::string s)
+	{
+		return atof(s.c_str());;
 	}
 
 	bool IO::toBool(std::string s)

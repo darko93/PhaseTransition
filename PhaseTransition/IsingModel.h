@@ -13,7 +13,7 @@ namespace PhaseTransition
 		int** spins;
 		IsingSimulationParameters* simParams;
 		IsingQuantities* quantities;
-		IIsingIO* isingIO;
+		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j, int ijSpin);
@@ -23,12 +23,12 @@ namespace PhaseTransition
 		int magnetization();
 		IsingMeantimeQuantities& computeCurrentStepQuantities();
 	public:
-		IsingModel(IIsingIO* isingIO);
+		IsingModel(IIsingIO& isingIO);
 		~IsingModel();
 		IsingSimulationParameters* getSimParams();
 		int getSpin(int i, int j);
 		void initialize(IsingSimulationParameters* simParams);
-		IsingQuantities* simulationStep();
+		IsingQuantities* simulationStep(int step);
 		IsingResults* fullSimulation(IsingSimulationParameters* simParams);
 		IsingResults* computeResults();
 	};

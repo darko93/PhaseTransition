@@ -45,9 +45,6 @@
     <ClInclude Include="CorrelationTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingSimulationsManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="IsingMeantimeQuantities.cpp">
@@ -62,9 +59,6 @@
     <ClCompile Include="IsingResults.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsingSimuletionParameters.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Randomizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -74,7 +68,7 @@
     <ClCompile Include="IIsingInputData.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsingSimulationsManager.cpp">
+    <ClCompile Include="IsingSimulationParameters.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

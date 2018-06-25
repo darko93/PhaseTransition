@@ -2,7 +2,7 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationsManager::IsingSimulationsManager(IsingModel* isingModel)
+	IsingSimulationsManager::IsingSimulationsManager(IsingModel& isingModel)
 		: isingModel(isingModel)
 	{
 	}
@@ -12,11 +12,10 @@ namespace PhaseTransition
 	{
 	}
 
-	void IsingSimulationsManager::performAllSimulations(IIsingInputData* isingInputData)
+	void IsingSimulationsManager::performAllSimulations(IIsingIO& isingIO)
 	{
 		//std::ifstream isingIfstream("PhaseTransitionInput.txt");
-		//phtio::IsingIO isingIO;
-		//pht::IIsingInputData* isingInputData = isingIO.readIsingInputData(isingIfstream);
+		pht::IIsingInputData* isingInputData = isingIO.readIsingInputData();
 		//
 		//double J = isingInputData->getJ();
 		//pht::IsingModelType modelType = (pht::IsingModelType)(int)J;

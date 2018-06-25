@@ -23,14 +23,16 @@ namespace PhaseTransitionIO
 		double TStep;
 		int TRepeats;
 		std::string resultsFilePath;
-		std::string spinsFilePath;
+		std::string spinsFilePathPattern;
 		bool saveFinalResults;
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesInterval;
 		std::string meantimeQuantitiesFilePathPattern;
 		std::vector<pht::CorrelationTime*> correlationTimes;
-	protected:
+	public:
+		IsingInputData();
+		~IsingInputData();
 		int getJ() override;
 		int getLatticeSize() override;
 		double geth() override;
@@ -46,12 +48,5 @@ namespace PhaseTransitionIO
 		int getSavingMeantimeQuantitiesInterval() override;
 		std::string getMeantimeQuantitiesFilePathPattern() override;
 		std::vector<pht::CorrelationTime*> getCorrelationTimes() override;
-	public:
-		//IsingInputData(int J, int latticeSize, double h, double minT, double maxT, double ktStep, int TRepeats, 
-		//	bool saveFinalResults, std::string resultsFilePath, bool saveSpins, std::string spinsFilePath, 
-		//	bool saveMeantimeQuantities, int savingMeantimeQuantitiesInterval, std::string meantimeQuantitiesFilePathPattern,
-		//	std::vector<pht::CorrelationTime*> correlationTimes);
-		IsingInputData();
-		~IsingInputData();
 	};
 }
