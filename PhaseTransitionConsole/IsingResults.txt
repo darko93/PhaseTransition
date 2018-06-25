@@ -1,7 +1,0 @@
-J=1
-kB=1
-latticeSize=20
-h=0
-
-                     T                     U                    Cv                     M                     X
-

@@ -77,6 +77,11 @@ namespace PhaseTransitionIO
 		return this->savingMeantimeQuantitiesInterval;
 	}
 
+	int IsingInputData::getMeantimeQuantitiesAmount()
+	{
+		return this->meantimeQuantitiesAmount;
+	}
+
 	std::string IsingInputData::getMeantimeQuantitiesFilePathPattern()
 	{
 		return this->meantimeQuantitiesFilePathPattern;

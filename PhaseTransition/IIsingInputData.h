@@ -25,6 +25,7 @@ namespace PhaseTransition
 		virtual std::string getSpinsFilePath() = 0;
 		virtual bool getSaveMeantimeQuanities() = 0;
 		virtual int getSavingMeantimeQuantitiesInterval() = 0;
+		virtual int getMeantimeQuantitiesAmount() = 0;
 		virtual std::string getMeantimeQuantitiesFilePathPattern() = 0;
 		virtual std::vector<CorrelationTime*> getCorrelationTimes() = 0;
 		int getCorrelationTime(double T);

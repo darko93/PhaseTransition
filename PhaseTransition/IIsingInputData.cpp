@@ -21,7 +21,8 @@ namespace PhaseTransition
 	{
 		int correlTime = getCorrelationTime(getMinT());
 		IsingSimulationParameters* simParams = new IsingSimulationParameters(getMinT(), getJ(), getLatticeSize(), 
-			geth(), correlTime, getSaveFinalResults(), getSaveSpins(), getSaveMeantimeQuanities());
+			geth(), correlTime, getSaveFinalResults(), getSaveSpins(), getSaveMeantimeQuanities(),
+			getSavingMeantimeQuantitiesInterval(), getMeantimeQuantitiesAmount());
 		return simParams;
 	}
 
@@ -32,6 +33,7 @@ namespace PhaseTransition
 		int correlationTime = getCorrelationTime(nextT);
 		simParams->setT(nextT);
 		simParams->correlationTime = correlationTime;
+		simParams->meantimeQuantitiesAmount = getMeantimeQuantitiesAmount();
 		return isInRange;
 	}
 }

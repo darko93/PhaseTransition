@@ -28,6 +28,7 @@ namespace PhaseTransitionIO
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesInterval;
+		int meantimeQuantitiesAmount;
 		std::string meantimeQuantitiesFilePathPattern;
 		std::vector<pht::CorrelationTime*> correlationTimes;
 	public:
@@ -46,6 +47,7 @@ namespace PhaseTransitionIO
 		std::string getSpinsFilePath() override;
 		bool getSaveMeantimeQuanities() override;
 		int getSavingMeantimeQuantitiesInterval() override;
+		int getMeantimeQuantitiesAmount() override;
 		std::string getMeantimeQuantitiesFilePathPattern() override;
 		std::vector<pht::CorrelationTime*> getCorrelationTimes() override;
 	};

@@ -34,6 +34,7 @@ namespace PhaseTransitionIO
 		std::string spinsFilePathPattern = readStringValue(isingIfstream);
 		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
 		int savingMeantimeQuantitesInterval = readIntValue(isingIfstream);
+		int meantimeQuantitiesAmount = readIntValue(isingIfstream);
 		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
 
 		int correlationTimesAmount = readIntValue(isingIfstream);
@@ -63,6 +64,7 @@ namespace PhaseTransitionIO
 		isingInputData->spinsFilePathPattern = spinsFilePathPattern;
 		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;
 		isingInputData->savingMeantimeQuantitiesInterval = savingMeantimeQuantitesInterval;
+		isingInputData->meantimeQuantitiesAmount = meantimeQuantitiesAmount;
 		isingInputData->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
 		isingInputData->correlationTimes = correlationTimes;
 		return isingInputData;

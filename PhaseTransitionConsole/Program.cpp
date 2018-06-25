@@ -22,7 +22,10 @@ int main()
 		<< isingSimParams->getLatticeSize() << std::endl << "h=" << isingSimParams->geth() << std::endl << std::endl;
 
 	std::cout << "T=" << isingSimParams->getT() << std::endl;
-	isingIO.createSpinsFile(isingInputData->getSpinsFilePath(), isingSimParams);
+	if (isingInputData->getSaveSpins())
+	{
+		isingIO.createSpinsFile(isingInputData->getSpinsFilePath(), isingSimParams);
+	}
 	isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), isingSimParams);
 	pht::IsingResults* isingResults = isingModel.fullSimulation(isingSimParams);
 	isingIO.saveResults(isingResults);
@@ -30,7 +33,10 @@ int main()
 	while (isingInputData->toNextSimulationParameters(isingSimParams))
 	{
 		std::cout << "T=" << isingSimParams->getT() << std::endl;
-		isingIO.createSpinsFile(isingInputData->getSpinsFilePath(), isingSimParams);
+		if (isingInputData->getSaveSpins())
+		{
+			isingIO.createSpinsFile(isingInputData->getSpinsFilePath(), isingSimParams);
+		}
 		isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), isingSimParams);
 		isingResults = isingModel.fullSimulation(isingSimParams);
 		isingIO.saveResults(isingResults);

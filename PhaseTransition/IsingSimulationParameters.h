@@ -24,13 +24,14 @@ namespace PhaseTransition
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesInterval;
+		int meantimeQuantitiesAmount;
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
 	public:
 		IsingSimulationParameters(double T, int J, int latticeSize, double h = 0,
 			int correlationTime = DEFAULT_CORRELATION_TIME, bool saveFinalResults = false, bool saveSpins = false,
-			bool saveMeantimeQuantities = false, int savingMeantimeQuantitiesInterval = 100);
+			bool saveMeantimeQuantities = false, int savingMeantimeQuantitiesInterval = 0, int meantimeQuantitiesAmount = 0);
 		~IsingSimulationParameters();
 		double getT();
 		double getJ();

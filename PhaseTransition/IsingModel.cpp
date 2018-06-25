@@ -196,7 +196,7 @@ namespace PhaseTransition
 			for (int i = 1; i <= stepsAmount; i++)
 			{
 				simulationStep(i);
-				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
+				if (i % simParams->savingMeantimeQuantitiesInterval == 0 && simParams->meantimeQuantitiesAmount-- > 0)
 				{
 					IsingQuantities* quantities = this->quantities;
 					if (quantities->wasQuantitiesCalculatedInCurrentStep())
@@ -232,7 +232,7 @@ namespace PhaseTransition
 			for (int i = 1; i <= stepsAmount; i++)
 			{
 				simulationStep(i);
-				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
+				if (i % simParams->savingMeantimeQuantitiesInterval == 0 && simParams->meantimeQuantitiesAmount-- > 0)
 				{
 					IsingQuantities* quantities = this->quantities;
 					if (quantities->wasQuantitiesCalculatedInCurrentStep())
