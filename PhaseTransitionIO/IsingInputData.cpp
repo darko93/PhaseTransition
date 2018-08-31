@@ -47,16 +47,6 @@ namespace PhaseTransitionIO
 		return this->TRepeats;
 	}
 
-	bool IsingInputData::getSaveFinalResults()
-	{
-		return this->saveFinalResults;
-	}
-
-	std::string IsingInputData::getResultsFilePath()
-	{
-		return this->resultsFilePath;
-	}
-
 	bool IsingInputData::getSaveSpins()
 	{
 		return this->saveSpins;
@@ -72,23 +62,8 @@ namespace PhaseTransitionIO
 		return this->saveMeantimeQuantities;
 	}
 
-	int IsingInputData::getSavingMeantimeQuantitiesInterval()
-	{
-		return this->savingMeantimeQuantitiesInterval;
-	}
-
-	int IsingInputData::getMeantimeQuantitiesAmount()
-	{
-		return this->meantimeQuantitiesAmount;
-	}
-
 	std::string IsingInputData::getMeantimeQuantitiesFilePathPattern()
 	{
 		return this->meantimeQuantitiesFilePathPattern;
-	}
-
-	std::vector<pht::CorrelationTime*> IsingInputData::getCorrelationTimes()
-	{
-		return this->correlationTimes;
 	}
 }

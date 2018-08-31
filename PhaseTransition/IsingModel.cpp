@@ -17,8 +17,6 @@ namespace PhaseTransition
 			delete[] this->spins[i];
 		}
 		delete[] this->spins;
-
-		delete this->quantities;
 	}
 
 	IsingSimulationParameters* IsingModel::getSimParams()
@@ -34,8 +32,6 @@ namespace PhaseTransition
 	void IsingModel::initialize(IsingSimulationParameters* simParams)
 	{
 		this->simParams = simParams;
-		IsingMeantimeQuantities zeroes = IsingMeantimeQuantities::zeroes();
-		this->quantities = new IsingQuantities(simParams->latticeSitesAmount, simParams->stepsAmount, zeroes);
 		initializeSpinsConfiguration();
 	}
 
@@ -132,15 +128,13 @@ namespace PhaseTransition
 	IsingMeantimeQuantities& IsingModel::computeCurrentStepQuantities()
 	{
 		double H = hamiltonian();
-		double H2 = H * H;
 		double M = magnetization();
-		double M2 = M * M;
 		// KORZYSTANIE Z PRYWATNEJ REFERENCJI MIA£O BY TU SENS, GDYBYŒMY NIE TWORZYLI ZA KA¯DYRM RAZEM NOWEJ INSTANCJI !!!
-		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, H2, M, M2);
+		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, M);
 		return this->currentStepQuantities;
 	}
 
-	IsingQuantities* IsingModel::simulationStep(int step)
+	void IsingModel::simulationStep(int step)
 	{
 		IsingSimulationParameters* simParams = this->simParams;
 		int** spins = this->spins;
@@ -165,22 +159,9 @@ namespace PhaseTransition
 		{
 			spins[i][j] = -ijSpin;
 		}
-
-		IsingQuantities* quantities = this->quantities;
-		if (step % simParams->correlationTime == 0)
-		{
-			IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-			quantities->addCurrentStepQuantities(currentStepQuantieties);
-		}
-		else
-		{
-			quantities->clearCurrentStepQuantities();
-		}
-
-		return quantities;
 	}
 
-	IsingResults* IsingModel::fullSimulation(IsingSimulationParameters* simParams)
+	void IsingModel::fullSimulation(IsingSimulationParameters* simParams)
 	{
 		initialize(simParams);
 		int stepsAmount = simParams->stepsAmount;
@@ -197,22 +178,10 @@ namespace PhaseTransition
 			for (int i = 1; i <= stepsAmount; i++)
 			{
 				simulationStep(i);
-				if (i % simParams->savingMeantimeQuantitiesInterval == 0 && simParams->meantimeQuantitiesAmount-- > 0)
+				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
-					IsingQuantities* quantities = this->quantities;
-					if (quantities->wasQuantitiesCalculatedInCurrentStep())
-					{
-						IsingMeantimeQuantities currentStepQuantities = quantities->getCurrentStepQuantities();
-						isingIO.saveMeantimeQuantities(currentStepQuantities, i);
-					}
-					else
-					{
-						IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-						isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
-					}
-				}
-				if (i % simParams->correlationTime == 0)
-				{
+					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
 					isingIO.saveSpins(*this);
 				}
 			}
@@ -222,7 +191,7 @@ namespace PhaseTransition
 			for (int i = 1; i <= stepsAmount; i++)
 			{
 				simulationStep(i);
-				if (i % simParams->correlationTime == 0)
+				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
 					isingIO.saveSpins(*this);
 				}
@@ -233,30 +202,12 @@ namespace PhaseTransition
 			for (int i = 1; i <= stepsAmount; i++)
 			{
 				simulationStep(i);
-				if (i % simParams->savingMeantimeQuantitiesInterval == 0 && simParams->meantimeQuantitiesAmount-- > 0)
+				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
-					IsingQuantities* quantities = this->quantities;
-					if (quantities->wasQuantitiesCalculatedInCurrentStep())
-					{
-						IsingMeantimeQuantities& currentStepQuantities = quantities->getCurrentStepQuantities();
-						isingIO.saveMeantimeQuantities(currentStepQuantities, i);
-					}
-					else
-					{
-						IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-						isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
-					}
+					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
 				}
 			}
 		}
-		IsingResults* isingResults = computeResults();
-		return isingResults;
-	}
-
-	IsingResults* IsingModel::computeResults()
-	{
-		IsingSimulationParameters* simParams = this->simParams;
-		IsingResults* results = this->quantities->computeResults(simParams->T);
-		return results;
 	}
 }

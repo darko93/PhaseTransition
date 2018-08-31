@@ -4,11 +4,8 @@
 namespace PhaseTransition
 {
 	IsingSimulationParameters::IsingSimulationParameters(double T, int J, int latticeSize, double h,
-		int correlationTime, bool saveFinalResults, bool saveSpins, bool saveMeantimeQuantities,
-		int savingMeantimeQuantitiesInterval, int meantimeQuantitiesAmount)
-		: h(h), correlationTime(correlationTime), saveFinalResults(saveFinalResults), saveSpins(saveSpins),
-			saveMeantimeQuantities(saveMeantimeQuantities), savingMeantimeQuantitiesInterval(savingMeantimeQuantitiesInterval),
-			meantimeQuantitiesAmount(meantimeQuantitiesAmount)
+		bool saveSpins, bool saveMeantimeQuantities)
+		: h(h), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities)
 	{
 		setT(T);
 		setJ(J);

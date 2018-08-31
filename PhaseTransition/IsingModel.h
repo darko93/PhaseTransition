@@ -1,8 +1,6 @@
 #pragma once
 
 #include "IsingSimulationParameters.h"
-#include "IsingQuantities.h"
-#include "IsingResults.h"
 #include "IIsingIO.h"
 
 namespace PhaseTransition
@@ -12,7 +10,6 @@ namespace PhaseTransition
 	private:
 		int** spins;
 		IsingSimulationParameters* simParams;
-		IsingQuantities* quantities;
 		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
 		void initializeSpinsConfiguration();
@@ -28,8 +25,7 @@ namespace PhaseTransition
 		IsingSimulationParameters* getSimParams();
 		int getSpin(int i, int j);
 		void initialize(IsingSimulationParameters* simParams);
-		IsingQuantities* simulationStep(int step);
-		IsingResults* fullSimulation(IsingSimulationParameters* simParams);
-		IsingResults* computeResults();
+		void simulationStep(int step);
+		void fullSimulation(IsingSimulationParameters* simParams);
 	};
 }

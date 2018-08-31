@@ -28,27 +28,10 @@ namespace PhaseTransitionIO
 		double maxT = readDoubleValue(isingIfstream);
 		double TStep = readDoubleValue(isingIfstream);
 		int TRepeats = readIntValue(isingIfstream);
-		bool saveFinalResults = readBoolValue(isingIfstream);
-		std::string resultsFilePath = readStringValue(isingIfstream);
 		bool saveSpins = readBoolValue(isingIfstream);
 		std::string spinsFilePathPattern = readStringValue(isingIfstream);
 		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
-		int savingMeantimeQuantitesInterval = readIntValue(isingIfstream);
-		int meantimeQuantitiesAmount = readIntValue(isingIfstream);
 		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
-
-		int correlationTimesAmount = readIntValue(isingIfstream);
-		std::vector<pht::CorrelationTime*> correlationTimes;
-		for (int i = 0; i < correlationTimesAmount; i++)
-		{
-			std::string correlationTimeLine = readLine(isingIfstream);
-			std::vector<std::string> correlationTimeData = split(correlationTimeLine, ';');
-			int correlTime = readIntValue(correlationTimeData[0]);
-			double minT = readDoubleValue(correlationTimeData[1]);
-			double maxT = readDoubleValue(correlationTimeData[2]);
-			pht::CorrelationTime* correlationTime = new pht::CorrelationTime(correlTime, minT, maxT);
-			correlationTimes.push_back(correlationTime);
-		}
 
 		IsingInputData* isingInputData = new IsingInputData();
 		isingInputData->J = J;
@@ -58,42 +41,11 @@ namespace PhaseTransitionIO
 		isingInputData->maxT = maxT;
 		isingInputData->TStep = TStep;
 		isingInputData->TRepeats = TRepeats;
-		isingInputData->saveFinalResults = saveFinalResults;
-		isingInputData->resultsFilePath = resultsFilePath;
 		isingInputData->saveSpins = saveSpins;
 		isingInputData->spinsFilePathPattern = spinsFilePathPattern;
 		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;
-		isingInputData->savingMeantimeQuantitiesInterval = savingMeantimeQuantitesInterval;
-		isingInputData->meantimeQuantitiesAmount = meantimeQuantitiesAmount;
 		isingInputData->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
-		isingInputData->correlationTimes = correlationTimes;
 		return isingInputData;
-	}
-
-	void IsingIO::createResultsFile(std::string resultsFilePath, pht::IsingSimulationParameters* simParams)
-	{
-		this->resultsFilePath = resultsFilePath;
-		std::fstream fstream;
-		fstream.open(resultsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() << std::endl << "latticeSize="
-			<< simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() << std::endl << std::endl;
-		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
-		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << "T" << std::setw(width) << "U" << std::setw(width)
-			<< "Cv" << std::setw(width) << "M" << std::setw(width) << "X" << std::endl << std::endl;
-		fstream.close();
-	}
-
-	void IsingIO::saveResults(pht::IsingResults* isingResults)
-	{
-		std::fstream fstream;
-		fstream.open(this->resultsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
-		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << isingResults->getT() << std::setw(width) << isingResults->getU()
-			<< std::setw(width) << isingResults->getCv() << std::setw(width) << isingResults->getM()
-			<< std::setw(width) << isingResults->getX() << std::endl;
-		fstream.close();
 	}
 
 	void IsingIO::createSpinsFile(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams)
@@ -145,8 +97,7 @@ namespace PhaseTransitionIO
 			<< std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() 
 			<< std::endl << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << "step" << std::setw(width) << "H" << std::setw(width) << "H2" << std::setw(width)
-			<< "M" << std::setw(width) << "M2" << std::endl;
+		fstream << std::setw(width) << "step" << std::setw(width) << "H" << std::setw(width) << "M" << std::endl;
 		fstream.close();
 	}
 
@@ -157,9 +108,8 @@ namespace PhaseTransitionIO
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << step << std::setw(width) << meantimeQuantities.getH() << std::setw(width) 
-			<< meantimeQuantities.getH2() << std::setw(width) << meantimeQuantities.getM() << std::setw(width) 
-			<< meantimeQuantities.getM2() << std::endl;
+		fstream << std::setw(width) << step << std::setw(width) << meantimeQuantities.getH()
+			<< std::setw(width) << meantimeQuantities.getM() << std::endl;
 		fstream.close();
 	}
 }

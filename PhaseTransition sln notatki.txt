@@ -1,3 +1,8 @@
+<CorrelationTimes>
+	<CorrelationTime minT="" maxT="" value=""/>
+</CorrelationTimes>
+
+
 1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
 
 - Konfiguracją wejściową ma być konfiguracja wyjściowa symulacji dla poprzedniej T

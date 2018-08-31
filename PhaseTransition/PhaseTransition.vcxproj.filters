@@ -30,19 +30,10 @@
     <ClInclude Include="IsingModelType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingQuantities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IsingResults.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IsingSimulationParameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Randomizer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CorrelationTime.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,16 +44,7 @@
     <ClCompile Include="IsingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsingQuantities.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IsingResults.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Randomizer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CorrelationTime.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="IIsingInputData.cpp">

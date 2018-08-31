@@ -3,7 +3,6 @@
 #include<iostream>
 
 #include "IIsingInputData.h"
-#include "IsingResults.h"
 #include "IsingSimulationParameters.h"
 #include "IsingMeantimeQuantities.h"
 
@@ -17,7 +16,6 @@ namespace PhaseTransition
 	{
 	public:
 		virtual ~IIsingIO() {};
-		virtual void saveResults(IsingResults* isingResults) = 0;
 		virtual void saveSpins(pht::IsingModel& isingModel) = 0;
 		virtual void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step) = 0;
 	};

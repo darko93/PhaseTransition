@@ -19,24 +19,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CorrelationTime.h" />
     <ClInclude Include="IIsingInputData.h" />
     <ClInclude Include="IIsingIO.h" />
     <ClInclude Include="IsingMeantimeQuantities.h" />
     <ClInclude Include="IsingModel.h" />
     <ClInclude Include="IsingModelType.h" />
-    <ClInclude Include="IsingQuantities.h" />
-    <ClInclude Include="IsingResults.h" />
     <ClInclude Include="IsingSimulationParameters.h" />
     <ClInclude Include="Randomizer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CorrelationTime.cpp" />
     <ClCompile Include="IIsingInputData.cpp" />
     <ClCompile Include="IsingMeantimeQuantities.cpp" />
     <ClCompile Include="IsingModel.cpp" />
-    <ClCompile Include="IsingQuantities.cpp" />
-    <ClCompile Include="IsingResults.cpp" />
     <ClCompile Include="IsingSimulationParameters.cpp" />
     <ClCompile Include="Randomizer.cpp" />
   </ItemGroup>
