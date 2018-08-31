@@ -135,6 +135,7 @@ namespace PhaseTransition
 		double H2 = H * H;
 		double M = magnetization();
 		double M2 = M * M;
+		// KORZYSTANIE Z PRYWATNEJ REFERENCJI MIA£O BY TU SENS, GDYBYŒMY NIE TWORZYLI ZA KA¯DYRM RAZEM NOWEJ INSTANCJI !!!
 		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, H2, M, M2);
 		return this->currentStepQuantities;
 	}

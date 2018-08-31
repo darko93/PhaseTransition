@@ -1,5 +1,11 @@
 1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
 
+- Konfiguracją wejściową ma być konfiguracja wyjściowa symulacji dla poprzedniej T
+- Do wyliczania autokorelacji i fizycznych wielkości używać liczby kroków odpowiednio ("proporcjonalnie") dużej dla danego rozmiaru sieci
+- Do plików zapisywać tylko pierwsze potęgi i robić bufforowanie
+- Wielkości fizycznych może nie liczyć podczas symulacji, a dopieoro po zakończeniu na podstawie danych z pliku wynikowego, gdy znany już będzie czas relaksacji i autokorelacji. Wtedy można przeprowadzić symulację i zapisać H i M do pliku tylko raz i na tej podstawie określać czas relaksacji i autokorelacji i wielkości fizyczne.
+
+- współczynnik dzielenia przy liczeniu średnich musi zależeś od ilości kroków / czas korelacji = liczba składników w sumie
 - Dodać obsługę dla Trepeat > 1, wtedy pliki będą miały w nazwie "Trepeat=X"
 - W IsingIO rzucać wujątkiem, jeśli przed metodami save() nie wywołano createFile()
 - Spiny interesują nas tylko nieskorelowane, zatem będą zapisywane co correlationTime(T). MeantimeQuantities mogą być skorelowane, bo przecież badamy na wykresach czas korelacji.  
