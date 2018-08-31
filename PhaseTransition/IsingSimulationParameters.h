@@ -16,11 +16,11 @@ namespace PhaseTransition
 		double beta; // 1/T
 		int latticeSize;
 		int latticeSizeLessOne;
-		int latticeSitesAmount; // Amount of loop single steps in one MCS
+		int latticeSitesAmount; // = amount of loop single steps in one MCS
 		int mcsAmount; // MCS-es amount
 		bool saveSpins;
 		bool saveMeantimeQuantities;
-		int savingMeantimeQuantitiesMcsInterval = 1; // TODO: make it dependent on T
+		int savingMeantimeQuantitiesMcsInterval = 1; // TODO: make it dependent on T and size (?)
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
