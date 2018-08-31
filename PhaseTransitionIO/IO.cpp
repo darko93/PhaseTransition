@@ -1,3 +1,4 @@
+#include <string.h>
 #include "IO.h"
 
 namespace PhaseTransitionIO
@@ -76,7 +77,7 @@ namespace PhaseTransitionIO
 
 	bool IO::toBool(std::string s)
 	{
-		return s == "1";
+		return s == "1" || 0 == strcmpi(s.c_str(), "true");
 	}
 
 	template<typename T>

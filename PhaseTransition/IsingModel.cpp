@@ -107,7 +107,7 @@ namespace PhaseTransition
 				H += ijAtomEnergy;
 			}
 		}
-		return 0.5 * H; // The factor 0.5 is needed, because in the loop each pair was calculated twice.
+		return 0.5 * H; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
 	}
 
 	int IsingModel::magnetization()
@@ -129,9 +129,8 @@ namespace PhaseTransition
 	{
 		double H = hamiltonian();
 		double M = magnetization();
-		// KORZYSTANIE Z PRYWATNEJ REFERENCJI MIA£O BY TU SENS, GDYBYŒMY NIE TWORZYLI ZA KA¯DYRM RAZEM NOWEJ INSTANCJI !!!
 		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, M);
-		return this->currentStepQuantities;
+		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
 	}
 
 	void IsingModel::simulationStep()
@@ -179,46 +178,46 @@ namespace PhaseTransition
 		}
 		else if (simParams->saveMeantimeQuantities && simParams->saveSpins)
 		{
-			for (int i = 1; i <= mcsAmount; i++)
+			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= latticeSitesAmount; j++)
+				for (int i = 1; i <= latticeSitesAmount; i++)
 				{
 					simulationStep();
 				}
-				if (i % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
-					isingIO.saveSpins(*this);
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, mcs);
+					isingIO.saveSpins(*this, mcs);
 				}
 			}
 		}
 		else if (!simParams->saveMeantimeQuantities && simParams->saveSpins)
 		{
-			for (int i = 1; i <= mcsAmount; i++)
+			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
 				for (int j = 1; j <= latticeSitesAmount; j++)
 				{
 					simulationStep();
 				}
-				if (i % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
-					isingIO.saveSpins(*this);
+					isingIO.saveSpins(*this, mcs);
 				}
 			}
 		}
 		else if (simParams->saveMeantimeQuantities && !simParams->saveSpins)
 		{
-			for (int i = 1; i <= mcsAmount; i++)
+			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
 				for (int j = 1; j <= latticeSitesAmount; j++)
 				{
 					simulationStep();
 				}
-				if (i % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, i);
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, mcs);
 				}
 			}
 		}

@@ -18,7 +18,7 @@ namespace PhaseTransitionIO
 		return filePathPattern + "_T=" + std::to_string(T) + ".txt";
 	}
 
-	pht::IIsingInputData* IsingIO::readIsingInputData(std::string inputDataFilePath)
+	IsingInputData* IsingIO::readIsingInputData(std::string inputDataFilePath)
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
@@ -50,7 +50,7 @@ namespace PhaseTransitionIO
 
 	void IsingIO::createSpinsFile(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams)
 	{
-		this->spinsFilePathPattern = spinsFilePathPattern;
+		this->spinsFilePathPattern = spinsFilePathPattern; // Setting it here and using in save method
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams->getT());
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
@@ -60,7 +60,7 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(pht::IsingModel& isingModel)
+	void IsingIO::saveSpins(pht::IsingModel& isingModel, int mcs)
 	{
 		pht::IsingSimulationParameters* simParams = isingModel.getSimParams();
 		std::stringstream spinsString;
@@ -82,6 +82,7 @@ namespace PhaseTransitionIO
 		std::string spinsFilePath = getFilePath(this->spinsFilePathPattern, simParams->getT());
 		std::fstream fstream;
 		fstream.open(spinsFilePath, std::ios::out | std::ios::app);
+		fstream << "MCS=" << mcs << std::endl;
 		fstream << spinsString.str();
 		fstream.close();
 	}
@@ -89,15 +90,16 @@ namespace PhaseTransitionIO
 	void IsingIO::createMeantimeQuantitiesFile(std::string meantimeQuantitiesFilePathPattern, 
 		pht::IsingSimulationParameters* simParams)
 	{
-		this->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
+		this->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern; // Setting it here and using in save method
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams->getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams->getT() << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() 
-			<< std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() 
-			<< std::endl << std::endl << std::endl << std::endl;
+		fstream << "T=" << simParams->getT() << std::endl << "J=" << simParams->getJ() << std::endl << "kB=" 
+			<< simParams->getkB() << std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl 
+			<< "h=" << simParams->geth() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << "MCS" << std::setw(width) << "H" << std::setw(width) << "M" << std::endl;
+		fstream << std::setw(width) << "MCS" << std::setw(width) << "H" 
+			<< std::setw(width) << "M" << std::endl << std::endl;
 		fstream.close();
 	}
 

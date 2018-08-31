@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IIsingIO.h"
-#include "IIsingInputData.h"
 #include "IsingModel.h"
 #include "IsingSimulationParameters.h"
 
@@ -23,10 +22,10 @@ namespace PhaseTransitionIO
 	public:
 		IsingIO();
 		~IsingIO();
-		pht::IIsingInputData* readIsingInputData(std::string inputDataFilePath);
+		IsingInputData* readIsingInputData(std::string inputDataFilePath);
 		void createSpinsFile(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams);
-		void saveSpins(pht::IsingModel& isingModel) override;
 		void createMeantimeQuantitiesFile(std::string meantimeQuantitiesFilePathPattern, pht::IsingSimulationParameters* simParams);
-		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step) override;
+		void saveSpins(pht::IsingModel& isingModel, int mcs) override;
+		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int mcs) override;
 	};
 }

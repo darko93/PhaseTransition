@@ -52,7 +52,7 @@ namespace PhaseTransitionIO
 		return this->saveSpins;
 	}
 
-	std::string IsingInputData::getSpinsFilePath()
+	std::string IsingInputData::getSpinsFilePathPattern()
 	{
 		return this->spinsFilePathPattern;
 	}

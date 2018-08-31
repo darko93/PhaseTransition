@@ -18,11 +18,8 @@ namespace PhaseTransition
 		virtual double getMaxT() = 0;
 		virtual double getTStep() = 0;
 		virtual int getTRepeats() = 0;
-		virtual std::string getResultsFilePath() = 0;
 		virtual bool getSaveSpins() = 0;
-		virtual std::string getSpinsFilePath() = 0;
 		virtual bool getSaveMeantimeQuanities() = 0;
-		virtual std::string getMeantimeQuantitiesFilePathPattern() = 0;
 		IsingSimulationParameters* toFirstSimulationParameters();
 		bool toNextSimulationParameters(IsingSimulationParameters* simParams);
 	};

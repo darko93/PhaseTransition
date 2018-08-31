@@ -21,9 +21,9 @@ namespace PhaseTransitionIO
 		double maxT;
 		double TStep;
 		int TRepeats;
-		std::string spinsFilePathPattern;
 		bool saveSpins;
 		bool saveMeantimeQuantities;
+		std::string spinsFilePathPattern;
 		std::string meantimeQuantitiesFilePathPattern;
 	public:
 		IsingInputData();
@@ -35,10 +35,9 @@ namespace PhaseTransitionIO
 		double getMaxT() override;
 		double getTStep() override;
 		int getTRepeats() override;
-		std::string getResultsFilePath() override;
 		bool getSaveSpins() override;
-		std::string getSpinsFilePath() override;
 		bool getSaveMeantimeQuanities() override;
-		std::string getMeantimeQuantitiesFilePathPattern() override;
+		std::string getSpinsFilePathPattern();
+		std::string getMeantimeQuantitiesFilePathPattern();
 	};
 }

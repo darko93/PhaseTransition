@@ -16,7 +16,7 @@ namespace PhaseTransition
 	{
 	public:
 		virtual ~IIsingIO() {};
-		virtual void saveSpins(pht::IsingModel& isingModel) = 0;
-		virtual void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step) = 0;
+		virtual void saveSpins(pht::IsingModel& isingModel, int mcs) = 0;
+		virtual void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int mcs) = 0;
 	};
 }
