@@ -97,18 +97,18 @@ namespace PhaseTransitionIO
 			<< std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() 
 			<< std::endl << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << "step" << std::setw(width) << "H" << std::setw(width) << "M" << std::endl;
+		fstream << std::setw(width) << "MCS" << std::setw(width) << "H" << std::setw(width) << "M" << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int step)
+	void IsingIO::saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int mcs)
 	{
 		std::fstream fstream;
 		std::string filePath = getFilePath(this->meantimeQuantitiesFilePathPattern, meantimeQuantities.getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << step << std::setw(width) << meantimeQuantities.getH()
+		fstream << std::setw(width) << mcs << std::setw(width) << meantimeQuantities.getH()
 			<< std::setw(width) << meantimeQuantities.getM() << std::endl;
 		fstream.close();
 	}

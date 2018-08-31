@@ -20,7 +20,7 @@ namespace PhaseTransition
 		int mcsAmount; // MCS-es amount
 		bool saveSpins;
 		bool saveMeantimeQuantities;
-		int savingMeantimeQuantitiesInterval;
+		int savingMeantimeQuantitiesMcsInterval = 1; // TODO: make it dependent on T
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
