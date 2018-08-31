@@ -16,8 +16,8 @@ namespace PhaseTransition
 		double beta; // 1/T
 		int latticeSize;
 		int latticeSizeLessOne;
-		int latticeSitesAmount;
-		int stepsAmount;
+		int latticeSitesAmount; // Amount of loop single steps in one MCS
+		int mcsAmount; // MCS-es amount
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesInterval;

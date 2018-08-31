@@ -25,7 +25,7 @@ namespace PhaseTransition
 		IsingSimulationParameters* getSimParams();
 		int getSpin(int i, int j);
 		void initialize(IsingSimulationParameters* simParams);
-		void simulationStep(int step);
+		void simulationStep();
 		void fullSimulation(IsingSimulationParameters* simParams);
 	};
 }

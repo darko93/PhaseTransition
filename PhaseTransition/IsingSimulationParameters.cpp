@@ -62,6 +62,6 @@ namespace PhaseTransition
 		this->latticeSizeLessOne = latticeSize - 1;
 		int latticeSitesAmount = latticeSize * latticeSize;
 		this->latticeSitesAmount = latticeSitesAmount;
-		this->stepsAmount = latticeSitesAmount * latticeSitesAmount * latticeSitesAmount;
+		this->mcsAmount = latticeSitesAmount * latticeSitesAmount;
 	}
 }

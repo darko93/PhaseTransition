@@ -134,7 +134,7 @@ namespace PhaseTransition
 		return this->currentStepQuantities;
 	}
 
-	void IsingModel::simulationStep(int step)
+	void IsingModel::simulationStep()
 	{
 		IsingSimulationParameters* simParams = this->simParams;
 		int** spins = this->spins;
@@ -164,20 +164,27 @@ namespace PhaseTransition
 	void IsingModel::fullSimulation(IsingSimulationParameters* simParams)
 	{
 		initialize(simParams);
-		int stepsAmount = simParams->stepsAmount;
 		IIsingIO& isingIO = this->isingIO;
+		int mcsAmount = simParams->mcsAmount;
+		int latticeSitesAmount = simParams->latticeSitesAmount;
 		if (!simParams->saveMeantimeQuantities && !simParams->saveSpins)
 		{
-			for (int i = 1; i <= stepsAmount; i++)
+			for (int i = 1; i <= mcsAmount; i++)
 			{
-				simulationStep(i);
+				for (int j = 1; j <= latticeSitesAmount; j++)
+				{
+					simulationStep();
+				}
 			}
 		}
 		else if (simParams->saveMeantimeQuantities && simParams->saveSpins)
 		{
-			for (int i = 1; i <= stepsAmount; i++)
+			for (int i = 1; i <= mcsAmount; i++)
 			{
-				simulationStep(i);
+				for (int j = 1; j <= latticeSitesAmount; j++)
+				{
+					simulationStep();
+				}
 				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
@@ -188,20 +195,27 @@ namespace PhaseTransition
 		}
 		else if (!simParams->saveMeantimeQuantities && simParams->saveSpins)
 		{
-			for (int i = 1; i <= stepsAmount; i++)
+			for (int i = 1; i <= mcsAmount; i++)
 			{
-				simulationStep(i);
+				for (int j = 1; j <= latticeSitesAmount; j++)
+				{
+					simulationStep();
+				}
 				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
+					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 					isingIO.saveSpins(*this);
 				}
 			}
 		}
 		else if (simParams->saveMeantimeQuantities && !simParams->saveSpins)
 		{
-			for (int i = 1; i <= stepsAmount; i++)
+			for (int i = 1; i <= mcsAmount; i++)
 			{
-				simulationStep(i);
+				for (int j = 1; j <= latticeSitesAmount; j++)
+				{
+					simulationStep();
+				}
 				if (i % simParams->savingMeantimeQuantitiesInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
