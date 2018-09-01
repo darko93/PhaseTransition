@@ -62,16 +62,15 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(pht::IsingModel& isingModel, int mcs)
+	void IsingIO::saveSpins(int** spins, pht::IsingSimulationParameters* simParams, int mcs)
 	{
-		pht::IsingSimulationParameters* simParams = isingModel.getSimParams();
 		std::stringstream spinsString;
 		int latticeSize = simParams->getLatticeSize();
 		for (int i = 0; i < latticeSize; i++)
 		{
 			for (int j = 0; j < latticeSize; j++)
 			{
-				int ijSpin = isingModel.getSpin(i, j);
+				int ijSpin = spins[i][j];
 				if (ijSpin == -1)
 				{
 					ijSpin = 0;
