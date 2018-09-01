@@ -14,7 +14,8 @@ namespace PhaseTransitionIO
 	class IsingIO : public IO, public pht::IIsingIO
 	{
 	private:
-		static const int COLUMN_WIDTH = 22;
+		static const int NARROW_COLUMN_WIDTH = 10;
+		static const int COLUMN_WIDTH = 25;
 		static const int PRECISION = 4;
 		std::string spinsFilePathPattern;
 		std::string meantimeQuantitiesFilePathPattern;

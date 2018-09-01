@@ -57,7 +57,7 @@ namespace PhaseTransitionIO
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams->getT());
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
 		fstream << "T=" << simParams->getT() << std::endl << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB() 
-			<< std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl << "h=" << simParams->geth() 
+			<< std::endl << "h=" << simParams->geth() << std::endl << "latticeSize=" << simParams->getLatticeSize()
 			<< std::endl << std::endl;
 		fstream.close();
 	}
@@ -97,10 +97,10 @@ namespace PhaseTransitionIO
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams->getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << "T=" << simParams->getT() << std::endl << "J=" << simParams->getJ() << std::endl << "kB=" 
-			<< simParams->getkB() << std::endl << "latticeSize=" << simParams->getLatticeSize() << std::endl 
-			<< "h=" << simParams->geth() << std::endl << std::endl << std::endl;
+			<< simParams->getkB() << std::endl << "h=" << simParams->geth() << std::endl << "latticeSize=" 
+			<< simParams->getLatticeSize() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << "MCS" << std::setw(width) << "H" 
+		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "MCS" << std::setw(width) << "H" 
 			<< std::setw(width) << "M" << std::endl << std::endl;
 		fstream.close();
 	}
@@ -112,7 +112,7 @@ namespace PhaseTransitionIO
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
 		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(width) << mcs << std::setw(width) << meantimeQuantities.getH()
+		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width) << meantimeQuantities.getH()
 			<< std::setw(width) << meantimeQuantities.getM() << std::endl;
 		fstream.close();
 	}

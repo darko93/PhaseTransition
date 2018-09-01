@@ -6,14 +6,14 @@ namespace PhaseTransition
 	{
 		double T;
 		double H;
-		double M;
+		int M;
 	public:
-		IsingMeantimeQuantities(double T, double H, double M);
+		IsingMeantimeQuantities(double T, double H, int M);
 		~IsingMeantimeQuantities();
 		static IsingMeantimeQuantities zeroes();
 		double getT();
 		double getH();
-		double getM();
+		int getM();
 	};
 }
 
