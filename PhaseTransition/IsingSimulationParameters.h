@@ -25,7 +25,7 @@ namespace PhaseTransition
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
 	public:
-		IsingSimulationParameters(double T, int J, int latticeSize, double h = 0,
+		IsingSimulationParameters(double T, int J, int latticeSize, int mcsAmount, double h = 0,
 			bool saveSpins = false,	bool saveMeantimeQuantities = false);
 		~IsingSimulationParameters();
 		double getT();

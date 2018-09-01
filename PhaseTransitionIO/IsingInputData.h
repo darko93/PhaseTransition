@@ -15,8 +15,9 @@ namespace PhaseTransitionIO
 		friend class IsingIO;
 	private:
 		int J; // +1 for ferromagnetic, -1 for antiferromagnetic
-		int latticeSize;
 		double h;
+		int latticeSize;
+		int mcsAmount;
 		double minT;
 		double maxT;
 		double TStep;
@@ -29,8 +30,9 @@ namespace PhaseTransitionIO
 		IsingInputData();
 		~IsingInputData();
 		int getJ() override;
-		int getLatticeSize() override;
 		double geth() override;
+		int getLatticeSize() override;
+		int getMcsAmount() override;
 		double getMinT() override;
 		double getMaxT() override;
 		double getTStep() override;

@@ -1,6 +1,8 @@
 - magnetyzacja jako int + odpowiedni format w pliku wyjściowym - niepotrzebne miejsca po przecinku
 - mniej miejsca w pliku wyjściowym na MCS
 - H musi być doublem bo uwzględnia h, które nie musi być całkowite
+- savingMeantimeQuantitesMcsInterval zrobić zależnym od T i rozmiaru sieci? narazie na sztywno = 1 MCS
+- dodać obsługę zakresu rozmiaru i h
 
 <CorrelationTimes>
 	<CorrelationTime minT="" maxT="" value=""/>

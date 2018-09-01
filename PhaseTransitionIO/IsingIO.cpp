@@ -22,8 +22,9 @@ namespace PhaseTransitionIO
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
-		int latticeSize = readIntValue(isingIfstream);
 		double h = readDoubleValue(isingIfstream);
+		int latticeSize = readIntValue(isingIfstream);
+		int mcsAmount = readIntValue(isingIfstream);
 		double minT = readDoubleValue(isingIfstream);
 		double maxT = readDoubleValue(isingIfstream);
 		double TStep = readDoubleValue(isingIfstream);
@@ -35,8 +36,9 @@ namespace PhaseTransitionIO
 
 		IsingInputData* isingInputData = new IsingInputData();
 		isingInputData->J = J;
-		isingInputData->latticeSize = latticeSize;
 		isingInputData->h = h;
+		isingInputData->latticeSize = latticeSize;
+		isingInputData->mcsAmount = mcsAmount;
 		isingInputData->minT = minT;
 		isingInputData->maxT = maxT;
 		isingInputData->TStep = TStep;

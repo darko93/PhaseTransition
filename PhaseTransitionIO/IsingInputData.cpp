@@ -27,6 +27,11 @@ namespace PhaseTransitionIO
 		return this->latticeSize;
 	}
 
+	int IsingInputData::getMcsAmount()
+	{
+		return this->mcsAmount;
+	}
+
 	double IsingInputData::getMinT()
 	{
 		return this->minT;

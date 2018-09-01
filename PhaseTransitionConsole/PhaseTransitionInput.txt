@@ -1,6 +1,7 @@
 J=1
-latticeSize=6
 h=0
+latticeSize=6
+mcsAmount=1296
 minT=1.6
 maxT=4.1
 Tstep=0.3
