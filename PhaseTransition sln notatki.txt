@@ -2,73 +2,32 @@
 	<CorrelationTime minT="" maxT="" value=""/>
 </CorrelationTimes>
 
-
 1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
 
-- savingMeantimeQuantitesMcsInterval zrobić zależnym od T i rozmiaru sieci (?) - narazie na sztywno = 1 MCS
 - dodać obsługę zakresu rozmiaru i h
 - Konfiguracją wejściową ma być konfiguracja wyjściowa symulacji dla poprzedniej T
-- Do wyliczania autokorelacji i fizycznych wielkości używać liczby kroków odpowiednio ("proporcjonalnie") dużej dla danego rozmiaru sieci
-- Do plików zapisywać tylko pierwsze potęgi i robić bufforowanie
-- Wielkości fizycznych może nie liczyć podczas symulacji, a dopieoro po zakończeniu na podstawie danych z pliku wynikowego, gdy znany już będzie czas relaksacji i autokorelacji. Wtedy można przeprowadzić symulację i zapisać H i M do pliku tylko raz i na tej podstawie określać czas relaksacji i autokorelacji i wielkości fizyczne.
-
-- współczynnik dzielenia przy liczeniu średnich musi zależeś od ilości kroków / czas korelacji = liczba składników w sumie
+- Bufforowanie przy zapisie do pliku
 - Dodać obsługę dla Trepeat > 1, wtedy pliki będą miały w nazwie "Trepeat=X"
 - W IsingIO rzucać wujątkiem, jeśli przed metodami save() nie wywołano createFile()
-- Spiny interesują nas tylko nieskorelowane, zatem będą zapisywane co correlationTime(T). MeantimeQuantities mogą być skorelowane, bo przecież badamy na wykresach czas korelacji.  
-- fullSimulation() podzielić na cztery metody
 - Zastanowić się, czy wszędzie nie przesyłać wskaźników, zamiast referencji - raczej wszędzie referencje, bo jest pewność, że nie są NULLem. simParams i quantities w IsingModelu też powinny być referencjami. Skoro simParams jest dostarczany z zewnątrz do IsingModelu, to nie może być w nim niszczony, musi zostać zniszczony na zewnątrz, jak już IsingModel skończy z nim pracę. Skoro simParams musi żyć tak długo, jak IsingModel z niego korzysta, a niszczenie i tak jest na zewnątrz, to simParams może być referencją. A wskaźnik można zdereferencjować i przesłać do funkcji oczekującej referencji.
-- Do IsingQuantities dodać IsingMeantimeQuantities* lastStepQuantities, który w danym kroku będzie nienullowy, jeśli doliczano wielkości do sum. Wtedy można go pobrać do zapisywania meantimeQuantities, w przeciwnym razie trzeba je wyliczyć.
+- savingMeantimeQuantitesMcsInterval zrobić zależnym od T i rozmiaru sieci (?) - narazie na sztywno = 1 MCS
 - Zrobić perform all simulations. Narazie wypisywać do konsoli bezpośrednio w SimulationsManager, potem dodać INotifiera, który wywoła np. notify(simParams) w chwili rozpoczęcia symulacji (albo eventy - raczej gorsze).
-
-- IIsingIO musi mieć w konstruktorze: inputDataFilePath, resultsFilePath, spinsFilePath, meantimeQuantitiesFilePathPattern (kiedy latticeSize i h będę podawał w przedziale, to resultsFilePath i spinsFilePath to też będą patterny)
+- przemyśleć, czy do saveSpins() nie przesyłać interfejsu, zamiast całego modelu
 
 Tworzenie instancji z wieloma paramsami przez fluent API + interfejsy + build() dla zachowanie kolejności i zapewnienia, że wszystkie parametry podamy: 
 https://stackoverflow.com/questions/6613429/how-to-ensure-that-builder-pattern-is-completed
 https://stackoverflow.com/questions/40264/how-many-constructor-arguments-is-too-many
-
-- zamiast epnych konstruktorów zrobić friend class albo settery
-- W IsingInputData settery są niewskazane (chyba, że prywatne), bo to są dane z zewnątrz i nie można ich zmieniać - zatem friend klas IingIO ma tu sens
-- IsingSimulationParameters powinien mieć settery, bo parametry mogą się ciągle zmieniać. Dajmy też duży konstruktor, ale...
-- Wyodrębnijmy SavingParameters do osobnej klasy, równierz z setterami i konstruktorem.
-- Ustawienia pojedynczych parametrów powinny być przez settery w IsingModelu, bo niektóre można zmienić tylko w initialize (lattice size, saveFinalResults? zależy kiedy tworzony jest plik)
-- IsingSimulationParameters ma być bez setterów publicznych, bo zmiana parametrów ma sens tylko razem, jeśli jest robiona z zewnątrz. Pojedyncze ewentualnie można zmieniać tylko przez metody IsingModelu
-- Kozaki, które chcą same zarządzać symulację, same muszą zadbać o zapisywanie. Dlatego konstruktor IsingModelu ma nie mieć SavingParams, ani initialize() ma nie mieć. Jedynie fullSimulation() ma miec - zabezpieczenie dla fajnych ludzi, by nie rzucało nullami.
 
 Symulacje można przeprowadzać dla parametrów z zadanego przedziału. Dotyczy to nie tylko T, ale też rozmiaru, h (J chyba nie, bo przyjujemy 1). SimulationManager i InputData powinien uwzględnić zmiany T, rozmiaru i h. Na razie jednak, żeby pochwilić się, że coś robię, zróbmy program tak, by uwzględniał jedynie zmianę T.
 
 class IsingSimulationsManager
 {
 	IsingSimulationsManager();
-	PerformAllSimulations(IIsingInputData); // W pętli: tworzy IsingSimulationParameters i robi isingModel.fullSimulation(simParams)
+	PerformAllSimulations(IIsingInputData); // W pętli: tworzy IsingSimulationParameters (toNextSimParams()) i robi isingModel.fullSimulation(simParams)
 }
 
-class IIsingInputData
-{
-	IsingSimulationParameters* toFirstSimulationParameters(); // potem trzeba aktualizować jedynie T i correlation time
-	bool IsingSimulationParameters* nextSimParams(currentSimParams*) // true, jeśli T i size tych następnych parametrów mieszczą się w zadanym zakresie
-}
-
-class IsingSimulationParameters
-{
-	int DEFAULT_CORREL_TIME
-	int currentCorrelTime = DEFAULT_CORREL_TIME
-	
-	set T(double T, int correlTime)
-	{
-		...
-	}
-	set T(double T)
-	{
-		setT(T, currentCorrelTime);
-	}
-}
-
-
-- do saveSpins() zamiast całego modelu, przesłać tylko wskaźnik na getSpin()
 - sprawdzić, czy wektor żyje na stosie, czy stercie (jeśli na stosie, to musi być vectorem wskaźników)
 - sprawdzić, czy vector i string jest przesyłany by reference
-- w pliku wejściowym nie podawać correlationTimesAmount
 - sprawdzić, czy interfejsy nie mogą mieć forward deklaracji zamiast includa
 
 - niektóre klasy uczynić niewidoczne poza biblioteka
@@ -87,54 +46,3 @@ class IsingSimulationParameters
 	else if FalicovKimball then
 		na otwartym dalej streamie przeczytac FalicovKimballInputdata
 - LEPSZY POMYSŁ: zrobić klasa, kero przyjmie w konstruktorze nazwa pliku w konstruktorze przeczyto rodzaj modelu i wczyto do swojego odpowiedniego pola odpowiednie InputData. Klasa bd miała getModelType(), getIsingInputData() i getFalicovKimballData()
-
-----------------------------------------------
-
-correlationTime=5;minT=0.5;maxT=1.3
-
-----------------------------------------------
-
-J=
-latticeSize=
-h=
-
-T		M		E		Cv		X
-
-----------------------------------------------
-
-J=
-latticeSize=
-h=
-
-kT=
-spiny
-
-kT=
-spiny
-
-kT=
-spiny
-
-...
-
-----------------------------------------------
-
-J=
-latticeSize=
-h=
-startkT=
-endkT=
-Tstep=
-Trepeat=
-saveFinalResults=1 lub 0
-resultsFilePath=
-saveSpins=
-spinsFilePathPattern=
-saveMeantimeQuantities=
-savingMeantimeQuantitesInterval=
-meantimeQuantitiesFilePathPattern=
-correlationTimesAmount=
-correlationTime=5;minT=0.5;maxT=1.3
-correlationTime=5;minT=0.5;maxT=1.3
-correlationTime=5;minT=0.5;maxT=1.3
-correlationTime=5;minT=0.5;maxT=1.3

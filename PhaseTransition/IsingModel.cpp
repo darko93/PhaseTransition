@@ -188,7 +188,7 @@ namespace PhaseTransition
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 					isingIO.saveMeantimeQuantities(currentStepQuantieties, mcs);
-					isingIO.saveSpins(this->spins, this->simParams, mcs);
+					isingIO.saveSpins(*this, mcs);
 				}
 			}
 		}
@@ -202,7 +202,7 @@ namespace PhaseTransition
 				}
 				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
-					isingIO.saveSpins(this->spins, this->simParams, mcs);
+					isingIO.saveSpins(*this, mcs);
 				}
 			}
 		}
