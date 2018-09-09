@@ -17,14 +17,16 @@ namespace PhaseTransitionIO
 	std::string IsingIO::getFilePath(std::string filePathPattern, pht::IsingSimulationParameters* simParams)
 	{
 		std::string filePath;
+		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams->getLatticeSize()) 
+			+ "_T=" + std::to_string(simParams->getT()) + "_h=" + std::to_string(simParams->geth());
+
 		if (simParams->getRepeat() == 1)
 		{
-			filePath = filePathPattern + "_T=" + std::to_string(simParams->getT()) + ".txt";
+			filePath += ".txt";
 		}
 		else
 		{
-			filePath = filePathPattern + "_T=" + std::to_string(simParams->getT())
-				+ "_Repeat=" + std::to_string(simParams->getRepeat()) + ".txt";
+			filePath += "_Repeat=" + std::to_string(simParams->getRepeat()) + ".txt";
 		}
 		return filePath;
 	}
@@ -33,13 +35,17 @@ namespace PhaseTransitionIO
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
-		double h = readDoubleValue(isingIfstream);
-		int latticeSize = readIntValue(isingIfstream);
-		int mcsAmount = readIntValue(isingIfstream);
+		int minLatticeSize = readIntValue(isingIfstream);
+		int maxLatticeSize = readIntValue(isingIfstream);
+		int latticeSizeStep = readIntValue(isingIfstream);
 		double minT = readDoubleValue(isingIfstream);
 		double maxT = readDoubleValue(isingIfstream);
 		double TStep = readDoubleValue(isingIfstream);
-		int TRepeats = readIntValue(isingIfstream);
+		double minh = readDoubleValue(isingIfstream);
+		double maxh = readDoubleValue(isingIfstream);
+		double hStep = readDoubleValue(isingIfstream);
+		int mcsAmount = readIntValue(isingIfstream);
+		int repeats = readIntValue(isingIfstream);
 		bool saveSpins = readBoolValue(isingIfstream);
 		std::string spinsFilePathPattern = readStringValue(isingIfstream);
 		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
@@ -48,13 +54,17 @@ namespace PhaseTransitionIO
 
 		IsingInputData* isingInputData = new IsingInputData();
 		isingInputData->J = J;
-		isingInputData->h = h;
-		isingInputData->latticeSize = latticeSize;
-		isingInputData->mcsAmount = mcsAmount;
+		isingInputData->minLatticeSize = minLatticeSize;
+		isingInputData->maxLatticeSize = maxLatticeSize;
+		isingInputData->latticeSizeStep = latticeSizeStep;
 		isingInputData->minT = minT;
 		isingInputData->maxT = maxT;
 		isingInputData->TStep = TStep;
-		isingInputData->repeats = TRepeats;
+		isingInputData->minh = minh;
+		isingInputData->maxh = maxh;
+		isingInputData->hStep = hStep;
+		isingInputData->mcsAmount = mcsAmount;
+		isingInputData->repeats = repeats;
 		isingInputData->saveSpins = saveSpins;
 		isingInputData->spinsFilePathPattern = spinsFilePathPattern;
 		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;

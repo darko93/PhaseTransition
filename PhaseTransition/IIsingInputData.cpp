@@ -5,7 +5,7 @@ namespace PhaseTransition
 	IsingSimulationParameters* IIsingInputData::toFirstSimulationParameters()
 	{
 		int repeat = 1;
-		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinT(), geth(), getLatticeSize(),
+		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinLatticeSize(), getMinT(), getMinh(),
 			getMcsAmount(), repeat, getSaveSpins(), getSaveMeantimeQuanities());
 		return simParams;
 	}
@@ -18,13 +18,34 @@ namespace PhaseTransition
 			simParams->repeat++;
 			return true;
 		}
-		else
+		simParams->repeat = 1;
+
+		bool isInRange = false;
+		double nexth = simParams->h + gethStep();
+		isInRange = nexth <= getMaxh();
+		if (!isInRange || getMinh() == getMaxh())
 		{
-			double nextT = simParams->getT() + getTStep();
-			bool isInRange = nextT <= getMaxT();
+			simParams->h = getMinh();
+
+			double nextT = simParams->T + getTStep();
+			isInRange = nextT <= getMaxT();
+			if (!isInRange || getMinT() == getMaxT())
+			{
+				simParams->setT(getMinT());
+
+				int nextLatticeSize = simParams->latticeSize + getLatticeSizeStep();
+				isInRange = nextLatticeSize <= getMaxLatticeSize();
+				if (!isInRange || getMinLatticeSize() == getMaxLatticeSize())
+				{
+					return false;
+				}
+				simParams->setLatticeSize(nextLatticeSize);
+				return true;
+			}
 			simParams->setT(nextT);
-			simParams->repeat = 1;
-			return isInRange;
+			return true;
 		}
+		simParams->h = nexth;
+		return true;
 	}
 }

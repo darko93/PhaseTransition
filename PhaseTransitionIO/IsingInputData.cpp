@@ -17,19 +17,19 @@ namespace PhaseTransitionIO
 		return this->J;
 	}
 
-	double IsingInputData::geth()
+	int IsingInputData::getMinLatticeSize()
 	{
-		return this->h;
+		return this->minLatticeSize;
 	}
 
-	int IsingInputData::getLatticeSize()
+	int IsingInputData::getMaxLatticeSize()
 	{
-		return this->latticeSize;
+		return this->maxLatticeSize;
 	}
 
-	int IsingInputData::getMcsAmount()
+	int IsingInputData::getLatticeSizeStep()
 	{
-		return this->mcsAmount;
+		return this->latticeSizeStep;
 	}
 
 	double IsingInputData::getMinT()
@@ -45,6 +45,26 @@ namespace PhaseTransitionIO
 	double IsingInputData::getTStep()
 	{
 		return this->TStep;
+	}
+
+	double IsingInputData::getMinh()
+	{
+		return this->minh;
+	}
+
+	double IsingInputData::getMaxh()
+	{
+		return this->maxh;
+	}
+
+	double IsingInputData::gethStep()
+	{
+		return this->hStep;
+	}
+
+	int IsingInputData::getMcsAmount()
+	{
+		return this->mcsAmount;
 	}
 
 	int IsingInputData::getRepeats()

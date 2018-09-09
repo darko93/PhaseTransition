@@ -3,7 +3,7 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(int J, double T, double h, int latticeSize, int mcsAmount,
+	IsingSimulationParameters::IsingSimulationParameters(int J, int latticeSize, double T, double h, int mcsAmount,
 		int repeat, bool saveSpins, bool saveMeantimeQuantities)
 		: h(h), mcsAmount(mcsAmount), repeat(repeat), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities)
 	{

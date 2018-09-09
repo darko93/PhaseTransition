@@ -9,10 +9,10 @@ namespace PhaseTransition
 		friend class IsingModel;
 		friend class IIsingInputData;
 	private:
-		double T;
 		const double kB = 1; // Boltzman constant
-		double beta; // 1/T
 		double J; // coupling strength, +1 - ferromagnetic, -1 - antiferromagnetic
+		double T;
+		double beta; // 1/T
 		double h; // mu * H - external field strength
 		int latticeSize;
 		int latticeSizeLessOne;
@@ -26,7 +26,7 @@ namespace PhaseTransition
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
 	public:
-		IsingSimulationParameters(int J, double T, double h, int latticeSize, int mcsAmount, int repeat = 1,
+		IsingSimulationParameters(int J, int latticeSize, double T, double h, int mcsAmount, int repeat = 1,
 			bool saveSpins = false,	bool saveMeantimeQuantities = false);
 		~IsingSimulationParameters();
 		double getT();

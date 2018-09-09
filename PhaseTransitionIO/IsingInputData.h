@@ -15,12 +15,16 @@ namespace PhaseTransitionIO
 		friend class IsingIO;
 	private:
 		int J; // +1 for ferromagnetic, -1 for antiferromagnetic
-		double h;
-		int latticeSize;
-		int mcsAmount;
+		int minLatticeSize;
+		int maxLatticeSize;
+		int latticeSizeStep;
 		double minT;
 		double maxT;
 		double TStep;
+		double minh;
+		double maxh;
+		double hStep;
+		int mcsAmount;
 		int repeats; // Amount of simulations with the same parameters
 		bool saveSpins;
 		bool saveMeantimeQuantities;
@@ -31,12 +35,16 @@ namespace PhaseTransitionIO
 		IsingInputData();
 		~IsingInputData();
 		int getJ() override;
-		double geth() override;
-		int getLatticeSize() override;
-		int getMcsAmount() override;
+		int getMinLatticeSize() override;
+		int getMaxLatticeSize() override;
+		int getLatticeSizeStep() override;
 		double getMinT() override;
 		double getMaxT() override;
-		double getTStep() override;
+		double getTStep() override; 
+		double getMinh() override;
+		double getMaxh() override;
+		double gethStep() override;
+		int getMcsAmount() override;
 		int getRepeats() override;
 		bool getSaveSpins() override;
 		bool getSaveMeantimeQuanities() override;
