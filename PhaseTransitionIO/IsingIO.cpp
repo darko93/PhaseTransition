@@ -1,4 +1,5 @@
 #include <sstream>
+#include <fstream>
 
 #include "IsingIO.h"
 #include "IsingSimulationParameters.h"
@@ -56,9 +57,9 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams->getT());
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams->getT() << std::endl << "J=" << simParams->getJ() << std::endl << "kB=" << simParams->getkB()
-			<< std::endl << "h=" << simParams->geth() << std::endl << "latticeSize=" << simParams->getLatticeSize()
-			<< std::endl << std::endl;
+		fstream << "T=" << simParams->getT() << std::endl << "kB=" << simParams->getkB() << std::endl 
+			<< "J=" << simParams->getJ() << std::endl << "h=" << simParams->geth() << std::endl 
+			<< "latticeSize=" << simParams->getLatticeSize() << std::endl << std::endl;
 		fstream.close();
 	}
 
@@ -96,8 +97,8 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams->getT());
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams->getT() << std::endl << "J=" << simParams->getJ() << std::endl << "kB="
-			<< simParams->getkB() << std::endl << "h=" << simParams->geth() << std::endl << "latticeSize="
+		fstream << "T=" << simParams->getT() << std::endl << "kB=" << simParams->getkB() << std::endl << "J="
+			<< simParams->getJ() << std::endl << "h=" << simParams->geth() << std::endl << "latticeSize="
 			<< simParams->getLatticeSize() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "MCS" << std::setw(width) << "H"
@@ -115,5 +116,42 @@ namespace PhaseTransitionIO
 		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width) << meantimeQuantities.getH()
 			<< std::setw(width) << meantimeQuantities.getM() << std::endl;
 		fstream.close();
+	}
+
+	int** IsingIO::readLastSpinsConfiguration(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams)
+	{
+		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams->getT());
+		std::ifstream spinsIfstream(spinsFilePath);
+		int lastMcs = simParams->getLastSavedSpinsConfigurationMcs();
+		std::string lastSpinsLine = "MCS=" + std::to_string(lastMcs);
+
+		// Move to the last spins configuration
+		std::string line;
+		bool reachedLastSpins = false;
+		while (!reachedLastSpins)
+		{
+			getline(spinsIfstream, line);
+			reachedLastSpins = line == lastSpinsLine;
+		}
+
+		// Read last spins configuration
+		int latticeSize = simParams->getLatticeSize();
+		int** spins = new int*[latticeSize];
+		for (int i = 0; i < latticeSize; i++)
+		{
+			spins[i] = new int[latticeSize];
+			getline(spinsIfstream, line);
+			for (int j = 0; j < latticeSize; j++)
+			{
+				int ijSpin = line.at(j) - '0'; // To properly convert ASCII spin to int.
+				if (ijSpin == 0)
+				{
+					ijSpin = -1;
+				}
+				spins[i][j] = ijSpin;
+			}
+		}
+
+		return spins;
 	}
 }

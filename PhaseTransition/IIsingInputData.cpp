@@ -4,8 +4,8 @@ namespace PhaseTransition
 {
 	IsingSimulationParameters* IIsingInputData::toFirstSimulationParameters()
 	{
-		IsingSimulationParameters* simParams = new IsingSimulationParameters(getMinT(), getJ(), getLatticeSize(), 
-			getMcsAmount(), geth(), getSaveSpins(), getSaveMeantimeQuanities());
+		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinT(), geth(), getLatticeSize(),
+			getMcsAmount(), getSaveSpins(), getSaveMeantimeQuanities());
 		return simParams;
 	}
 

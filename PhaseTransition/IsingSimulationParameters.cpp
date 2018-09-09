@@ -3,8 +3,8 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(double T, int J, int latticeSize, int mcsAmount,
-		double h, bool saveSpins, bool saveMeantimeQuantities)
+	IsingSimulationParameters::IsingSimulationParameters(int J, double T, double h, int latticeSize, int mcsAmount,
+		bool saveSpins, bool saveMeantimeQuantities)
 		: h(h), mcsAmount(mcsAmount), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities)
 	{
 		setT(T);
@@ -39,6 +39,12 @@ namespace PhaseTransition
 	int IsingSimulationParameters::getLatticeSize()
 	{
 		return this->latticeSize;
+	}
+
+	int IsingSimulationParameters::getLastSavedSpinsConfigurationMcs()
+	{
+		int lastMcs = (this->mcsAmount / this->savingMeantimeQuantitiesMcsInterval) * this->savingMeantimeQuantitiesMcsInterval;
+		return lastMcs;
 	}
 
 	void IsingSimulationParameters::setT(double T)

@@ -19,13 +19,16 @@ namespace PhaseTransition
 		double hamiltonian();
 		int magnetization();
 		IsingMeantimeQuantities& computeCurrentStepQuantities();
+		void fullSimulationAfterInitialization();
 	public:
 		IsingModel(IIsingIO& isingIO);
 		~IsingModel();
 		IsingSimulationParameters* getSimParams();
 		int getSpin(int i, int j);
 		void initialize(IsingSimulationParameters* simParams);
+		void initialize(IsingSimulationParameters* simParams, int** spins);
 		void simulationStep();
 		void fullSimulation(IsingSimulationParameters* simParams);
+		void fullSimulation(IsingSimulationParameters* simParams, int** initialSpinsConfiguration);
 	};
 }

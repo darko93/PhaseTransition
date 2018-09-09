@@ -17,8 +17,8 @@ namespace PhaseTransitionIO
 		static const int NARROW_COLUMN_WIDTH = 10;
 		static const int COLUMN_WIDTH = 25;
 		static const int PRECISION = 4;
-		std::string spinsFilePathPattern;
-		std::string meantimeQuantitiesFilePathPattern;
+		std::string spinsFilePathPattern; // Will be set in create file method and used in save method.
+		std::string meantimeQuantitiesFilePathPattern; // Will be set in create file method and used in save method.
 		std::string getFilePath(std::string filePathPattern, double T);
 	public:
 		IsingIO();
@@ -28,5 +28,6 @@ namespace PhaseTransitionIO
 		void createMeantimeQuantitiesFile(std::string meantimeQuantitiesFilePathPattern, pht::IsingSimulationParameters* simParams);
 		void saveSpins(pht::IsingModel& isingModel, int mcs) override;
 		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int mcs) override;
+		int** readLastSpinsConfiguration(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams);
 	};
 }

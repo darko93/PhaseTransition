@@ -17,9 +17,11 @@ int main()
 	
 	pht::IsingSimulationParameters* isingSimParams = isingInputData->toFirstSimulationParameters();
 
-	std::cout << "J=" << isingSimParams->getJ() << std::endl << "kB=" << isingSimParams->getkB() << std::endl << "latticeSize=" 
-		<< isingSimParams->getLatticeSize() << std::endl << "h=" << isingSimParams->geth() << std::endl << std::endl;
+	std::cout << "J=" << isingSimParams->getJ() << std::endl << "kB=" << isingSimParams->getkB() << std::endl
+		<< "h=" << isingSimParams->geth() << std::endl << "latticeSize=" << isingSimParams->getLatticeSize() << std::endl << std::endl;
 
+	double minT = isingSimParams->getT();
+	pht::IsingSimulationParameters* previousSimParams = nullptr;
 	pht::IsingModel isingModel(isingIO);
 	do
 	{
@@ -32,7 +34,17 @@ int main()
 		{
 			isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), isingSimParams);
 		}
-		isingModel.fullSimulation(isingSimParams);
+		if (isingInputData->getSaveSpins() && previousSimParams != nullptr)
+		{
+			int** spins = isingIO.readLastSpinsConfiguration(isingInputData->getSpinsFilePathPattern(), previousSimParams);
+			isingModel.fullSimulation(isingSimParams, spins);
+		}
+		else
+		{
+			isingModel.fullSimulation(isingSimParams);
+		}
+		delete previousSimParams;
+		previousSimParams = new pht::IsingSimulationParameters(*isingSimParams);
 	} while (isingInputData->toNextSimulationParameters(isingSimParams));
 
 	//isingModel.fullSimulation(isingSimParams);

@@ -4,8 +4,9 @@
 
 1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
 
-- dodać obsługę zakresu rozmiaru i h
+- savingMeantimeQuantitiesMcsInterval wczytać z pliku
 - Konfiguracją wejściową ma być konfiguracja wyjściowa symulacji dla poprzedniej T
+- dodać obsługę zakresu rozmiaru i h
 - Bufforowanie przy zapisie do pliku
 - Dodać obsługę dla Trepeat > 1, wtedy pliki będą miały w nazwie "Trepeat=X"
 - W IsingIO rzucać wujątkiem, jeśli przed metodami save() nie wywołano createFile()
