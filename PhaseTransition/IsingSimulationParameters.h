@@ -10,14 +10,15 @@ namespace PhaseTransition
 		friend class IIsingInputData;
 	private:
 		double T;
+		const double kB = 1; // Boltzman constant
 		double beta; // 1/T
 		double J; // coupling strength, +1 - ferromagnetic, -1 - antiferromagnetic
-		const double kB = 1; // Boltzman constant
 		double h; // mu * H - external field strength
 		int latticeSize;
 		int latticeSizeLessOne;
 		int latticeSitesAmount; // = amount of loop single steps in one MCS
 		int mcsAmount; // MCS-es amount
+		int repeat; // Which time the simulation is run with such parameters
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		int savingMeantimeQuantitiesMcsInterval = 1; // TODO: make it dependent on T and size (?)
@@ -25,14 +26,15 @@ namespace PhaseTransition
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
 	public:
-		IsingSimulationParameters(int J, double T, double h, int latticeSize, int mcsAmount,
-			bool saveSpins,	bool saveMeantimeQuantities);
+		IsingSimulationParameters(int J, double T, double h, int latticeSize, int mcsAmount, int repeat = 1,
+			bool saveSpins = false,	bool saveMeantimeQuantities = false);
 		~IsingSimulationParameters();
 		double getT();
 		double getJ();
 		double getkB();
 		double geth();
 		int getLatticeSize();
+		int getRepeat();
 		int getLastSavedSpinsConfigurationMcs();
 	};
 }

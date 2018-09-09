@@ -21,7 +21,7 @@ namespace PhaseTransitionIO
 		double minT;
 		double maxT;
 		double TStep;
-		int TRepeats;
+		int repeats; // Amount of simulations with the same parameters
 		bool saveSpins;
 		bool saveMeantimeQuantities;
 		std::string spinsFilePathPattern;
@@ -37,7 +37,7 @@ namespace PhaseTransitionIO
 		double getMinT() override;
 		double getMaxT() override;
 		double getTStep() override;
-		int getTRepeats() override;
+		int getRepeats() override;
 		bool getSaveSpins() override;
 		bool getSaveMeantimeQuanities() override;
 		std::string getSpinsFilePathPattern();

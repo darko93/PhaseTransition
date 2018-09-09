@@ -19,7 +19,7 @@ namespace PhaseTransitionIO
 		static const int PRECISION = 4;
 		std::string spinsFilePathPattern; // Will be set in create file method and used in save method.
 		std::string meantimeQuantitiesFilePathPattern; // Will be set in create file method and used in save method.
-		std::string getFilePath(std::string filePathPattern, double T);
+		std::string getFilePath(std::string filePathPattern, pht::IsingSimulationParameters* simParams);
 	public:
 		IsingIO();
 		~IsingIO();
@@ -27,7 +27,7 @@ namespace PhaseTransitionIO
 		void createSpinsFile(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams);
 		void createMeantimeQuantitiesFile(std::string meantimeQuantitiesFilePathPattern, pht::IsingSimulationParameters* simParams);
 		void saveSpins(pht::IsingModel& isingModel, int mcs) override;
-		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, int mcs) override;
+		void saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, pht::IsingSimulationParameters* simParams, int mcs) override;
 		int** readLastSpinsConfiguration(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams);
 	};
 }

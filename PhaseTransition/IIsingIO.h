@@ -14,6 +14,6 @@ namespace PhaseTransition
 	public:
 		virtual ~IIsingIO() {};
 		virtual void saveSpins(IsingModel& isingModel, int mcs) = 0;
-		virtual void saveMeantimeQuantities(IsingMeantimeQuantities& meantimeQuantities, int mcs) = 0;
+		virtual void saveMeantimeQuantities(IsingMeantimeQuantities& meantimeQuantities, IsingSimulationParameters* simParams, int mcs) = 0;
 	};
 }

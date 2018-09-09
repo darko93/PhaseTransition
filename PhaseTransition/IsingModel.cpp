@@ -135,7 +135,7 @@ namespace PhaseTransition
 	{
 		double H = hamiltonian();
 		int M = magnetization();
-		this->currentStepQuantities = IsingMeantimeQuantities(this->simParams->T, H, M);
+		this->currentStepQuantities = IsingMeantimeQuantities(H, M);
 		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
 	}
 
@@ -192,7 +192,7 @@ namespace PhaseTransition
 				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, mcs);
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
 					isingIO.saveSpins(*this, mcs);
 				}
 			}
@@ -222,7 +222,7 @@ namespace PhaseTransition
 				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, mcs);
+					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
 				}
 			}
 		}

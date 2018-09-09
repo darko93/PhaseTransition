@@ -47,9 +47,9 @@ namespace PhaseTransitionIO
 		return this->TStep;
 	}
 
-	int IsingInputData::getTRepeats()
+	int IsingInputData::getRepeats()
 	{
-		return this->TRepeats;
+		return this->repeats;
 	}
 
 	bool IsingInputData::getSaveSpins()
