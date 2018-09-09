@@ -4,9 +4,7 @@
 
 1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
 
-- dodać obsługę zakresu rozmiaru i h
 - Bufforowanie przy zapisie do pliku
-- Dodać obsługę dla Trepeat > 1, wtedy pliki będą miały w nazwie "Trepeat=X"
 - W IsingIO rzucać wujątkiem, jeśli przed metodami save() nie wywołano createFile()
 - Zastanowić się, czy wszędzie nie przesyłać wskaźników, zamiast referencji - raczej wszędzie referencje, bo jest pewność, że nie są NULLem. simParams i quantities w IsingModelu też powinny być referencjami. Skoro simParams jest dostarczany z zewnątrz do IsingModelu, to nie może być w nim niszczony, musi zostać zniszczony na zewnątrz, jak już IsingModel skończy z nim pracę. Skoro simParams musi żyć tak długo, jak IsingModel z niego korzysta, a niszczenie i tak jest na zewnątrz, to simParams może być referencją. A wskaźnik można zdereferencjować i przesłać do funkcji oczekującej referencji.
 - savingMeantimeQuantitesMcsInterval zrobić zależnym od T i rozmiaru sieci (?) - narazie na sztywno = 1 MCS
