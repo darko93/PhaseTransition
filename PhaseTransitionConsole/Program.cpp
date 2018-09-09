@@ -34,7 +34,9 @@ int main()
 		{
 			isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), isingSimParams);
 		}
-		if (isingInputData->getSaveSpins() && previousSimParams != nullptr)
+		bool useLastSpinsConfiguration = isingInputData->getSaveSpins()
+			&& isingInputData->getContinueWithLastSpinsConfiguration() && previousSimParams != nullptr;
+		if (useLastSpinsConfiguration)
 		{
 			int** spins = isingIO.readLastSpinsConfiguration(isingInputData->getSpinsFilePathPattern(), previousSimParams);
 			isingModel.fullSimulation(isingSimParams, spins);

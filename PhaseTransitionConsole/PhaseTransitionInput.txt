@@ -10,3 +10,4 @@ saveSpins=true
 spinsFilePathPattern=IsingMeantimeSpins\Spins.txt
 saveMeantimeQuantities=true
 meantimeQuantitiesFilePathPattern=IsingMeantimeQuantities\Quantites
+continueWithLastSpinsConfiguration=true
