@@ -25,16 +25,17 @@ namespace PhaseTransition
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
+		IsingSimulationParameters();
 	public:
 		IsingSimulationParameters(int J, int latticeSize, double T, double h, int mcsAmount, int repeat = 1,
 			bool saveSpins = false,	bool saveMeantimeQuantities = false);
 		~IsingSimulationParameters();
-		double getT();
-		double getJ();
-		double getkB();
-		double geth();
-		int getLatticeSize();
-		int getRepeat();
-		int getLastSavedSpinsConfigurationMcs();
+		double getT() const;
+		double getJ() const;
+		double getkB() const;
+		double geth() const;
+		int getLatticeSize() const;
+		int getRepeat() const;
+		int getLastSavedSpinsConfigurationMcs() const;
 	};
 }

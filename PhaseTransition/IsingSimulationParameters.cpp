@@ -16,37 +16,37 @@ namespace PhaseTransition
 	{
 	}
 
-	double IsingSimulationParameters::getT()
+	double IsingSimulationParameters::getT() const
 	{
 		return this->T;
 	}
 
-	double IsingSimulationParameters::getJ()
+	double IsingSimulationParameters::getJ() const
 	{
 		return this->J;
 	}
 
-	double IsingSimulationParameters::getkB()
+	double IsingSimulationParameters::getkB() const
 	{
 		return this->kB;
 	}
 
-	double IsingSimulationParameters::geth()
+	double IsingSimulationParameters::geth() const
 	{
 		return this->h;
 	}
 
-	int IsingSimulationParameters::getLatticeSize()
+	int IsingSimulationParameters::getLatticeSize() const
 	{
 		return this->latticeSize;
 	}
 
-	int IsingSimulationParameters::getRepeat()
+	int IsingSimulationParameters::getRepeat() const
 	{
 		return this->repeat;
 	}
 
-	int IsingSimulationParameters::getLastSavedSpinsConfigurationMcs()
+	int IsingSimulationParameters::getLastSavedSpinsConfigurationMcs() const
 	{
 		int lastMcs = (this->mcsAmount / this->savingMeantimeQuantitiesMcsInterval) * this->savingMeantimeQuantitiesMcsInterval;
 		return lastMcs;

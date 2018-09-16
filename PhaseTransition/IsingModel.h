@@ -13,22 +13,22 @@ namespace PhaseTransition
 		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
 		void initializeSpinsConfiguration();
-		int neighboursSpinsSum(int i, int j, int ijSpin);
-		double spinEnergy(int i, int j, int ijSpin);
-		double spinEnergyChange(int i, int j, int ijSpin);
-		double hamiltonian();
-		int magnetization();
+		int neighboursSpinsSum(int i, int j, int ijSpin) const;
+		double spinEnergy(int i, int j, int ijSpin) const;
+		double spinEnergyChange(int i, int j, int ijSpin) const;
+		double hamiltonian() const;
+		int magnetization() const;
 		IsingMeantimeQuantities& computeCurrentStepQuantities();
 		void fullSimulationAfterInitialization();
 	public:
 		IsingModel(IIsingIO& isingIO);
 		~IsingModel();
-		IsingSimulationParameters* getSimParams();
-		int getSpin(int i, int j);
-		void initialize(IsingSimulationParameters* simParams);
-		void initialize(IsingSimulationParameters* simParams, int** spins);
+		IsingSimulationParameters& getSimParams() const;
+		int getSpin(int i, int j) const;
+		void initialize(IsingSimulationParameters& simParams);
+		void initialize(IsingSimulationParameters& simParams, int** spins);
 		void simulationStep();
-		void fullSimulation(IsingSimulationParameters* simParams);
-		void fullSimulation(IsingSimulationParameters* simParams, int** initialSpinsConfiguration);
+		void fullSimulation(IsingSimulationParameters& simParams);
+		void fullSimulation(IsingSimulationParameters& simParams, int** initialSpinsConfiguration);
 	};
 }

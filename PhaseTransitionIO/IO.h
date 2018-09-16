@@ -12,22 +12,22 @@ namespace PhaseTransitionIO
 	{
 	private:
 		template<typename T>
-		void split(std::string s, char delimiter, T result);
+		void split(const std::string& s, char delimiter, T result) const;
 	protected:
 		IO();
-		std::string readLine(std::ifstream& ifstream);
-		std::string readStringValue(std::string dataLine);
-		std::string readStringValue(std::ifstream& ifstream);
-		double readDoubleValue(std::string data);
-		double readDoubleValue(std::ifstream& ifstream);
-		int readIntValue(std::string data);
-		int readIntValue(std::ifstream& ifstream);
-		bool readBoolValue(std::string data);
-		bool readBoolValue(std::ifstream& ifstream);
-		int toInt(std::string s);
-		double toDouble(std::string s);
-		bool toBool(std::string s);
-		std::vector<std::string> split(std::string s, char delimiter);
+		std::string readLine(std::ifstream& ifstream) const;
+		std::string readStringValue(const std::string& dataLine) const;
+		std::string readStringValue(std::ifstream& ifstream) const;
+		double readDoubleValue(const std::string& data) const;
+		double readDoubleValue(std::ifstream& ifstream) const;
+		int readIntValue(const std::string& data) const;
+		int readIntValue(std::ifstream& ifstream) const;
+		bool readBoolValue(const std::string& data) const;
+		bool readBoolValue(std::ifstream& ifstream) const;
+		int toInt(const std::string& s) const;
+		double toDouble(const std::string& s) const;
+		bool toBool(const std::string& s) const;
+		std::vector<std::string> split(const std::string& s, char delimiter) const;
 		//static std::ifstream* openIfstream(std::string filePath);
 		//static std::fstream* openFstream(std::string filePath);
 	public:

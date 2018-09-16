@@ -7,7 +7,7 @@ namespace PhaseTransitionIO
 	{
 	}
 
-	std::string IO::readLine(std::ifstream& ifstream)
+	std::string IO::readLine(std::ifstream& ifstream) const
 	{
 		std::string line;
 		getline(ifstream, line);
@@ -15,7 +15,7 @@ namespace PhaseTransitionIO
 	}
 
 	// Reads value as string from the string like "variable=500", for which it returns "500"
-	std::string IO::readStringValue(std::string data)
+	std::string IO::readStringValue(const std::string& data) const
 	{
 		int lineLength = (int)data.length();
 		int indexOfEquals = data.find('=');
@@ -23,65 +23,65 @@ namespace PhaseTransitionIO
 		return stringValue;
 	}
 
-	std::string IO::readStringValue(std::ifstream& ifstream)
+	std::string IO::readStringValue(std::ifstream& ifstream) const
 	{
 		std::string dataLine = readLine(ifstream);
 		return readStringValue(dataLine);
 	}
 
-	double IO::readDoubleValue(std::string data)
+	double IO::readDoubleValue(const std::string& data) const
 	{
 		std::string stringValue = readStringValue(data);
 		return toDouble(stringValue);
 	}
 
-	double IO::readDoubleValue(std::ifstream& ifstream)
+	double IO::readDoubleValue(std::ifstream& ifstream) const
 	{
 		std::string stringValue = readStringValue(ifstream);
 		return toDouble(stringValue);
 	}
 
-	int IO::readIntValue(std::string data)
+	int IO::readIntValue(const std::string& data) const
 	{
 		std::string stringValue = readStringValue(data);
 		return toInt(stringValue);
 	}
 
-	int IO::readIntValue(std::ifstream& ifstream)
+	int IO::readIntValue(std::ifstream& ifstream) const
 	{
 		std::string stringValue = readStringValue(ifstream);
 		return toInt(stringValue);
 	}
 
-	bool IO::readBoolValue(std::string data)
+	bool IO::readBoolValue(const std::string& data) const
 	{
 		std::string stringValue = readStringValue(data);
 		return toBool(stringValue);
 	}
 
-	bool IO::readBoolValue(std::ifstream& ifstream)
+	bool IO::readBoolValue(std::ifstream& ifstream) const
 	{
 		std::string stringValue = readStringValue(ifstream);
 		return toBool(stringValue);
 	}
 
-	int IO::toInt(std::string s)
+	int IO::toInt(const std::string& s) const
 	{
 		return atoi(s.c_str());;
 	}
 
-	double IO::toDouble(std::string s)
+	double IO::toDouble(const std::string& s) const
 	{
 		return atof(s.c_str());;
 	}
 
-	bool IO::toBool(std::string s)
+	bool IO::toBool(const std::string& s) const
 	{
 		return s == "1" || 0 == strcmpi(s.c_str(), "true");
 	}
 
 	template<typename T>
-	void IO::split(std::string s, char delimiter, T result)
+	void IO::split(const std::string& s, char delimiter, T result) const
 	{
 		std::stringstream sStream(s);
 		std::string item;
@@ -91,7 +91,7 @@ namespace PhaseTransitionIO
 		}
 	}
 
-	std::vector<std::string> IO::split(std::string s, char delimiter)
+	std::vector<std::string> IO::split(const std::string& s, char delimiter) const
 	{
 		std::vector<std::string> strings;
 		split(s, delimiter, std::back_inserter(strings));

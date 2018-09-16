@@ -14,24 +14,24 @@ namespace PhaseTransitionIO
 	{
 	}
 
-	std::string IsingIO::getFilePath(std::string filePathPattern, pht::IsingSimulationParameters* simParams)
+	std::string IsingIO::getFilePath(const std::string& filePathPattern, const pht::IsingSimulationParameters& simParams) const
 	{
 		std::string filePath;
-		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams->getLatticeSize()) 
-			+ "_T=" + std::to_string(simParams->getT()) + "_h=" + std::to_string(simParams->geth());
+		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams.getLatticeSize()) 
+			+ "_T=" + std::to_string(simParams.getT()) + "_h=" + std::to_string(simParams.geth());
 
-		if (simParams->getRepeat() == 1)
+		if (simParams.getRepeat() == 1)
 		{
 			filePath += ".txt";
 		}
 		else
 		{
-			filePath += "_Repeat=" + std::to_string(simParams->getRepeat()) + ".txt";
+			filePath += "_Repeat=" + std::to_string(simParams.getRepeat()) + ".txt";
 		}
 		return filePath;
 	}
 
-	IsingInputData* IsingIO::readIsingInputData(std::string inputDataFilePath)
+	IsingInputData* IsingIO::readIsingInputData(const std::string& inputDataFilePath) const
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
@@ -73,23 +73,23 @@ namespace PhaseTransitionIO
 		return isingInputData;
 	}
 
-	void IsingIO::createSpinsFile(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams)
+	void IsingIO::createSpinsFile(const std::string& spinsFilePathPattern, const pht::IsingSimulationParameters& simParams)
 	{
 		this->spinsFilePathPattern = spinsFilePathPattern; // Setting it here and using in save method
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams->getT() << std::endl << "kB=" << simParams->getkB() << std::endl 
-			<< "J=" << simParams->getJ() << std::endl << "h=" << simParams->geth() << std::endl 
-			<< "latticeSize=" << simParams->getLatticeSize() << std::endl << std::endl;
+		fstream << "T=" << simParams.getT() << std::endl << "kB=" << simParams.getkB() << std::endl 
+			<< "J=" << simParams.getJ() << std::endl << "h=" << simParams.geth() << std::endl 
+			<< "latticeSize=" << simParams.getLatticeSize() << std::endl << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(pht::IsingModel& isingModel, int mcs)
+	void IsingIO::saveSpins(const pht::IsingModel& isingModel, int mcs) const
 	{
-		pht::IsingSimulationParameters* simParams = isingModel.getSimParams();
+		pht::IsingSimulationParameters& simParams = isingModel.getSimParams();
 		std::stringstream spinsString;
-		int latticeSize = simParams->getLatticeSize();
+		int latticeSize = simParams.getLatticeSize();
 		for (int i = 0; i < latticeSize; i++)
 		{
 			for (int j = 0; j < latticeSize; j++)
@@ -112,23 +112,23 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::createMeantimeQuantitiesFile(std::string meantimeQuantitiesFilePathPattern,
-		pht::IsingSimulationParameters* simParams)
+	void IsingIO::createMeantimeQuantitiesFile(const std::string& meantimeQuantitiesFilePathPattern,
+		const pht::IsingSimulationParameters& simParams)
 	{
 		this->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern; // Setting it here and using in save method
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams);
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams->getT() << std::endl << "kB=" << simParams->getkB() << std::endl << "J="
-			<< simParams->getJ() << std::endl << "h=" << simParams->geth() << std::endl << "latticeSize="
-			<< simParams->getLatticeSize() << std::endl << std::endl << std::endl;
+		fstream << "T=" << simParams.getT() << std::endl << "kB=" << simParams.getkB() << std::endl << "J="
+			<< simParams.getJ() << std::endl << "h=" << simParams.geth() << std::endl << "latticeSize="
+			<< simParams.getLatticeSize() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "MCS" << std::setw(width) << "H"
 			<< std::setw(width) << "M" << std::endl << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::saveMeantimeQuantities(pht::IsingMeantimeQuantities& meantimeQuantities, pht::IsingSimulationParameters* simParams, int mcs)
+	void IsingIO::saveMeantimeQuantities(const pht::IsingMeantimeQuantities& meantimeQuantities, const pht::IsingSimulationParameters& simParams, int mcs) const
 	{
 		std::fstream fstream;
 		std::string filePath = getFilePath(this->meantimeQuantitiesFilePathPattern, simParams);
@@ -140,11 +140,11 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	int** IsingIO::readLastSpinsConfiguration(std::string spinsFilePathPattern, pht::IsingSimulationParameters* simParams)
+	int** IsingIO::readLastSpinsConfiguration(const std::string& spinsFilePathPattern, const pht::IsingSimulationParameters& simParams) const
 	{
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		std::ifstream spinsIfstream(spinsFilePath);
-		int lastMcs = simParams->getLastSavedSpinsConfigurationMcs();
+		int lastMcs = simParams.getLastSavedSpinsConfigurationMcs();
 		std::string lastSpinsLine = "MCS=" + std::to_string(lastMcs);
 
 		// Move to the last spins configuration
@@ -157,7 +157,7 @@ namespace PhaseTransitionIO
 		}
 
 		// Read last spins configuration
-		int latticeSize = simParams->getLatticeSize();
+		int latticeSize = simParams.getLatticeSize();
 		int** spins = new int*[latticeSize];
 		for (int i = 0; i < latticeSize; i++)
 		{

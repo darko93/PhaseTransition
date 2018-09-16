@@ -4,17 +4,17 @@
 
 namespace PhaseTransition
 {
-	int Randomizer::randomNr(int max)
+	int Randomizer::randomNr(int max) const
 	{
 		return rand() % max;
 	}
 
-	double Randomizer::randomNrBetween0And1()
+	double Randomizer::randomNrBetween0And1() const
 	{
 		return (double)rand() / (double)RAND_MAX;
 	}
 
-	double Randomizer::randomNr(double min, double max)
+	double Randomizer::randomNr(double min, double max) const
 	{
 		return min + randomNrBetween0And1() * (max - min);
 	}

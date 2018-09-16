@@ -11,21 +11,21 @@ namespace PhaseTransition
 	{
 	public:
 		virtual ~IIsingInputData() {};
-		virtual int getJ() = 0;
-		virtual int getMinLatticeSize() = 0;
-		virtual int getMaxLatticeSize() = 0;
-		virtual int getLatticeSizeStep() = 0;
-		virtual double getMinT() = 0;
-		virtual double getMaxT() = 0;
-		virtual double getTStep() = 0;
-		virtual double getMinh() = 0;
-		virtual double getMaxh() = 0;
-		virtual double gethStep() = 0;
-		virtual int getMcsAmount() = 0;
-		virtual int getRepeats() = 0; // Amount of simulations with the same parameters
-		virtual bool getSaveSpins() = 0;
-		virtual bool getSaveMeantimeQuanities() = 0;
-		IsingSimulationParameters* toFirstSimulationParameters();
-		bool toNextSimulationParameters(IsingSimulationParameters* simParams);
+		virtual int getJ() const = 0;
+		virtual int getMinLatticeSize() const = 0;
+		virtual int getMaxLatticeSize() const = 0;
+		virtual int getLatticeSizeStep() const = 0;
+		virtual double getMinT() const = 0;
+		virtual double getMaxT() const = 0;
+		virtual double getTStep() const = 0;
+		virtual double getMinh() const = 0;
+		virtual double getMaxh() const = 0;
+		virtual double gethStep() const = 0;
+		virtual int getMcsAmount() const = 0;
+		virtual int getRepeats() const = 0; // Amount of simulations with the same parameters
+		virtual bool getSaveSpins() const = 0;
+		virtual bool getSaveMeantimeQuanities() const = 0;
+		IsingSimulationParameters* toFirstSimulationParameters() const;
+		bool toNextSimulationParameters(IsingSimulationParameters& simParams) const;
 	};
 }

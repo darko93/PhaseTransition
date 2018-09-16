@@ -28,27 +28,27 @@ int main()
 			<< "\t" << "h=" << isingSimParams->geth() << "\t" << "repeat=" << isingSimParams->getRepeat() << std::endl;
 		if (isingInputData->getSaveSpins())
 		{
-			isingIO.createSpinsFile(isingInputData->getSpinsFilePathPattern(), isingSimParams);
+			isingIO.createSpinsFile(isingInputData->getSpinsFilePathPattern(), *isingSimParams);
 		}
 		if (isingInputData->getSaveMeantimeQuanities())
 		{
-			isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), isingSimParams);
+			isingIO.createMeantimeQuantitiesFile(isingInputData->getMeantimeQuantitiesFilePathPattern(), *isingSimParams);
 		}
 		bool useLastSpinsConfiguration = isingInputData->getSaveSpins()
 			&& isingInputData->getContinueWithLastSpinsConfiguration() && previousSimParams != nullptr
 			&& previousSimParams->getLatticeSize() == isingSimParams->getLatticeSize();
 		if (useLastSpinsConfiguration)
 		{
-			int** spins = isingIO.readLastSpinsConfiguration(isingInputData->getSpinsFilePathPattern(), previousSimParams);
-			isingModel.fullSimulation(isingSimParams, spins);
+			int** spins = isingIO.readLastSpinsConfiguration(isingInputData->getSpinsFilePathPattern(), *previousSimParams);
+			isingModel.fullSimulation(*isingSimParams, spins);
 		}
 		else
 		{
-			isingModel.fullSimulation(isingSimParams);
+			isingModel.fullSimulation(*isingSimParams);
 		}
 		delete previousSimParams;
 		previousSimParams = new pht::IsingSimulationParameters(*isingSimParams);
-	} while (isingInputData->toNextSimulationParameters(isingSimParams));
+	} while (isingInputData->toNextSimulationParameters(*isingSimParams));
 
 	delete isingInputData;
 	delete isingSimParams;

@@ -12,87 +12,87 @@ namespace PhaseTransitionIO
 	{
 	}
 
-	int IsingInputData::getJ()
+	int IsingInputData::getJ() const
 	{
 		return this->J;
 	}
 
-	int IsingInputData::getMinLatticeSize()
+	int IsingInputData::getMinLatticeSize() const
 	{
 		return this->minLatticeSize;
 	}
 
-	int IsingInputData::getMaxLatticeSize()
+	int IsingInputData::getMaxLatticeSize() const
 	{
 		return this->maxLatticeSize;
 	}
 
-	int IsingInputData::getLatticeSizeStep()
+	int IsingInputData::getLatticeSizeStep() const
 	{
 		return this->latticeSizeStep;
 	}
 
-	double IsingInputData::getMinT()
+	double IsingInputData::getMinT() const
 	{
 		return this->minT;
 	}
 
-	double IsingInputData::getMaxT()
+	double IsingInputData::getMaxT() const
 	{
 		return this->maxT;
 	}
 
-	double IsingInputData::getTStep()
+	double IsingInputData::getTStep() const
 	{
 		return this->TStep;
 	}
 
-	double IsingInputData::getMinh()
+	double IsingInputData::getMinh() const
 	{
 		return this->minh;
 	}
 
-	double IsingInputData::getMaxh()
+	double IsingInputData::getMaxh() const
 	{
 		return this->maxh;
 	}
 
-	double IsingInputData::gethStep()
+	double IsingInputData::gethStep() const
 	{
 		return this->hStep;
 	}
 
-	int IsingInputData::getMcsAmount()
+	int IsingInputData::getMcsAmount() const
 	{
 		return this->mcsAmount;
 	}
 
-	int IsingInputData::getRepeats()
+	int IsingInputData::getRepeats() const
 	{
 		return this->repeats;
 	}
 
-	bool IsingInputData::getSaveSpins()
+	bool IsingInputData::getSaveSpins() const
 	{
 		return this->saveSpins;
 	}
 
-	std::string IsingInputData::getSpinsFilePathPattern()
+	std::string IsingInputData::getSpinsFilePathPattern() const
 	{
 		return this->spinsFilePathPattern;
 	}
 
-	bool IsingInputData::getSaveMeantimeQuanities()
+	bool IsingInputData::getSaveMeantimeQuanities() const
 	{
 		return this->saveMeantimeQuantities;
 	}
 
-	std::string IsingInputData::getMeantimeQuantitiesFilePathPattern()
+	std::string IsingInputData::getMeantimeQuantitiesFilePathPattern() const
 	{
 		return this->meantimeQuantitiesFilePathPattern;
 	}
 
-	bool IsingInputData::getContinueWithLastSpinsConfiguration()
+	bool IsingInputData::getContinueWithLastSpinsConfiguration() const
 	{
 		return this->continueWithLastSpinsConfiguration;
 	}

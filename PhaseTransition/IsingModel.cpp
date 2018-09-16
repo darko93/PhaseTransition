@@ -19,25 +19,25 @@ namespace PhaseTransition
 		delete[] this->spins;
 	}
 
-	IsingSimulationParameters* IsingModel::getSimParams()
+	IsingSimulationParameters& IsingModel::getSimParams() const
 	{
-		return this->simParams;
+		return *this->simParams;
 	}
 
-	int IsingModel::getSpin(int i, int j)
+	int IsingModel::getSpin(int i, int j) const
 	{
 		return this->spins[i][j];
 	}
 
-	void IsingModel::initialize(IsingSimulationParameters* simParams)
+	void IsingModel::initialize(IsingSimulationParameters& simParams)
 	{
-		this->simParams = simParams;
+		this->simParams = &simParams;
 		initializeSpinsConfiguration();
 	}
 
-	void IsingModel::initialize(IsingSimulationParameters* simParams, int** spins)
+	void IsingModel::initialize(IsingSimulationParameters& simParams, int** spins)
 	{
-		this->simParams = simParams;
+		this->simParams = &simParams;
 		this->spins = spins;
 	}
 
@@ -66,7 +66,7 @@ namespace PhaseTransition
 		this->spins = spins;
 	}	
 
-	int IsingModel::neighboursSpinsSum(int i, int j, int ijSpin)
+	int IsingModel::neighboursSpinsSum(int i, int j, int ijSpin) const
 	{
 		int up = i - 1;
 		int down = i + 1;
@@ -74,31 +74,31 @@ namespace PhaseTransition
 		int right = j + 1;
 
 		//Apply periodic boundary conditions
-		IsingSimulationParameters* simParams = this->simParams;
-		if (up < 0) up = simParams->latticeSizeLessOne;
-		if (down >= simParams->latticeSize) down = 0;
-		if (left < 0) left = simParams->latticeSizeLessOne;
-		if (right >= simParams->latticeSize) right = 0;
+		IsingSimulationParameters& simParams = *this->simParams;
+		if (up < 0) up = simParams.latticeSizeLessOne;
+		if (down >= simParams.latticeSize) down = 0;
+		if (left < 0) left = simParams.latticeSizeLessOne;
+		if (right >= simParams.latticeSize) right = 0;
 
 		int** spins = this->spins;
 		int neighboursSpinsSum = spins[i][left] + spins[up][j] + spins[i][right] + spins[down][j];
 		return neighboursSpinsSum;
 	}
 
-	double IsingModel::spinEnergy(int i, int j, int ijSpin)
+	double IsingModel::spinEnergy(int i, int j, int ijSpin) const
 	{
-		IsingSimulationParameters* simParams = this->simParams;
+		IsingSimulationParameters& simParams = *this->simParams;
 		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j, ijSpin);
-		double energy = -ijSpin * ((simParams->J) * ijNeighboursSpinsSum + simParams->h);
+		double energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
 		return energy;
 	}
 
-	double IsingModel::spinEnergyChange(int i, int j, int ijSpin)
+	double IsingModel::spinEnergyChange(int i, int j, int ijSpin) const
 	{
 		return -2 * spinEnergy(i, j, ijSpin);
 	}
 
-	double IsingModel::hamiltonian()
+	double IsingModel::hamiltonian() const
 	{
 		double H = 0;
 		int ijSpin;
@@ -116,7 +116,7 @@ namespace PhaseTransition
 		return 0.5 * H; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
 	}
 
-	int IsingModel::magnetization()
+	int IsingModel::magnetization() const
 	{
 		int M = 0;
 		int** spins = this->spins;
@@ -137,18 +137,19 @@ namespace PhaseTransition
 		int M = magnetization();
 		this->currentStepQuantities = IsingMeantimeQuantities(H, M);
 		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
+		// And to not create it every time this method is called.
 	}
 
 	void IsingModel::simulationStep()
 	{
-		IsingSimulationParameters* simParams = this->simParams;
+		IsingSimulationParameters& simParams = *this->simParams;
 		int** spins = this->spins;
 		bool applySpinChange = true;
-		double beta = simParams->beta;
+		double beta = simParams.beta;
 		// Choose random atom
-		int randomSpinNr = Randomizer::getInstance().randomNr(simParams->latticeSitesAmount);
-		int i = randomSpinNr % simParams->latticeSize;
-		int j = randomSpinNr / simParams->latticeSize;
+		int randomSpinNr = Randomizer::getInstance().randomNr(simParams.latticeSitesAmount);
+		int i = randomSpinNr % simParams.latticeSize;
+		int j = randomSpinNr / simParams.latticeSize;
 		int ijSpin = spins[i][j];
 		// Calculate energy change due to random spin flipping
 		double deltaE = spinEnergyChange(i, j, ijSpin);
@@ -169,9 +170,10 @@ namespace PhaseTransition
 	void IsingModel::fullSimulationAfterInitialization()
 	{
 		IIsingIO& isingIO = this->isingIO;
-		int mcsAmount = simParams->mcsAmount;
-		int latticeSitesAmount = simParams->latticeSitesAmount;
-		if (!simParams->saveMeantimeQuantities && !simParams->saveSpins)
+		IsingSimulationParameters& simParams = *this->simParams;
+		int mcsAmount = simParams.mcsAmount;
+		int latticeSitesAmount = simParams.latticeSitesAmount;
+		if (!simParams.saveMeantimeQuantities && !simParams.saveSpins)
 		{
 			for (int i = 1; i <= mcsAmount; i++)
 			{
@@ -181,7 +183,7 @@ namespace PhaseTransition
 				}
 			}
 		}
-		else if (simParams->saveMeantimeQuantities && simParams->saveSpins)
+		else if (simParams.saveMeantimeQuantities && simParams.saveSpins)
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
@@ -189,7 +191,7 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams.savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
@@ -197,7 +199,7 @@ namespace PhaseTransition
 				}
 			}
 		}
-		else if (!simParams->saveMeantimeQuantities && simParams->saveSpins)
+		else if (!simParams.saveMeantimeQuantities && simParams.saveSpins)
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
@@ -205,13 +207,13 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams.savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					isingIO.saveSpins(*this, mcs);
 				}
 			}
 		}
-		else if (simParams->saveMeantimeQuantities && !simParams->saveSpins)
+		else if (simParams.saveMeantimeQuantities && !simParams.saveSpins)
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
@@ -219,7 +221,7 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams->savingMeantimeQuantitiesMcsInterval == 0)
+				if (mcs % simParams.savingMeantimeQuantitiesMcsInterval == 0)
 				{
 					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
@@ -228,13 +230,13 @@ namespace PhaseTransition
 		}
 	}
 
-	void IsingModel::fullSimulation(IsingSimulationParameters* simParams)
+	void IsingModel::fullSimulation(IsingSimulationParameters& simParams)
 	{
 		initialize(simParams);
 		fullSimulationAfterInitialization();
 	}
 
-	void IsingModel::fullSimulation(IsingSimulationParameters* simParams, int** initialSpinsConfiguration)
+	void IsingModel::fullSimulation(IsingSimulationParameters& simParams, int** initialSpinsConfiguration)
 	{
 		initialize(simParams, initialSpinsConfiguration);
 		fullSimulationAfterInitialization();

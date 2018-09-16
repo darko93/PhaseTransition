@@ -18,8 +18,8 @@ namespace PhaseTransition
 #pragma endregion
 
 	public:
-		int randomNr(int max);
-		double randomNrBetween0And1();
-		double randomNr(double min, double max);
+		int randomNr(int max) const;
+		double randomNrBetween0And1() const;
+		double randomNr(double min, double max) const;
 	};
 }

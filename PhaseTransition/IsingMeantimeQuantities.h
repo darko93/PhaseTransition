@@ -10,8 +10,8 @@ namespace PhaseTransition
 		IsingMeantimeQuantities(double H, int M);
 		~IsingMeantimeQuantities();
 		static IsingMeantimeQuantities zeroes();
-		double getH();
-		int getM();
+		double getH() const;
+		int getM() const;
 	};
 }
 
