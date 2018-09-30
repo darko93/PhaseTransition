@@ -1,4 +1,4 @@
-- Zrobić performAllSimulations(isingInputData). Narazie wypisywać do konsoli bezpośrednio w SimulationsManager, potem dodać INotifiera, który wywoła np. notify(simParams) w chwili rozpoczęcia symulacji (albo eventy - raczej gorsze).
+- sprawdzić, jak poprawnie się nadpisuje virtualne destruktory
 - niektóre klasy uczynić niewidoczne poza biblioteka
 
 - do poniższego zrobić może wrappera (IftreamWrapper, FstreamWrapper), kery do konstruktora przyjmie nazwa pliku i bydzie mioł przyciski: 
