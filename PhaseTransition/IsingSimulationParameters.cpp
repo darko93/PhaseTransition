@@ -48,7 +48,7 @@ namespace PhaseTransition
 
 	int IsingSimulationParameters::getLastSavedSpinsConfigurationMcs() const
 	{
-		int lastMcs = (this->mcsAmount / this->savingMeantimeQuantitiesMcsInterval) * this->savingMeantimeQuantitiesMcsInterval;
+		int lastMcs = (this->mcsAmount / this->SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL) * this->SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL;
 		return lastMcs;
 	}
 

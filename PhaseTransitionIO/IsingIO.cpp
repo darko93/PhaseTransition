@@ -1,4 +1,3 @@
-#include <sstream>
 #include <fstream>
 
 #include "IsingIO.h"
@@ -7,6 +6,7 @@
 namespace PhaseTransitionIO
 {
 	IsingIO::IsingIO()
+		: spinsCount(0), meantimeQuantitiesCount(0)
 	{
 	}
 
@@ -16,17 +16,22 @@ namespace PhaseTransitionIO
 
 	std::string IsingIO::getFilePath(const std::string& filePathPattern, const pht::IsingSimulationParameters& simParams) const
 	{
+		int precision = IsingIO::PRECISION_IN_FILE_NAME;
+		std::string T = toFixedString(simParams.getT(), precision);
+		std::string h = toFixedString(simParams.geth(), precision);
+
 		std::string filePath;
 		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams.getLatticeSize()) 
-			+ "_T=" + std::to_string(simParams.getT()) + "_h=" + std::to_string(simParams.geth());
+			+ "_T=" + T + "_h=" + h;
 
+		std::string extension = ".txt";
 		if (simParams.getRepeat() == 1)
 		{
-			filePath += ".txt";
+			filePath += extension;
 		}
 		else
 		{
-			filePath += "_Repeat=" + std::to_string(simParams.getRepeat()) + ".txt";
+			filePath += "_Repeat=" + std::to_string(simParams.getRepeat()) + extension;
 		}
 		return filePath;
 	}
@@ -85,10 +90,11 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(const pht::IsingModel& isingModel, int mcs) const
+	void IsingIO::saveSpins(const pht::IsingModel& isingModel, int mcs)
 	{
 		pht::IsingSimulationParameters& simParams = isingModel.getSimParams();
-		std::stringstream spinsString;
+		std::stringstream spinsStream;
+		spinsStream << "MCS=" << mcs << std::endl;
 		int latticeSize = simParams.getLatticeSize();
 		for (int i = 0; i < latticeSize; i++)
 		{
@@ -99,17 +105,40 @@ namespace PhaseTransitionIO
 				{
 					ijSpin = 0;
 				}
-				spinsString << ijSpin;
+				spinsStream << ijSpin;
 			}
-			spinsString << std::endl;
+			spinsStream << std::endl;
 		}
-		spinsString << std::endl;
+		spinsStream << std::endl;
+		this->spinsStream << spinsStream.str();
+
+		if (this->spinsCount < IsingIO::SPINS_BUFFER_SIZE)
+		{
+			this->spinsCount++;
+		}
+		else
+		{
+			flushSpinsWnenExist(simParams);
+		}
+	}
+
+	void IsingIO::flushSpinsWnenExist(const pht::IsingSimulationParameters& simParams)
+	{
 		std::string spinsFilePath = getFilePath(this->spinsFilePathPattern, simParams);
 		std::fstream fstream;
 		fstream.open(spinsFilePath, std::ios::out | std::ios::app);
-		fstream << "MCS=" << mcs << std::endl;
-		fstream << spinsString.str();
+		fstream << this->spinsStream.str();
 		fstream.close();
+		this->spinsStream.str(std::string());
+		this->spinsCount = 0;
+	}
+
+	void IsingIO::flushSpins(const pht::IsingSimulationParameters& simParams)
+	{
+		if (this->spinsCount > 0)
+		{
+			flushSpinsWnenExist(simParams);
+		}
 	}
 
 	void IsingIO::createMeantimeQuantitiesFile(const std::string& meantimeQuantitiesFilePathPattern,
@@ -128,16 +157,42 @@ namespace PhaseTransitionIO
 		fstream.close();
 	}
 
-	void IsingIO::saveMeantimeQuantities(const pht::IsingMeantimeQuantities& meantimeQuantities, const pht::IsingSimulationParameters& simParams, int mcs) const
+	void IsingIO::saveMeantimeQuantities(const pht::IsingMeantimeQuantities& meantimeQuantities, const pht::IsingSimulationParameters& simParams, int mcs)
 	{
-		std::fstream fstream;
-		std::string filePath = getFilePath(this->meantimeQuantitiesFilePathPattern, simParams);
-		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << std::fixed << std::setprecision(IsingIO::PRECISION);
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width) << meantimeQuantities.getH()
-			<< std::setw(width) << meantimeQuantities.getM() << std::endl;
+		std::stringstream meantimeQuantitiesStream;
+		meantimeQuantitiesStream << std::fixed << std::setprecision(IsingIO::PRECISION_INSIDE_FILE);
+		meantimeQuantitiesStream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width)
+			<< meantimeQuantities.getH() << std::setw(width) << meantimeQuantities.getM() << std::endl;
+		this->meantimeQuantitiesStream << meantimeQuantitiesStream.str();
+
+		if (this->meantimeQuantitiesCount < IsingIO::MEANTIME_QUANTITIES_BUFFER_SIZE)
+		{
+			this->meantimeQuantitiesCount++;
+		}
+		else
+		{
+			flushMeantimeQuantitiesWhenExist(simParams);
+		}
+	}
+
+	void IsingIO::flushMeantimeQuantitiesWhenExist(const pht::IsingSimulationParameters& simParams)
+	{
+		std::string filePath = getFilePath(this->meantimeQuantitiesFilePathPattern, simParams);
+		std::fstream fstream;
+		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
+		fstream << this->meantimeQuantitiesStream.str();
 		fstream.close();
+		this->meantimeQuantitiesStream.str(std::string());
+		this->meantimeQuantitiesCount = 0;
+	}
+
+	void IsingIO::flushMeantimeQuantities(const pht::IsingSimulationParameters& simParams)
+	{
+		if (this->meantimeQuantitiesCount > 0)
+		{
+			flushMeantimeQuantitiesWhenExist(simParams);
+		}
 	}
 
 	int** IsingIO::readLastSpinsConfiguration(const std::string& spinsFilePathPattern, const pht::IsingSimulationParameters& simParams) const

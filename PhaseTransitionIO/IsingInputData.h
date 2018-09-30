@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <vector>
-
 #include "IIsingInputData.h"
 #include "IsingSimulationParameters.h"
 

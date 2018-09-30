@@ -46,6 +46,9 @@ int main()
 		{
 			isingModel.fullSimulation(*isingSimParams);
 		}
+		
+		isingIO.flushSpins(*isingSimParams);
+		isingIO.flushMeantimeQuantities(*isingSimParams);
 		delete previousSimParams;
 		previousSimParams = new pht::IsingSimulationParameters(*isingSimParams);
 	} while (isingInputData->toNextSimulationParameters(*isingSimParams));

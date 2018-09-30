@@ -9,6 +9,7 @@ namespace PhaseTransition
 		friend class IsingModel;
 		friend class IIsingInputData;
 	private:
+		const int SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL = 1; // TODO (?): make it dependent on T and size
 		const double kB = 1; // Boltzman constant
 		double J; // coupling strength, +1 - ferromagnetic, -1 - antiferromagnetic
 		double T;
@@ -21,7 +22,6 @@ namespace PhaseTransition
 		int repeat; // Which time the simulation is run with such parameters
 		bool saveSpins;
 		bool saveMeantimeQuantities;
-		int savingMeantimeQuantitiesMcsInterval = 1; // TODO: make it dependent on T and size (?)
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);

@@ -1,4 +1,5 @@
 #include <string.h>
+#include <sstream>
 #include "IO.h"
 
 namespace PhaseTransitionIO
@@ -80,12 +81,20 @@ namespace PhaseTransitionIO
 		return s == "1" || 0 == strcmpi(s.c_str(), "true");
 	}
 
+	std::string IO::toFixedString(double d, int precision) const
+	{
+		std::stringstream sstream;
+		sstream << std::fixed << std::setprecision(precision) << d;
+		std::string result = sstream.str();
+		return result;
+	}
+
 	template<typename T>
 	void IO::split(const std::string& s, char delimiter, T result) const
 	{
-		std::stringstream sStream(s);
+		std::stringstream sstream(s);
 		std::string item;
-		while (std::getline(sStream, item, delimiter))
+		while (std::getline(sstream, item, delimiter))
 		{
 			*(result++) = item;
 		}

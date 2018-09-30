@@ -1,20 +1,5 @@
-1. C++: Czy jak klasa ma referencję do złożonego obiektu, to w chwili tworzenia tej klasy jest też rezerwowane miejsce (na stosie lub stercie, zależy gdzie żyje klasa) dla obiektu, do którego klasa ma referencję? Raczej tak, bo referencja nie może być nullem. To podobnie jak z typami wartościowymi w C# (podstruktura struktury - stos, podstruktura klasy - sterta).
-
-- Bufforowanie przy zapisie do pliku
-- W IsingIO rzucać wujątkiem, jeśli przed metodami save() nie wywołano createFile() (ifFileExists())
-- Zastanowić się, czy wszędzie nie przesyłać wskaźników, zamiast referencji - raczej wszędzie referencje, bo jest pewność, że nie są NULLem. simParams i quantities w IsingModelu też powinny być referencjami. Skoro simParams jest dostarczany z zewnątrz do IsingModelu, to nie może być w nim niszczony, musi zostać zniszczony na zewnątrz, jak już IsingModel skończy z nim pracę. Skoro simParams musi żyć tak długo, jak IsingModel z niego korzysta, a niszczenie i tak jest na zewnątrz, to simParams może być referencją. A wskaźnik można zdereferencjować i przesłać do funkcji oczekującej referencji.
 - Zrobić performAllSimulations(isingInputData). Narazie wypisywać do konsoli bezpośrednio w SimulationsManager, potem dodać INotifiera, który wywoła np. notify(simParams) w chwili rozpoczęcia symulacji (albo eventy - raczej gorsze).
-- przemyśleć, czy do saveSpins() nie przesyłać interfejsu, zamiast całego modelu
 - niektóre klasy uczynić niewidoczne poza biblioteka
-- savingMeantimeQuantitesMcsInterval zrobić zależnym od T i rozmiaru sieci (?) - narazie na sztywno = 1 MCS
-
-Tworzenie instancji z wieloma paramsami przez fluent API + interfejsy + build() dla zachowanie kolejności i zapewnienia, że wszystkie parametry podamy: 
-https://stackoverflow.com/questions/6613429/how-to-ensure-that-builder-pattern-is-completed
-https://stackoverflow.com/questions/40264/how-many-constructor-arguments-is-too-many
-
-- sprawdzić, czy wektor żyje na stosie, czy stercie (jeśli na stosie, to musi być vectorem wskaźników)
-- sprawdzić, czy vector i string jest przesyłany by reference
-- sprawdzić, czy interfejsy nie mogą mieć forward deklaracji zamiast includa
 
 - do poniższego zrobić może wrappera (IftreamWrapper, FstreamWrapper), kery do konstruktora przyjmie nazwa pliku i bydzie mioł przyciski: 
 * openIfstream()/openFstream()

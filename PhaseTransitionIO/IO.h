@@ -27,6 +27,7 @@ namespace PhaseTransitionIO
 		int toInt(const std::string& s) const;
 		double toDouble(const std::string& s) const;
 		bool toBool(const std::string& s) const;
+		std::string toFixedString(double d, int precision) const;
 		std::vector<std::string> split(const std::string& s, char delimiter) const;
 		//static std::ifstream* openIfstream(std::string filePath);
 		//static std::fstream* openFstream(std::string filePath);
