@@ -19,8 +19,8 @@ namespace PhaseTransitionIO
 		static const int COLUMN_WIDTH = 25;
 		static const int PRECISION_INSIDE_FILE = 4;
 		static const int PRECISION_IN_FILE_NAME = 2;
-		static const int SPINS_BUFFER_SIZE = 80;
-		static const int MEANTIME_QUANTITIES_BUFFER_SIZE = 80;
+		static const int SPINS_BUFFER_SIZE = 100;
+		static const int MEANTIME_QUANTITIES_BUFFER_SIZE = 100;
 		std::string spinsFilePathPattern; // Will be set in create file method and used in save method.
 		std::string meantimeQuantitiesFilePathPattern; // Will be set in create file method and used in save method.
 		std::stringstream spinsStream;
