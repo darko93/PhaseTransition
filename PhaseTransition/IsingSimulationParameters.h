@@ -1,7 +1,5 @@
 #pragma once
 
-#include "IsingModelType.h"
-
 namespace PhaseTransition
 {
 	class IsingSimulationParameters

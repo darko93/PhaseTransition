@@ -27,9 +27,6 @@
     <ClInclude Include="IsingModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsingModelType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="IsingSimulationParameters.h">
       <Filter>Header Files</Filter>
     </ClInclude>

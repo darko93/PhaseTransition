@@ -23,7 +23,6 @@
     <ClInclude Include="IIsingIO.h" />
     <ClInclude Include="IsingMeantimeQuantities.h" />
     <ClInclude Include="IsingModel.h" />
-    <ClInclude Include="IsingModelType.h" />
     <ClInclude Include="IsingSimulationParameters.h" />
     <ClInclude Include="Randomizer.h" />
   </ItemGroup>

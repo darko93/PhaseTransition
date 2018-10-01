@@ -1,5 +1,4 @@
 #include "IsingInputData.h"
-#include "IsingModelType.h"
 
 namespace PhaseTransitionIO
 {
