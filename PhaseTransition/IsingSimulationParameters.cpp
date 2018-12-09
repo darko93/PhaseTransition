@@ -72,5 +72,6 @@ namespace PhaseTransition
 		this->latticeSize = latticeSize;
 		this->latticeSizeLessOne = latticeSize - 1;
 		this->latticeSitesAmount = latticeSize * latticeSize;
+		this->latticeSizeFactor = 1.0 / this->latticeSitesAmount;
 	}
 }

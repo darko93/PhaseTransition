@@ -148,11 +148,11 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams);
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams.getT() << std::endl << "kB=" << simParams.getkB() << std::endl << "J="
-			<< simParams.getJ() << std::endl << "h=" << simParams.geth() << std::endl << "latticeSize="
+		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl << "#J="
+			<< simParams.getJ() << std::endl << "#h=" << simParams.geth() << std::endl << "#latticeSize="
 			<< simParams.getLatticeSize() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "MCS" << std::setw(width) << "H"
+		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "#MCS" << std::setw(width) << "E"
 			<< std::setw(width) << "M" << std::endl << std::endl;
 		fstream.close();
 	}
@@ -163,7 +163,7 @@ namespace PhaseTransitionIO
 		std::stringstream meantimeQuantitiesStream;
 		meantimeQuantitiesStream << std::fixed << std::setprecision(IsingIO::PRECISION_INSIDE_FILE);
 		meantimeQuantitiesStream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width)
-			<< meantimeQuantities.getH() << std::setw(width) << meantimeQuantities.getM() << std::endl;
+			<< meantimeQuantities.getE() << std::setw(width) << meantimeQuantities.getM() << std::endl;
 		this->meantimeQuantitiesStream << meantimeQuantitiesStream.str();
 
 		if (this->meantimeQuantitiesCount < IsingIO::MEANTIME_QUANTITIES_BUFFER_SIZE)

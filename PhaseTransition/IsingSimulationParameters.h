@@ -16,6 +16,7 @@ namespace PhaseTransition
 		int latticeSize;
 		int latticeSizeLessOne;
 		int latticeSitesAmount; // = amount of loop single steps in one MCS
+		double latticeSizeFactor; // 1 / latticeSizeAmount
 		int mcsAmount; // MCS-es amount
 		int repeat; // Which time the simulation is run with such parameters
 		bool saveSpins;

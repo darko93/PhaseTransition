@@ -66,15 +66,15 @@ namespace PhaseTransition
 		this->spins = spins;
 	}	
 
-	int IsingModel::neighboursSpinsSum(int i, int j, int ijSpin) const
+	int IsingModel::neighboursSpinsSum(int i, int j) const
 	{
 		int up = i - 1;
 		int down = i + 1;
 		int left = j - 1;
 		int right = j + 1;
 
-		//Apply periodic boundary conditions
 		IsingSimulationParameters& simParams = *this->simParams;
+		//Apply periodic boundary conditions
 		if (up < 0) up = simParams.latticeSizeLessOne;
 		if (down >= simParams.latticeSize) down = 0;
 		if (left < 0) left = simParams.latticeSizeLessOne;
@@ -88,7 +88,7 @@ namespace PhaseTransition
 	double IsingModel::spinEnergy(int i, int j, int ijSpin) const
 	{
 		IsingSimulationParameters& simParams = *this->simParams;
-		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j, ijSpin);
+		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j);
 		double energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
 		return energy;
 	}
@@ -98,7 +98,7 @@ namespace PhaseTransition
 		return -2 * spinEnergy(i, j, ijSpin);
 	}
 
-	double IsingModel::hamiltonian() const
+	double IsingModel::energy() const
 	{
 		double H = 0;
 		int ijSpin;
@@ -116,26 +116,33 @@ namespace PhaseTransition
 		return 0.5 * H; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
 	}
 
-	int IsingModel::magnetization() const
+	int IsingModel::totalMagnetization() const
 	{
-		int M = 0;
+		int totalM = 0;
 		int** spins = this->spins;
 		int latticeSize = this->simParams->latticeSize;
 		for (int i = 0; i < latticeSize; i++)
 		{
 			for (int j = 0; j < latticeSize; j++)
 			{
-				M += spins[i][j];
+				totalM += spins[i][j];
 			}
 		}
-		return M;
+		return totalM;
+	}
+
+	double IsingModel::magnetizationPerSite() const
+	{
+		int totalM = totalMagnetization();
+		double MPerSite = totalM * this->simParams->latticeSizeFactor;
+		return MPerSite;
 	}
 
 	IsingMeantimeQuantities& IsingModel::computeCurrentStepQuantities()
 	{
-		double H = hamiltonian();
-		int M = magnetization();
-		this->currentStepQuantities = IsingMeantimeQuantities(H, M);
+		double E = energy();
+		int M = magnetizationPerSite();
+		this->currentStepQuantities = IsingMeantimeQuantities(E, M);
 		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
 		// And to not create it every time this method is called.
 	}

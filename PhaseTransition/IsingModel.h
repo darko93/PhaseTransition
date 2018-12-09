@@ -13,11 +13,12 @@ namespace PhaseTransition
 		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
 		void initializeSpinsConfiguration();
-		int neighboursSpinsSum(int i, int j, int ijSpin) const;
+		int neighboursSpinsSum(int i, int j) const;
 		double spinEnergy(int i, int j, int ijSpin) const;
 		double spinEnergyChange(int i, int j, int ijSpin) const;
-		double hamiltonian() const;
-		int magnetization() const;
+		double energy() const;
+		int totalMagnetization() const;
+		double magnetizationPerSite() const;
 		IsingMeantimeQuantities& computeCurrentStepQuantities();
 		void fullSimulationAfterInitialization();
 	public:
