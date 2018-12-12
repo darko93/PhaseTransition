@@ -24,7 +24,7 @@ namespace PhaseTransitionIO
 		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams.getLatticeSize()) 
 			+ "_T=" + T + "_h=" + h;
 
-		std::string extension = ".txt";
+		std::string extension = ".dat";
 		if (simParams.getRepeat() == 1)
 		{
 			filePath += extension;
