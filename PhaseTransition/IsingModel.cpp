@@ -141,7 +141,7 @@ namespace PhaseTransition
 	IsingMeantimeQuantities& IsingModel::computeCurrentStepQuantities()
 	{
 		double E = energy();
-		int M = magnetizationPerSite();
+		double M = magnetizationPerSite();
 		this->currentStepQuantities = IsingMeantimeQuantities(E, M);
 		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
 		// And to not create it every time this method is called.

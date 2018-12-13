@@ -5,13 +5,13 @@ namespace PhaseTransition
 	class IsingMeantimeQuantities
 	{
 		double E;
-		int M;
+		double M;
 	public:
-		IsingMeantimeQuantities(double E, int M);
+		IsingMeantimeQuantities(double E, double M);
 		~IsingMeantimeQuantities();
 		static IsingMeantimeQuantities zeroes();
 		double getE() const;
-		int getM() const;
+		double getM() const;
 	};
 }
 

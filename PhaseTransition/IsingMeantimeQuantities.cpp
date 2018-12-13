@@ -2,7 +2,7 @@
 
 namespace PhaseTransition
 {
-	IsingMeantimeQuantities::IsingMeantimeQuantities(double E, int M)
+	IsingMeantimeQuantities::IsingMeantimeQuantities(double E, double M)
 		: E(E), M(M)
 	{
 	}
@@ -21,7 +21,7 @@ namespace PhaseTransition
 		return this->E;
 	}
 
-	int IsingMeantimeQuantities::getM() const
+	double IsingMeantimeQuantities::getM() const
 	{
 		return this->M;
 	}
