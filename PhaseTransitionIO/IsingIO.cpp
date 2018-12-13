@@ -152,7 +152,7 @@ namespace PhaseTransitionIO
 			<< simParams.getJ() << std::endl << "#h=" << simParams.geth() << std::endl << "#latticeSize="
 			<< simParams.getLatticeSize() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
-		fstream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << "#MCS" << std::setw(width) << "E"
+		fstream << "#" << std::setw(IsingIO::NARROW_COLUMN_WIDTH - 1) << "MCS" << std::setw(width) << "E" // Reducing narrow column width because of a '#' char
 			<< std::setw(width) << "M" << std::endl << std::endl;
 		fstream.close();
 	}
