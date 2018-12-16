@@ -15,13 +15,13 @@ namespace PhaseTransition
 		this->intDist = std::uniform_int_distribution<int>(0, max);
 	}
 
-	int Randomizer::randomIntNr() const
+	int Randomizer::randomIntNr()
 	{
 		int randomNr = this->intDist(this->mt);
 		return randomNr;
 	}
 
-	double Randomizer::randomNrBetween0And1() const
+	double Randomizer::randomNrBetween0And1()
 	{
 		double randomNr = this->realDist(this->mt);
 		return randomNr;

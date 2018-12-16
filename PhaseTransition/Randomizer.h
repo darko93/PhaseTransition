@@ -24,7 +24,7 @@ namespace PhaseTransition
 		std::uniform_real_distribution<double> realDist;
 	public:
 		void setMaxRandomIntNr(int max);
-		int randomIntNr() const;
-		double randomNrBetween0And1() const;
+		int randomIntNr();
+		double randomNrBetween0And1();
 	};
 }
