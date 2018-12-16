@@ -22,7 +22,7 @@ namespace PhaseTransition
 	void IsingModel::setSimParams(IsingSimulationParameters& simParams)
 	{
 		this->simParams = &simParams;
-		Randomizer::getInstance().setMaxRandomIntNr(simParams.latticeSizeLessOne);
+		Randomizer::getInstance().setMaxRandomIntNr(simParams.latticeSitesAmount - 1);
 	}
 
 	void IsingModel::initializeSpinsConfiguration()
