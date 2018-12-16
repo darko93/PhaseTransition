@@ -1,10 +1,14 @@
 #pragma once
 
+#include <random>
+
 namespace PhaseTransition
 {
 	class Randomizer
 	{
 #pragma region Singleton
+	private:
+		Randomizer();
 	public:
 		static Randomizer& getInstance()
 		{
@@ -13,13 +17,14 @@ namespace PhaseTransition
 		}
 		Randomizer(Randomizer const&) = delete;
 		void operator=(Randomizer const&) = delete;
-	private:
-		Randomizer() { }
 #pragma endregion
-
+	private:
+		std::mt19937_64 mt;
+		std::uniform_int_distribution<int> intDist;
+		std::uniform_real_distribution<double> realDist;
 	public:
-		int randomNr(int max) const;
+		void setMaxRandomIntNr(int max);
+		int randomIntNr() const;
 		double randomNrBetween0And1() const;
-		double randomNr(double min, double max) const;
 	};
 }

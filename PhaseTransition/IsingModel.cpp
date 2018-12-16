@@ -19,26 +19,10 @@ namespace PhaseTransition
 		delete[] this->spins;
 	}
 
-	IsingSimulationParameters& IsingModel::getSimParams() const
-	{
-		return *this->simParams;
-	}
-
-	int IsingModel::getSpin(int i, int j) const
-	{
-		return this->spins[i][j];
-	}
-
-	void IsingModel::initialize(IsingSimulationParameters& simParams)
+	void IsingModel::setSimParams(IsingSimulationParameters& simParams)
 	{
 		this->simParams = &simParams;
-		initializeSpinsConfiguration();
-	}
-
-	void IsingModel::initialize(IsingSimulationParameters& simParams, int** spins)
-	{
-		this->simParams = &simParams;
-		this->spins = spins;
+		Randomizer::getInstance().setMaxRandomIntNr(simParams.latticeSizeLessOne);
 	}
 
 	void IsingModel::initializeSpinsConfiguration()
@@ -64,7 +48,29 @@ namespace PhaseTransition
 		}
 
 		this->spins = spins;
-	}	
+	}
+
+	IsingSimulationParameters& IsingModel::getSimParams() const
+	{
+		return *this->simParams;
+	}
+
+	int IsingModel::getSpin(int i, int j) const
+	{
+		return this->spins[i][j];
+	}
+
+	void IsingModel::initialize(IsingSimulationParameters& simParams)
+	{
+		setSimParams(simParams);
+		initializeSpinsConfiguration();
+	}
+
+	void IsingModel::initialize(IsingSimulationParameters& simParams, int** spins)
+	{
+		setSimParams(simParams);
+		this->spins = spins;
+	}
 
 	int IsingModel::neighboursSpinsSum(int i, int j) const
 	{
@@ -100,7 +106,7 @@ namespace PhaseTransition
 
 	double IsingModel::energy() const
 	{
-		double H = 0;
+		double E = 0;
 		int ijSpin;
 		double ijAtomEnergy;
 		int latticeSize = this->simParams->latticeSize;
@@ -110,10 +116,10 @@ namespace PhaseTransition
 			{
 				ijSpin = spins[i][j];
 				ijAtomEnergy = spinEnergy(i, j, ijSpin);
-				H += ijAtomEnergy;
+				E += ijAtomEnergy;
 			}
 		}
-		return 0.5 * H; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
+		return 0.5 * E; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
 	}
 
 	int IsingModel::totalMagnetization() const
@@ -154,7 +160,7 @@ namespace PhaseTransition
 		bool applySpinChange = true;
 		double beta = simParams.beta;
 		// Choose random atom
-		int randomSpinNr = Randomizer::getInstance().randomNr(simParams.latticeSitesAmount);
+		int randomSpinNr = Randomizer::getInstance().randomIntNr();
 		int i = randomSpinNr % simParams.latticeSize;
 		int j = randomSpinNr / simParams.latticeSize;
 		int ijSpin = spins[i][j];

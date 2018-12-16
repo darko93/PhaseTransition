@@ -12,6 +12,7 @@ namespace PhaseTransition
 		IsingSimulationParameters* simParams;
 		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
+		void setSimParams(IsingSimulationParameters& simParams);
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j) const;
 		double spinEnergy(int i, int j, int ijSpin) const;
