@@ -60,6 +60,39 @@ def ReadThreeColumns(resultsFilePath):
 
     return Xs, Ys, Zs
 
+def ReadEs(quantitiesFilePath):
+    quantitiesLines = ReadFileLines(quantitiesFilePath)
+
+    Es = []
+
+    i = 0
+    for resultsLine in quantitiesLines:
+        if i > 8:
+            resultsArray = resultsLine.split()
+            EString = resultsArray[1]
+            E = float(EString)
+            Es.append(E)
+        i = 1 + i
+
+    return Es
+
+def ReadMs(quantitiesFilePath):
+    quantitiesLines = ReadFileLines(quantitiesFilePath)
+
+    Es = []
+    Ms = []
+
+    i = 0
+    for resultsLine in quantitiesLines:
+        if i > 8:
+            resultsArray = resultsLine.split()
+            MString = resultsArray[2]
+            M = float(MString)
+            Ms.append(M)
+        i = 1 + i
+
+    return Ms
+
 def ReadEsAndMs(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
 
@@ -102,6 +135,44 @@ def ReadEsAndMsWithHeader(resultsFilePath):
         i = 1 + i
 
     return headerLines, Es, Ms
+
+def ReadEsWithHeader(quantitiesFilePath):
+    resultsLines = ReadFileLines(quantitiesFilePath)
+
+    headerLines = []
+    Es = []
+
+    i = 0
+    for resultsLine in resultsLines:
+        if i < 5:
+            headerLines.append(resultsLine)
+        if i > 8:
+            resultsArray = resultsLine.split()
+            EString = resultsArray[1]
+            E = float(EString)
+            Es.append(E)
+        i = 1 + i
+
+    return headerLines, Es
+
+def ReadMsWithHeader(quantitiesFilePath):
+    resultsLines = ReadFileLines(quantitiesFilePath)
+
+    headerLines = []
+    Ms = []
+
+    i = 0
+    for resultsLine in resultsLines:
+        if i < 5:
+            headerLines.append(resultsLine)
+        if i > 8:
+            resultsArray = resultsLine.split()
+            MString = resultsArray[2]
+            M = float(MString)
+            Ms.append(M)
+        i = 1 + i
+
+    return headerLines, Ms
 
 def ReadtsAndEsAndMs(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
