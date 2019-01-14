@@ -4,65 +4,12 @@ def ReadFileLines(filePath):
         fileLines = file.readlines()
     return fileLines
 
-def Read2ndAnd3rdColumns(resultsFilePath):
-    resultsLines = ReadFileLines(resultsFilePath)
-
-    Ys = []
-    Zs = []
-
-    YString = ""
-    ZString = ""
-    Y = 0.0
-    Z = 0.0
-
-    i = 0
-    for resultsLine in resultsLines:
-        if i > 8:
-            resultsArray = resultsLine.split()
-            YString = resultsArray[1]
-            Y = float(YString)
-            ZString = resultsArray[2]
-            Z = float(ZString)
-            Ys.append(Y)
-            Zs.append(Z)
-        i = 1 + i
-
-    return Ys, Zs
-
-def ReadThreeColumns(resultsFilePath):
-    resultsLines = ReadFileLines(resultsFilePath)
-
-    Xs = []
-    Ys = []
-    Zs = []
-
-    XString = ""
-    YString = ""
-    ZString = ""
-    X = 0.0
-    Y = 0.0
-    Z = 0.0
-
-    i = 0
-    for resultsLine in resultsLines:
-        if i > 8:
-            resultsArray = resultsLine.split()
-            XString = resultsArray[0]
-            X = int(XString)
-            YString = resultsArray[1]
-            Y = float(YString)
-            ZString = resultsArray[2]
-            Z = float(ZString)
-            Xs.append(X)
-            Ys.append(Y)
-            Zs.append(Z)
-        i = 1 + i
-
-    return Xs, Ys, Zs
-
 def ReadEs(quantitiesFilePath):
     quantitiesLines = ReadFileLines(quantitiesFilePath)
 
+    resultsArray = []
+    EString = ""
+    E = 0.0
     Es = []
 
     i = 0
@@ -79,7 +26,9 @@ def ReadEs(quantitiesFilePath):
 def ReadMs(quantitiesFilePath):
     quantitiesLines = ReadFileLines(quantitiesFilePath)
 
-    Es = []
+    resultsArray = []
+    MString = ""
+    M = 0.0
     Ms = []
 
     i = 0
@@ -96,7 +45,12 @@ def ReadMs(quantitiesFilePath):
 def ReadEsAndMs(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
 
+    resultsArray = []
+    EString = ""
+    E = 0.0
     Es = []
+    MString = ""
+    M = 0.0
     Ms = []
 
     i = 0
@@ -117,7 +71,12 @@ def ReadEsAndMsWithHeader(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
 
     headerLines = []
+    resultsArray = []
+    EString = ""
+    E = 0.0
     Es = []
+    MString = ""
+    M = 0.0
     Ms = []
 
     i = 0
@@ -140,6 +99,9 @@ def ReadEsWithHeader(quantitiesFilePath):
     resultsLines = ReadFileLines(quantitiesFilePath)
 
     headerLines = []
+    resultsArray = []
+    EString = ""
+    E = 0.0
     Es = []
 
     i = 0
@@ -159,6 +121,9 @@ def ReadMsWithHeader(quantitiesFilePath):
     resultsLines = ReadFileLines(quantitiesFilePath)
 
     headerLines = []
+    resultsArray = []
+    MString = ""
+    M = 0.0
     Ms = []
 
     i = 0
@@ -177,8 +142,15 @@ def ReadMsWithHeader(quantitiesFilePath):
 def ReadtsAndEsAndMs(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
 
+    resultsArray = []
+    tString = ""
+    t = 0
     ts = []
+    EString = ""
+    E = 0.0
     Es = []
+    MString = ""
+    M = 0.0
     Ms = []
 
     i = 0

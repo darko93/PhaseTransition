@@ -2,7 +2,7 @@ import os
 import Path as path
 import Input as input
 import Output as output
-import Quantities as quant
+import TQuantities as quant
 
 
 def GetQuantitiesFilePath(L, T, h):

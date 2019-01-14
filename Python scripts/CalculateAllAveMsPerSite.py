@@ -2,7 +2,8 @@ import os
 import Path as path
 import Input as input
 import Output as output
-import Quantities as quant
+import TQuantities as quant
+
 
 def GetQuantitiesFilePath(L, T, h):
     quantitiesFileName = "Quantities_L=" + str(L) + "_T=" + "{0:.3f}".format(T) + "_h=" + "{0:.3f}".format(h) + path.dataFileExtension
