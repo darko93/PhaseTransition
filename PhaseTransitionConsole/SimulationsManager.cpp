@@ -40,7 +40,7 @@ void SimulationsManager::performAllSimulations() const
 			isingIO.createMeantimeQuantitiesFile(inputData->getMeantimeQuantitiesFilePathPattern(), *simParams);
 		}
 		bool useLastSpinsConfiguration = inputData->getSaveSpins()
-			&& inputData->getContinueWithLastSpinsConfiguration() && previousSimParams != nullptr
+			&& inputData->getReuseSpins() && previousSimParams != nullptr
 			&& previousSimParams->getLatticeSize() == simParams->getLatticeSize();
 		if (useLastSpinsConfiguration)
 		{
