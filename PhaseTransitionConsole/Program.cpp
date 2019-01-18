@@ -4,7 +4,7 @@
 
 int main()
 {	
-	//std::cout << system("cd");
+	std::cout << system("cd");
 	Notifier notifier;
 	SimulationsManager simulationsManager(notifier);
 	simulationsManager.performAllSimulations();

@@ -39,18 +39,7 @@ void SimulationsManager::performAllSimulations() const
 		{
 			isingIO.createMeantimeQuantitiesFile(inputData->getMeantimeQuantitiesFilePathPattern(), *simParams);
 		}
-		bool useLastSpinsConfiguration = inputData->getSaveSpins()
-			&& inputData->getReuseSpins() && previousSimParams != nullptr
-			&& previousSimParams->getLatticeSize() == simParams->getLatticeSize();
-		if (useLastSpinsConfiguration)
-		{
-			int** spins = isingIO.readLastSpinsConfiguration(inputData->getSpinsFilePathPattern(), *previousSimParams);
-			isingModel.fullSimulation(*simParams, spins);
-		}
-		else
-		{
-			isingModel.fullSimulation(*simParams);
-		}
+		isingModel.fullSimulation(*simParams);
 
 		isingIO.flushSpins(*simParams);
 		isingIO.flushMeantimeQuantities(*simParams);

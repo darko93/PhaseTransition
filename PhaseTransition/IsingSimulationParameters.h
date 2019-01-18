@@ -21,13 +21,14 @@ namespace PhaseTransition
 		int repeat; // Which time the simulation is run with such parameters
 		bool saveSpins;
 		bool saveMeantimeQuantities;
+		bool reuseSpins;
 		void setT(double T);
 		void setJ(int J);
 		void setLatticeSize(int latticeSize);
 		IsingSimulationParameters();
 	public:
 		IsingSimulationParameters(int J, int latticeSize, double T, double h, int mcsAmount, int repeat = 1,
-			bool saveSpins = false,	bool saveMeantimeQuantities = false);
+			bool saveSpins = false,	bool saveMeantimeQuantities = false, bool reuseSpins = false);
 		~IsingSimulationParameters();
 		double getT() const;
 		double getJ() const;
