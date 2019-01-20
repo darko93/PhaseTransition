@@ -62,7 +62,7 @@ namespace PhaseTransition
 
 	void IsingModel::initialize(IsingSimulationParameters& simParams)
 	{
-		bool reuseSpins = simParams.reuseSpins && this->simParams != NULL && this->simParams->latticeSize == simParams.latticeSize && this->spins != NULL;
+		bool reuseSpins = simParams.reuseSpins && this->simParams != NULL && this->simParams->L == simParams.L && this->spins != NULL;
 		setSimParams(simParams);
 		if (!reuseSpins)
 			initializeSpinsConfiguration();
@@ -110,7 +110,7 @@ namespace PhaseTransition
 	{
 		int E = 0;
 		int ijSpin;
-		double ijAtomEnergy;
+		int ijAtomEnergy;
 		int L = this->simParams->L;
 		for (int i = 0; i < L; i++)
 		{
@@ -121,7 +121,7 @@ namespace PhaseTransition
 				E += ijAtomEnergy;
 			}
 		}
-		E = std::round(0.5 * E); // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
+		E = (int)std::round(0.5 * E); // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
 		return E;
 	}
 

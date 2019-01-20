@@ -1,3 +1,4 @@
+- ijSpinEnergy typu int, gdy h == 0, a typu double, gdy h != 0
 - sprawdzić, jak poprawnie się nadpisuje virtualne destruktory
 - Randomizer i IO uczynić niewidoczne poza biblioteka
 

@@ -4,7 +4,7 @@ namespace PhaseTransition
 {
 	class IsingMeantimeQuantities
 	{
-		double E;
+		int E;
 		int M;
 	public:
 		IsingMeantimeQuantities(int E, int M);
