@@ -41,15 +41,14 @@ namespace PhaseTransition
 		return this->L;
 	}
 
+	int IsingSimulationParameters::getMcsAmount() const
+	{
+		return this->mcsAmount;
+	}
+
 	int IsingSimulationParameters::getRepeat() const
 	{
 		return this->repeat;
-	}
-
-	int IsingSimulationParameters::getLastSavedSpinsConfigurationMcs() const
-	{
-		int lastMcs = (this->mcsAmount / this->SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL) * this->SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL;
-		return lastMcs;
 	}
 
 	void IsingSimulationParameters::setT(double T)

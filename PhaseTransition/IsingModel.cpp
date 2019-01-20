@@ -5,13 +5,13 @@
 namespace PhaseTransition
 {
 	IsingModel::IsingModel(IIsingIO& isingIO)
-		: isingIO(isingIO), currentStepQuantities(IsingMeantimeQuantities::zeroes())
+		: simParams(0, 0, 0, 0, 0), isingIO(isingIO), currentStepQuantities(IsingMeantimeQuantities::zeroes())
 	{
 	}
 
 	IsingModel::~IsingModel()
 	{
-		int size = this->simParams->L;
+		int size = this->simParams.L;
 		for (int i = 0; i < size; i++)
 		{
 			delete[] this->spins[i];
@@ -21,13 +21,13 @@ namespace PhaseTransition
 
 	void IsingModel::setSimParams(IsingSimulationParameters& simParams)
 	{
-		this->simParams = &simParams;
+		this->simParams = simParams;
 		Randomizer::getInstance().setMaxRandomIntNr(simParams.latticeSitesAmount - 1);
 	}
 
 	void IsingModel::initializeSpinsConfiguration()
 	{
-		int L = this->simParams->L;
+		int L = this->simParams.L;
 		int** spins = new int*[L];
 		for (int i = 0; i < L; i++)
 		{
@@ -50,9 +50,9 @@ namespace PhaseTransition
 		this->spins = spins;
 	}
 
-	IsingSimulationParameters& IsingModel::getSimParams() const
+	IsingSimulationParameters IsingModel::getSimParams() const
 	{
-		return *this->simParams;
+		return this->simParams;
 	}
 
 	int IsingModel::getSpin(int i, int j) const
@@ -62,7 +62,7 @@ namespace PhaseTransition
 
 	void IsingModel::initialize(IsingSimulationParameters& simParams)
 	{
-		bool reuseSpins = simParams.reuseSpins && this->simParams != NULL && this->simParams->L == simParams.L && this->spins != NULL;
+		bool reuseSpins = simParams.reuseSpins && this->simParams.L == simParams.L && this->spins != NULL;
 		setSimParams(simParams);
 		if (!reuseSpins)
 			initializeSpinsConfiguration();
@@ -81,7 +81,7 @@ namespace PhaseTransition
 		int left = j - 1;
 		int right = j + 1;
 
-		IsingSimulationParameters& simParams = *this->simParams;
+		const IsingSimulationParameters& simParams = this->simParams;
 		//Apply periodic boundary conditions
 		if (up < 0) up = simParams.LLessOne;
 		if (down >= simParams.L) down = 0;
@@ -95,7 +95,7 @@ namespace PhaseTransition
 
 	int IsingModel::spinEnergy(int i, int j, int ijSpin) const
 	{
-		IsingSimulationParameters& simParams = *this->simParams;
+		const IsingSimulationParameters& simParams = this->simParams;
 		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j);
 		int energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
 		return energy;
@@ -111,7 +111,7 @@ namespace PhaseTransition
 		int E = 0;
 		int ijSpin;
 		int ijAtomEnergy;
-		int L = this->simParams->L;
+		int L = this->simParams.L;
 		for (int i = 0; i < L; i++)
 		{
 			for (int j = 0; j < L; j++)
@@ -129,7 +129,7 @@ namespace PhaseTransition
 	{
 		int totalM = 0;
 		int** spins = this->spins;
-		int L = this->simParams->L;
+		int L = this->simParams.L;
 		for (int i = 0; i < L; i++)
 		{
 			for (int j = 0; j < L; j++)
@@ -143,7 +143,7 @@ namespace PhaseTransition
 	double IsingModel::magnetizationPerSite() const
 	{
 		int totalM = totalMagnetization();
-		double MPerSite = totalM * this->simParams->LFactor;
+		double MPerSite = totalM * this->simParams.LFactor;
 		return MPerSite;
 	}
 
@@ -158,7 +158,7 @@ namespace PhaseTransition
 
 	void IsingModel::simulationStep()
 	{
-		IsingSimulationParameters& simParams = *this->simParams;
+		IsingSimulationParameters& simParams = this->simParams;
 		int** spins = this->spins;
 		bool applySpinChange = true;
 		double beta = simParams.beta;
@@ -186,7 +186,7 @@ namespace PhaseTransition
 	void IsingModel::fullSimulationAfterInitialization()
 	{
 		IIsingIO& isingIO = this->isingIO;
-		IsingSimulationParameters& simParams = *this->simParams;
+		IsingSimulationParameters& simParams = this->simParams;
 		int mcsAmount = simParams.mcsAmount;
 		int latticeSitesAmount = simParams.latticeSitesAmount;
 		if (!simParams.saveMeantimeQuantities && !simParams.saveSpins)
@@ -207,12 +207,9 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams.SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL == 0)
-				{
-					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
-					isingIO.saveSpins(*this, mcs);
-				}
+				IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+				isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
+				isingIO.saveSpins(*this, mcs);
 			}
 		}
 		else if (!simParams.saveMeantimeQuantities && simParams.saveSpins)
@@ -223,10 +220,7 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams.SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL == 0)
-				{
-					isingIO.saveSpins(*this, mcs);
-				}
+				isingIO.saveSpins(*this, mcs);
 			}
 		}
 		else if (simParams.saveMeantimeQuantities && !simParams.saveSpins)
@@ -237,11 +231,8 @@ namespace PhaseTransition
 				{
 					simulationStep();
 				}
-				if (mcs % simParams.SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL == 0)
-				{
-					IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
-					isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
-				}
+				IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
+				isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
 			}
 		}
 	}

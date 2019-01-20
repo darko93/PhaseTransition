@@ -7,8 +7,7 @@ namespace PhaseTransition
 		friend class IsingModel;
 		friend class IIsingInputData;
 	private:
-		const int SAVING_MEANTIME_QUANTITIES_MCS_INTERVAL = 1; // TODO (?): make it dependent on T and size
-		const double kB = 1; // Boltzman constant
+		double kB = 1; // Boltzman constant
 		int J; // coupling strength, +1 - ferromagnetic, -1 - antiferromagnetic
 		double T;
 		double beta; // 1/T
@@ -34,7 +33,7 @@ namespace PhaseTransition
 		double getkB() const;
 		double geth() const;
 		int getL() const;
+		int getMcsAmount() const;
 		int getRepeat() const;
-		int getLastSavedSpinsConfigurationMcs() const;
 	};
 }

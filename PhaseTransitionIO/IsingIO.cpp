@@ -198,7 +198,7 @@ namespace PhaseTransitionIO
 	{
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		std::ifstream spinsIfstream(spinsFilePath);
-		int lastMcs = simParams.getLastSavedSpinsConfigurationMcs();
+		int lastMcs = simParams.getMcsAmount();
 		std::string lastSpinsLine = "MCS=" + std::to_string(lastMcs);
 
 		// Move to the last spins configuration

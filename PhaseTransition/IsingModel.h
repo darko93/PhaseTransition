@@ -9,7 +9,7 @@ namespace PhaseTransition
 	{
 	private:
 		int** spins;
-		IsingSimulationParameters* simParams;
+		IsingSimulationParameters simParams;
 		IIsingIO& isingIO;
 		IsingMeantimeQuantities currentStepQuantities;
 		void setSimParams(IsingSimulationParameters& simParams);
@@ -25,7 +25,7 @@ namespace PhaseTransition
 	public:
 		IsingModel(IIsingIO& isingIO);
 		~IsingModel();
-		IsingSimulationParameters& getSimParams() const;
+		IsingSimulationParameters getSimParams() const;
 		int getSpin(int i, int j) const;
 		void initialize(IsingSimulationParameters& simParams);
 		void initialize(IsingSimulationParameters& simParams, int** spins);
