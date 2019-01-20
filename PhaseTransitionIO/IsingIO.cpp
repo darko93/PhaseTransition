@@ -55,7 +55,7 @@ namespace PhaseTransitionIO
 		std::string spinsFilePathPattern = readStringValue(isingIfstream);
 		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
 		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
-		bool continueWithLastSpinsConfiguration = readBoolValue(isingIfstream);
+		bool reuseSpins = readBoolValue(isingIfstream);
 
 		IsingInputData* isingInputData = new IsingInputData();
 		isingInputData->J = J;
@@ -74,7 +74,7 @@ namespace PhaseTransitionIO
 		isingInputData->spinsFilePathPattern = spinsFilePathPattern;
 		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;
 		isingInputData->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
-		isingInputData->continueWithLastSpinsConfiguration = continueWithLastSpinsConfiguration;
+		isingInputData->reuseSpins = reuseSpins;
 		return isingInputData;
 	}
 

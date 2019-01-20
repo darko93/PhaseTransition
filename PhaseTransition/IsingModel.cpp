@@ -62,8 +62,10 @@ namespace PhaseTransition
 
 	void IsingModel::initialize(IsingSimulationParameters& simParams)
 	{
+		bool reuseSpins = simParams.reuseSpins && this->simParams != NULL && this->simParams->latticeSize == simParams.latticeSize && this->spins != NULL;
 		setSimParams(simParams);
-		initializeSpinsConfiguration();
+		if (!reuseSpins)
+			initializeSpinsConfiguration();
 	}
 
 	void IsingModel::initialize(IsingSimulationParameters& simParams, int** spins)

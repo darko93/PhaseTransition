@@ -91,8 +91,8 @@ namespace PhaseTransitionIO
 		return this->meantimeQuantitiesFilePathPattern;
 	}
 
-	bool IsingInputData::getContinueWithLastSpinsConfiguration() const
+	bool IsingInputData::getReuseSpins() const
 	{
-		return this->continueWithLastSpinsConfiguration;
+		return this->reuseSpins;
 	}
 }

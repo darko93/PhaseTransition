@@ -29,7 +29,7 @@ namespace PhaseTransitionIO
 		bool saveMeantimeQuantities;
 		std::string spinsFilePathPattern;
 		std::string meantimeQuantitiesFilePathPattern;
-		bool continueWithLastSpinsConfiguration;
+		bool reuseSpins;
 	public:
 		IsingInputData();
 		~IsingInputData();
@@ -47,8 +47,8 @@ namespace PhaseTransitionIO
 		int getRepeats() const override;
 		bool getSaveSpins() const override;
 		bool getSaveMeantimeQuanities() const override;
+		bool getReuseSpins() const override;
 		std::string getSpinsFilePathPattern() const;
 		std::string getMeantimeQuantitiesFilePathPattern() const;
-		bool getContinueWithLastSpinsConfiguration() const;
 	};
 }
