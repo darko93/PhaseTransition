@@ -26,7 +26,6 @@ void SimulationsManager::performAllSimulations() const
 	notifier.notifyConstSimParams(simParams);
 
 	double minT = simParams.getT();
-	pht::IsingSimulationParameters* previousSimParams = nullptr;
 	pht::IsingModel isingModel(isingIO);
 	do
 	{
@@ -43,8 +42,6 @@ void SimulationsManager::performAllSimulations() const
 
 		isingIO.flushSpins(simParams);
 		isingIO.flushMeantimeQuantities(simParams);
-		delete previousSimParams;
-		previousSimParams = new pht::IsingSimulationParameters(simParams);
 	} while (inputData.toNextSimulationParameters(simParams));
 
 	notifier.notifyFinishedSimulations();
