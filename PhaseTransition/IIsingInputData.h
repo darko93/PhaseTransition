@@ -26,7 +26,7 @@ namespace PhaseTransition
 		virtual bool getSaveSpins() const = 0;
 		virtual bool getSaveMeantimeQuanities() const = 0;
 		virtual bool getReuseSpins() const = 0;
-		IsingSimulationParameters* toFirstSimulationParameters() const;
+		IsingSimulationParameters toFirstSimulationParameters() const;
 		bool toNextSimulationParameters(IsingSimulationParameters& simParams) const;
 	};
 }

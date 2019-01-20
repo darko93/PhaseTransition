@@ -36,7 +36,7 @@ namespace PhaseTransitionIO
 		return filePath;
 	}
 
-	IsingInputData* IsingIO::readIsingInputData(const std::string& inputDataFilePath) const
+	IsingInputData IsingIO::readIsingInputData(const std::string& inputDataFilePath) const
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
@@ -57,24 +57,24 @@ namespace PhaseTransitionIO
 		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
 		bool reuseSpins = readBoolValue(isingIfstream);
 
-		IsingInputData* isingInputData = new IsingInputData();
-		isingInputData->J = J;
-		isingInputData->minL = minL;
-		isingInputData->maxL = maxL;
-		isingInputData->LStep = LStep;
-		isingInputData->minT = minT;
-		isingInputData->maxT = maxT;
-		isingInputData->TStep = TStep;
-		isingInputData->minh = minh;
-		isingInputData->maxh = maxh;
-		isingInputData->hStep = hStep;
-		isingInputData->mcsAmount = mcsAmount;
-		isingInputData->repeats = repeats;
-		isingInputData->saveSpins = saveSpins;
-		isingInputData->spinsFilePathPattern = spinsFilePathPattern;
-		isingInputData->saveMeantimeQuantities = saveMeantimeQuantities;
-		isingInputData->meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
-		isingInputData->reuseSpins = reuseSpins;
+		IsingInputData isingInputData;
+		isingInputData.J = J;
+		isingInputData.minL = minL;
+		isingInputData.maxL = maxL;
+		isingInputData.LStep = LStep;
+		isingInputData.minT = minT;
+		isingInputData.maxT = maxT;
+		isingInputData.TStep = TStep;
+		isingInputData.minh = minh;
+		isingInputData.maxh = maxh;
+		isingInputData.hStep = hStep;
+		isingInputData.mcsAmount = mcsAmount;
+		isingInputData.repeats = repeats;
+		isingInputData.saveSpins = saveSpins;
+		isingInputData.spinsFilePathPattern = spinsFilePathPattern;
+		isingInputData.saveMeantimeQuantities = saveMeantimeQuantities;
+		isingInputData.meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;
+		isingInputData.reuseSpins = reuseSpins;
 		return isingInputData;
 	}
 

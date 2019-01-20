@@ -2,10 +2,10 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters* IIsingInputData::toFirstSimulationParameters() const
+	IsingSimulationParameters IIsingInputData::toFirstSimulationParameters() const
 	{
 		int repeat = 1;
-		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinL(), getMinT(), getMinh(),
+		IsingSimulationParameters simParams = IsingSimulationParameters(getJ(), getMinL(), getMinT(), getMinh(),
 			getMcsAmount(), repeat, getSaveSpins(), getSaveMeantimeQuanities(), getReuseSpins());
 		return simParams;
 	}

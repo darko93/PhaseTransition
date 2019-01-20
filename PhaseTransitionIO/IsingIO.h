@@ -32,7 +32,7 @@ namespace PhaseTransitionIO
 	public:
 		IsingIO();
 		~IsingIO();
-		IsingInputData* readIsingInputData(const std::string& inputDataFilePath) const;
+		IsingInputData readIsingInputData(const std::string& inputDataFilePath) const;
 		void createSpinsFile(const std::string& spinsFilePathPattern, const pht::IsingSimulationParameters& simParams);
 		void saveSpins(const pht::IsingModel& isingModel, int mcs) override;
 		void flushSpins(const pht::IsingSimulationParameters& simParams);

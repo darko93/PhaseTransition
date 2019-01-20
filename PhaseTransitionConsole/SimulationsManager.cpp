@@ -19,36 +19,33 @@ void SimulationsManager::performAllSimulations() const
 {
 	const INotifier& notifier = *this->notifier;
 	phtio::IsingIO isingIO;
-	phtio::IsingInputData* inputData = isingIO.readIsingInputData("PhaseTransitionInput.txt");
+	phtio::IsingInputData inputData = isingIO.readIsingInputData("PhaseTransitionInput.txt");
 
-	pht::IsingSimulationParameters* simParams = inputData->toFirstSimulationParameters();
+	pht::IsingSimulationParameters simParams = inputData.toFirstSimulationParameters();
 
-	notifier.notifyConstSimParams(*simParams);
+	notifier.notifyConstSimParams(simParams);
 
-	double minT = simParams->getT();
+	double minT = simParams.getT();
 	pht::IsingSimulationParameters* previousSimParams = nullptr;
 	pht::IsingModel isingModel(isingIO);
 	do
 	{
-		notifier.notifyMutableSimParams(*simParams);
-		if (inputData->getSaveSpins())
+		notifier.notifyMutableSimParams(simParams);
+		if (inputData.getSaveSpins())
 		{
-			isingIO.createSpinsFile(inputData->getSpinsFilePathPattern(), *simParams);
+			isingIO.createSpinsFile(inputData.getSpinsFilePathPattern(), simParams);
 		}
-		if (inputData->getSaveMeantimeQuanities())
+		if (inputData.getSaveMeantimeQuanities())
 		{
-			isingIO.createMeantimeQuantitiesFile(inputData->getMeantimeQuantitiesFilePathPattern(), *simParams);
+			isingIO.createMeantimeQuantitiesFile(inputData.getMeantimeQuantitiesFilePathPattern(), simParams);
 		}
-		isingModel.fullSimulation(*simParams);
+		isingModel.fullSimulation(simParams);
 
-		isingIO.flushSpins(*simParams);
-		isingIO.flushMeantimeQuantities(*simParams);
+		isingIO.flushSpins(simParams);
+		isingIO.flushMeantimeQuantities(simParams);
 		delete previousSimParams;
-		previousSimParams = new pht::IsingSimulationParameters(*simParams);
-	} while (inputData->toNextSimulationParameters(*simParams));
-
-	delete inputData;
-	delete simParams;
+		previousSimParams = new pht::IsingSimulationParameters(simParams);
+	} while (inputData.toNextSimulationParameters(simParams));
 
 	notifier.notifyFinishedSimulations();
 }
