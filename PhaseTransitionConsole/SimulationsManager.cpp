@@ -41,7 +41,7 @@ void SimulationsManager::performAllSimulations() const
 		}
 		bool useLastSpinsConfiguration = inputData->getSaveSpins()
 			&& inputData->getContinueWithLastSpinsConfiguration() && previousSimParams != nullptr
-			&& previousSimParams->getLatticeSize() == simParams->getLatticeSize();
+			&& previousSimParams->getL() == simParams->getL();
 		if (useLastSpinsConfiguration)
 		{
 			int** spins = isingIO.readLastSpinsConfiguration(inputData->getSpinsFilePathPattern(), *previousSimParams);

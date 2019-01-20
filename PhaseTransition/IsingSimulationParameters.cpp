@@ -3,13 +3,13 @@
 
 namespace PhaseTransition
 {
-	IsingSimulationParameters::IsingSimulationParameters(int J, int latticeSize, double T, double h, int mcsAmount,
+	IsingSimulationParameters::IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount,
 		int repeat, bool saveSpins, bool saveMeantimeQuantities)
 		: h(h), mcsAmount(mcsAmount), repeat(repeat), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities)
 	{
 		setT(T);
 		setJ(J);
-		setLatticeSize(latticeSize);
+		setL(L);
 	}
 
 	IsingSimulationParameters::~IsingSimulationParameters()
@@ -21,7 +21,7 @@ namespace PhaseTransition
 		return this->T;
 	}
 
-	double IsingSimulationParameters::getJ() const
+	int IsingSimulationParameters::getJ() const
 	{
 		return this->J;
 	}
@@ -36,9 +36,9 @@ namespace PhaseTransition
 		return this->h;
 	}
 
-	int IsingSimulationParameters::getLatticeSize() const
+	int IsingSimulationParameters::getL() const
 	{
-		return this->latticeSize;
+		return this->L;
 	}
 
 	int IsingSimulationParameters::getRepeat() const
@@ -67,11 +67,11 @@ namespace PhaseTransition
 		this->J = J;
 	}
 
-	void IsingSimulationParameters::setLatticeSize(int latticeSize)
+	void IsingSimulationParameters::setL(int L)
 	{
-		this->latticeSize = latticeSize;
-		this->latticeSizeLessOne = latticeSize - 1;
-		this->latticeSitesAmount = latticeSize * latticeSize;
-		this->latticeSizeFactor = 1.0 / this->latticeSitesAmount;
+		this->L = L;
+		this->LLessOne = L - 1;
+		this->latticeSitesAmount = L * L;
+		this->LFactor = 1.0 / this->latticeSitesAmount;
 	}
 }

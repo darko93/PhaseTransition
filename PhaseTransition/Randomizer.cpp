@@ -8,7 +8,7 @@ namespace PhaseTransition
 		intDist(std::uniform_int_distribution<int>(0, INT_MAX))
 	{
 		std::random_device device;
-		// Call device() twice, because it returns 32 bit unsigned int and we want 64 bit seed
+		// Call device() twice, because it returns 32 bit unsigned int and I want 64 bit seed
 		// https://stackoverflow.com/questions/24334012/best-way-to-seed-mt19937-64-for-monte-carlo-simulations
 		unsigned long long seed = (static_cast<uint64_t>(device()) << 32) | device();
 		mt.seed(seed);

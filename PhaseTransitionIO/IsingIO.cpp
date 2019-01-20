@@ -21,7 +21,7 @@ namespace PhaseTransitionIO
 		std::string h = toFixedString(simParams.geth(), precision);
 
 		std::string filePath;
-		filePath = filePathPattern + "_LatticeSize=" + std::to_string(simParams.getLatticeSize()) 
+		filePath = filePathPattern + "_L=" + std::to_string(simParams.getL()) 
 			+ "_T=" + T + "_h=" + h;
 
 		std::string extension = ".dat";
@@ -40,9 +40,9 @@ namespace PhaseTransitionIO
 	{
 		std::ifstream isingIfstream(inputDataFilePath);
 		int J = readIntValue(isingIfstream);
-		int minLatticeSize = readIntValue(isingIfstream);
-		int maxLatticeSize = readIntValue(isingIfstream);
-		int latticeSizeStep = readIntValue(isingIfstream);
+		int minL = readIntValue(isingIfstream);
+		int maxL = readIntValue(isingIfstream);
+		int LStep = readIntValue(isingIfstream);
 		double minT = readDoubleValue(isingIfstream);
 		double maxT = readDoubleValue(isingIfstream);
 		double TStep = readDoubleValue(isingIfstream);
@@ -59,9 +59,9 @@ namespace PhaseTransitionIO
 
 		IsingInputData* isingInputData = new IsingInputData();
 		isingInputData->J = J;
-		isingInputData->minLatticeSize = minLatticeSize;
-		isingInputData->maxLatticeSize = maxLatticeSize;
-		isingInputData->latticeSizeStep = latticeSizeStep;
+		isingInputData->minL = minL;
+		isingInputData->maxL = maxL;
+		isingInputData->LStep = LStep;
 		isingInputData->minT = minT;
 		isingInputData->maxT = maxT;
 		isingInputData->TStep = TStep;
@@ -84,9 +84,9 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "T=" << simParams.getT() << std::endl << "kB=" << simParams.getkB() << std::endl 
-			<< "J=" << simParams.getJ() << std::endl << "h=" << simParams.geth() << std::endl 
-			<< "latticeSize=" << simParams.getLatticeSize() << std::endl << std::endl;
+		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl
+			<< "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
+			<< "#h=" << simParams.geth() << std::endl << std::endl << std::endl;
 		fstream.close();
 	}
 
@@ -95,10 +95,10 @@ namespace PhaseTransitionIO
 		pht::IsingSimulationParameters& simParams = isingModel.getSimParams();
 		std::stringstream spinsStream;
 		spinsStream << "MCS=" << mcs << std::endl;
-		int latticeSize = simParams.getLatticeSize();
-		for (int i = 0; i < latticeSize; i++)
+		int L = simParams.getL();
+		for (int i = 0; i < L; i++)
 		{
-			for (int j = 0; j < latticeSize; j++)
+			for (int j = 0; j < L; j++)
 			{
 				int ijSpin = isingModel.getSpin(i, j);
 				if (ijSpin == -1)
@@ -148,9 +148,9 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams);
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl << "#J="
-			<< simParams.getJ() << std::endl << "#h=" << simParams.geth() << std::endl << "#latticeSize="
-			<< simParams.getLatticeSize() << std::endl << std::endl << std::endl;
+		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl 
+			<< "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl 
+			<< "#h=" << simParams.geth() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << "#" << std::setw(IsingIO::NARROW_COLUMN_WIDTH - 1) << "MCS" << std::setw(width) << "E" // Reducing narrow column width because of a '#' char
 			<< std::setw(width) << "M" << std::endl << std::endl;
@@ -161,12 +161,11 @@ namespace PhaseTransitionIO
 	{
 		int width = IsingIO::COLUMN_WIDTH;
 		std::stringstream meantimeQuantitiesStream;
-		meantimeQuantitiesStream << std::fixed << std::setprecision(IsingIO::PRECISION_INSIDE_FILE);
-		meantimeQuantitiesStream << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width)
+		meantimeQuantitiesStream << std::fixed << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width)
 			<< meantimeQuantities.getE() << std::setw(width) << meantimeQuantities.getM() << std::endl;
 		this->meantimeQuantitiesStream << meantimeQuantitiesStream.str();
 
-		if (this->meantimeQuantitiesCount < IsingIO::MEANTIME_QUANTITIES_BUFFER_SIZE)
+		if (this->meantimeQuantitiesCount < IsingIO::QUANTITIES_BUFFER_SIZE)
 		{
 			this->meantimeQuantitiesCount++;
 		}
@@ -212,13 +211,13 @@ namespace PhaseTransitionIO
 		}
 
 		// Read last spins configuration
-		int latticeSize = simParams.getLatticeSize();
-		int** spins = new int*[latticeSize];
-		for (int i = 0; i < latticeSize; i++)
+		int L = simParams.getL();
+		int** spins = new int*[L];
+		for (int i = 0; i < L; i++)
 		{
-			spins[i] = new int[latticeSize];
+			spins[i] = new int[L];
 			getline(spinsIfstream, line);
-			for (int j = 0; j < latticeSize; j++)
+			for (int j = 0; j < L; j++)
 			{
 				int ijSpin = line.at(j) - '0'; // To properly convert ASCII spin to int.
 				if (ijSpin == 0)

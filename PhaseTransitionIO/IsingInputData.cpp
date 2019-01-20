@@ -16,19 +16,19 @@ namespace PhaseTransitionIO
 		return this->J;
 	}
 
-	int IsingInputData::getMinLatticeSize() const
+	int IsingInputData::getMinL() const
 	{
-		return this->minLatticeSize;
+		return this->minL;
 	}
 
-	int IsingInputData::getMaxLatticeSize() const
+	int IsingInputData::getMaxL() const
 	{
-		return this->maxLatticeSize;
+		return this->maxL;
 	}
 
-	int IsingInputData::getLatticeSizeStep() const
+	int IsingInputData::getLStep() const
 	{
-		return this->latticeSizeStep;
+		return this->LStep;
 	}
 
 	double IsingInputData::getMinT() const

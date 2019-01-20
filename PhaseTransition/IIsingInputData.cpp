@@ -5,7 +5,7 @@ namespace PhaseTransition
 	IsingSimulationParameters* IIsingInputData::toFirstSimulationParameters() const
 	{
 		int repeat = 1;
-		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinLatticeSize(), getMinT(), getMinh(),
+		IsingSimulationParameters* simParams = new IsingSimulationParameters(getJ(), getMinL(), getMinT(), getMinh(),
 			getMcsAmount(), repeat, getSaveSpins(), getSaveMeantimeQuanities());
 		return simParams;
 	}
@@ -33,13 +33,13 @@ namespace PhaseTransition
 			{
 				simParams.setT(getMinT());
 
-				int nextLatticeSize = simParams.latticeSize + getLatticeSizeStep();
-				isInRange = nextLatticeSize <= getMaxLatticeSize();
-				if (!isInRange || getMinLatticeSize() == getMaxLatticeSize())
+				int nextL = simParams.L + getLStep();
+				isInRange = nextL <= getMaxL();
+				if (!isInRange || getMinL() == getMaxL())
 				{
 					return false;
 				}
-				simParams.setLatticeSize(nextLatticeSize);
+				simParams.setL(nextL);
 				return true;
 			}
 			simParams.setT(nextT);

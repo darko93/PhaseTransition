@@ -15,9 +15,9 @@ namespace PhaseTransition
 		void setSimParams(IsingSimulationParameters& simParams);
 		void initializeSpinsConfiguration();
 		int neighboursSpinsSum(int i, int j) const;
-		double spinEnergy(int i, int j, int ijSpin) const;
-		double spinEnergyChange(int i, int j, int ijSpin) const;
-		double energy() const;
+		int spinEnergy(int i, int j, int ijSpin) const;
+		int spinEnergyChange(int i, int j, int ijSpin) const;
+		int energy() const;
 		int totalMagnetization() const;
 		double magnetizationPerSite() const;
 		IsingMeantimeQuantities& computeCurrentStepQuantities();

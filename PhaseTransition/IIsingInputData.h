@@ -12,9 +12,9 @@ namespace PhaseTransition
 	public:
 		virtual ~IIsingInputData() {};
 		virtual int getJ() const = 0;
-		virtual int getMinLatticeSize() const = 0;
-		virtual int getMaxLatticeSize() const = 0;
-		virtual int getLatticeSizeStep() const = 0;
+		virtual int getMinL() const = 0;
+		virtual int getMaxL() const = 0;
+		virtual int getLStep() const = 0;
 		virtual double getMinT() const = 0;
 		virtual double getMaxT() const = 0;
 		virtual double getTStep() const = 0;

@@ -11,7 +11,7 @@ namespace PhaseTransition
 
 	IsingModel::~IsingModel()
 	{
-		int size = this->simParams->latticeSize;
+		int size = this->simParams->L;
 		for (int i = 0; i < size; i++)
 		{
 			delete[] this->spins[i];
@@ -27,16 +27,16 @@ namespace PhaseTransition
 
 	void IsingModel::initializeSpinsConfiguration()
 	{
-		int latticeSize = this->simParams->latticeSize;
-		int** spins = new int*[latticeSize];
-		for (int i = 0; i < latticeSize; i++)
+		int L = this->simParams->L;
+		int** spins = new int*[L];
+		for (int i = 0; i < L; i++)
 		{
-			spins[i] = new int[latticeSize];
+			spins[i] = new int[L];
 		}
 
-		for (int i = 0; i < latticeSize; i++)
+		for (int i = 0; i < L; i++)
 		{
-			for (int j = 0; j < latticeSize; j++)
+			for (int j = 0; j < L; j++)
 			{
 				int spin = rand() % 2;
 				if (spin == 0)
@@ -81,55 +81,56 @@ namespace PhaseTransition
 
 		IsingSimulationParameters& simParams = *this->simParams;
 		//Apply periodic boundary conditions
-		if (up < 0) up = simParams.latticeSizeLessOne;
-		if (down >= simParams.latticeSize) down = 0;
-		if (left < 0) left = simParams.latticeSizeLessOne;
-		if (right >= simParams.latticeSize) right = 0;
+		if (up < 0) up = simParams.LLessOne;
+		if (down >= simParams.L) down = 0;
+		if (left < 0) left = simParams.LLessOne;
+		if (right >= simParams.L) right = 0;
 
 		int** spins = this->spins;
 		int neighboursSpinsSum = spins[i][left] + spins[up][j] + spins[i][right] + spins[down][j];
 		return neighboursSpinsSum;
 	}
 
-	double IsingModel::spinEnergy(int i, int j, int ijSpin) const
+	int IsingModel::spinEnergy(int i, int j, int ijSpin) const
 	{
 		IsingSimulationParameters& simParams = *this->simParams;
 		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j);
-		double energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
+		int energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
 		return energy;
 	}
 
-	double IsingModel::spinEnergyChange(int i, int j, int ijSpin) const
+	int IsingModel::spinEnergyChange(int i, int j, int ijSpin) const
 	{
 		return -2 * spinEnergy(i, j, ijSpin);
 	}
 
-	double IsingModel::energy() const
+	int IsingModel::energy() const
 	{
-		double E = 0;
+		int E = 0;
 		int ijSpin;
 		double ijAtomEnergy;
-		int latticeSize = this->simParams->latticeSize;
-		for (int i = 0; i < latticeSize; i++)
+		int L = this->simParams->L;
+		for (int i = 0; i < L; i++)
 		{
-			for (int j = 0; j < latticeSize; j++)
+			for (int j = 0; j < L; j++)
 			{
 				ijSpin = spins[i][j];
 				ijAtomEnergy = spinEnergy(i, j, ijSpin);
 				E += ijAtomEnergy;
 			}
 		}
-		return 0.5 * E; // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
+		E = std::round(0.5 * E); // The factor 0.5 is needed, because in the loop each pair was calculated twice. TODO: Maybe this can be optimized?
+		return E;
 	}
 
 	int IsingModel::totalMagnetization() const
 	{
 		int totalM = 0;
 		int** spins = this->spins;
-		int latticeSize = this->simParams->latticeSize;
-		for (int i = 0; i < latticeSize; i++)
+		int L = this->simParams->L;
+		for (int i = 0; i < L; i++)
 		{
-			for (int j = 0; j < latticeSize; j++)
+			for (int j = 0; j < L; j++)
 			{
 				totalM += spins[i][j];
 			}
@@ -140,14 +141,14 @@ namespace PhaseTransition
 	double IsingModel::magnetizationPerSite() const
 	{
 		int totalM = totalMagnetization();
-		double MPerSite = totalM * this->simParams->latticeSizeFactor;
+		double MPerSite = totalM * this->simParams->LFactor;
 		return MPerSite;
 	}
 
 	IsingMeantimeQuantities& IsingModel::computeCurrentStepQuantities()
 	{
-		double E = energy();
-		double M = magnetizationPerSite();
+		int E = energy();
+		int M = totalMagnetization();
 		this->currentStepQuantities = IsingMeantimeQuantities(E, M);
 		return this->currentStepQuantities; // Return class member reference, to have this object alive beyond the method
 		// And to not create it every time this method is called.
@@ -161,8 +162,8 @@ namespace PhaseTransition
 		double beta = simParams.beta;
 		// Choose random atom
 		int randomSpinNr = Randomizer::getInstance().randomIntNr();
-		int i = randomSpinNr % simParams.latticeSize;
-		int j = randomSpinNr / simParams.latticeSize;
+		int i = randomSpinNr % simParams.L;
+		int j = randomSpinNr / simParams.L;
 		int ijSpin = spins[i][j];
 		// Calculate energy change due to random spin flipping
 		double deltaE = spinEnergyChange(i, j, ijSpin);

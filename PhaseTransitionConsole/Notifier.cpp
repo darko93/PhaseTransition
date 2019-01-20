@@ -17,7 +17,7 @@ void Notifier::notifyConstSimParams(const pht::IsingSimulationParameters& simPar
 
 void Notifier::notifyMutableSimParams(const pht::IsingSimulationParameters& simParams) const
 {
-	std::cout << "latticeSize=" << simParams.getLatticeSize() << "\t" << "T=" << simParams.getT()
+	std::cout << "L=" << simParams.getL() << "\t" << "T=" << simParams.getT()
 		<< "\t" << "h=" << simParams.geth() << "\t" << "repeat=" << simParams.getRepeat() << std::endl;
 }
 
