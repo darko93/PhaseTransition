@@ -14,7 +14,7 @@ namespace PhaseTransition
 		double h; // mu * H - external field strength
 		int L;
 		int LLessOne;
-		int latticeSitesAmount; // = amount of loop single steps in one MCS
+		int N; // lattice sites amount = amount of loop Metropolis steps in one MCS
 		double LFactor; // 1 / LAmount
 		int mcsAmount; // MCS-es amount
 		int repeat; // Which time the simulation is run with such parameters
@@ -25,6 +25,7 @@ namespace PhaseTransition
 		void setJ(int J);
 		void setL(int L);
 	public:
+		static IsingSimulationParameters getDefault();
 		IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount, int repeat = 1,
 			bool saveSpins = false,	bool saveMeantimeQuantities = false, bool reuseSpins = false);
 		~IsingSimulationParameters();

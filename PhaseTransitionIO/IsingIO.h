@@ -16,10 +16,10 @@ namespace PhaseTransitionIO
 	{
 	private:
 		static const int NARROW_COLUMN_WIDTH = 10;
-		static const int COLUMN_WIDTH = 20;
+		static const int COLUMN_WIDTH = 15;
 		static const int PRECISION_IN_FILE_NAME = 3;
-		static const int SPINS_BUFFER_SIZE = 100;
-		static const int QUANTITIES_BUFFER_SIZE = 1000;
+		static const int SPINS_BUFFER_SIZE = 1000;
+		static const int QUANTITIES_BUFFER_SIZE = 10000;
 		std::string spinsFilePathPattern; // Will be set in create file method and used in save method.
 		std::string meantimeQuantitiesFilePathPattern; // Will be set in create file method and used in save method.
 		std::stringstream spinsStream;

@@ -29,7 +29,7 @@ namespace PhaseTransition
 		int getSpin(int i, int j) const;
 		void initialize(IsingSimulationParameters& simParams);
 		void initialize(IsingSimulationParameters& simParams, int** spins);
-		void simulationStep();
+		void metropolisStep();
 		void fullSimulation(IsingSimulationParameters& simParams);
 		void fullSimulation(IsingSimulationParameters& simParams, int** initialSpinsConfiguration);
 	};

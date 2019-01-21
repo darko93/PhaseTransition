@@ -3,6 +3,11 @@
 
 namespace PhaseTransition
 {
+	IsingSimulationParameters IsingSimulationParameters::getDefault()
+	{
+		return IsingSimulationParameters(1, 20, 2.269, 0.0, 300000);
+	}
+
 	IsingSimulationParameters::IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount,
 		int repeat, bool saveSpins, bool saveMeantimeQuantities, bool reuseSpins)
 		: h(h), mcsAmount(mcsAmount), repeat(repeat), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities), reuseSpins(reuseSpins)
@@ -70,7 +75,7 @@ namespace PhaseTransition
 	{
 		this->L = L;
 		this->LLessOne = L - 1;
-		this->latticeSitesAmount = L * L;
-		this->LFactor = 1.0 / this->latticeSitesAmount;
+		this->N = L * L;
+		this->LFactor = 1.0 / this->N;
 	}
 }

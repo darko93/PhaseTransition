@@ -5,7 +5,7 @@
 namespace PhaseTransition
 {
 	IsingModel::IsingModel(IIsingIO& isingIO)
-		: simParams(0, 0, 0, 0, 0), isingIO(isingIO), currentStepQuantities(IsingMeantimeQuantities::zeroes())
+		: simParams(IsingSimulationParameters::getDefault()), isingIO(isingIO), currentStepQuantities(IsingMeantimeQuantities::zeroes())
 	{
 	}
 
@@ -22,7 +22,7 @@ namespace PhaseTransition
 	void IsingModel::setSimParams(IsingSimulationParameters& simParams)
 	{
 		this->simParams = simParams;
-		Randomizer::getInstance().setMaxRandomIntNr(simParams.latticeSitesAmount - 1);
+		Randomizer::getInstance().setMaxRandomIntNr(simParams.N - 1);
 	}
 
 	void IsingModel::initializeSpinsConfiguration()
@@ -65,7 +65,9 @@ namespace PhaseTransition
 		bool reuseSpins = simParams.reuseSpins && this->simParams.L == simParams.L && this->spins != NULL;
 		setSimParams(simParams);
 		if (!reuseSpins)
+		{
 			initializeSpinsConfiguration();
+		}
 	}
 
 	void IsingModel::initialize(IsingSimulationParameters& simParams, int** spins)
@@ -156,7 +158,7 @@ namespace PhaseTransition
 		// And to not create it every time this method is called.
 	}
 
-	void IsingModel::simulationStep()
+	void IsingModel::metropolisStep()
 	{
 		IsingSimulationParameters& simParams = this->simParams;
 		int** spins = this->spins;
@@ -188,14 +190,14 @@ namespace PhaseTransition
 		IIsingIO& isingIO = this->isingIO;
 		IsingSimulationParameters& simParams = this->simParams;
 		int mcsAmount = simParams.mcsAmount;
-		int latticeSitesAmount = simParams.latticeSitesAmount;
+		int N = simParams.N;
 		if (!simParams.saveMeantimeQuantities && !simParams.saveSpins)
 		{
 			for (int i = 1; i <= mcsAmount; i++)
 			{
-				for (int j = 1; j <= latticeSitesAmount; j++)
+				for (int j = 1; j <= N; j++)
 				{
-					simulationStep();
+					metropolisStep();
 				}
 			}
 		}
@@ -203,9 +205,9 @@ namespace PhaseTransition
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int i = 1; i <= latticeSitesAmount; i++)
+				for (int i = 1; i <= N; i++)
 				{
-					simulationStep();
+					metropolisStep();
 				}
 				IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 				isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
@@ -216,9 +218,9 @@ namespace PhaseTransition
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= latticeSitesAmount; j++)
+				for (int j = 1; j <= N; j++)
 				{
-					simulationStep();
+					metropolisStep();
 				}
 				isingIO.saveSpins(*this, mcs);
 			}
@@ -227,9 +229,9 @@ namespace PhaseTransition
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= latticeSitesAmount; j++)
+				for (int j = 1; j <= N; j++)
 				{
-					simulationStep();
+					metropolisStep();
 				}
 				IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 				isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);

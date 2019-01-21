@@ -21,8 +21,8 @@ namespace PhaseTransitionIO
 		std::string h = toFixedString(simParams.geth(), precision);
 
 		std::string filePath;
-		filePath = filePathPattern + "_L=" + std::to_string(simParams.getL()) 
-			+ "_T=" + T + "_h=" + h;
+		filePath = filePathPattern + "_J=" + std::to_string(simParams.getJ()) + "_L=" 
+			+ std::to_string(simParams.getL()) + "_T=" + T + "_h=" + h;
 
 		std::string extension = ".dat";
 		if (simParams.getRepeat() == 1)
@@ -84,9 +84,9 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl
-			<< "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
-			<< "#h=" << simParams.geth() << std::endl << std::endl << std::endl;
+		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
+			<< "#T=" << simParams.getT() << std::endl << "#h=" << simParams.geth() << std::endl
+			<< "#kB=" << simParams.getkB() << std::endl << std::endl << std::endl;
 		fstream.close();
 	}
 
@@ -148,9 +148,9 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string filePath = getFilePath(meantimeQuantitiesFilePathPattern, simParams);
 		fstream.open(filePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "#T=" << simParams.getT() << std::endl << "#kB=" << simParams.getkB() << std::endl 
-			<< "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl 
-			<< "#h=" << simParams.geth() << std::endl << std::endl << std::endl;
+		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
+			<< "#T=" << simParams.getT() << std::endl << "#h=" << simParams.geth() << std::endl
+			<< "#kB=" << simParams.getkB() << std::endl << std::endl << std::endl;
 		int width = IsingIO::COLUMN_WIDTH;
 		fstream << "#" << std::setw(IsingIO::NARROW_COLUMN_WIDTH - 1) << "MCS" << std::setw(width) << "E" // Reducing narrow column width because of a '#' char
 			<< std::setw(width) << "M" << std::endl << std::endl;
