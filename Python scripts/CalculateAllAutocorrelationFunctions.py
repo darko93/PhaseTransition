@@ -17,7 +17,7 @@ def CreateAutocorrelationLines(quantitiesFilePath):
         print("Es length after cut:" + str(len(Es)))
         print("Ms length after cut:" + str(len(Ms)))
 
-    ts = np.arange(1, 1000 + 1, 1)
+    ts = np.arange(1, 300 + 1, 1)
     EAutocorrel = autocorrel.ComputeAutocorrelations(ts, Es)
     MAutocorrel = autocorrel.ComputeAutocorrelations(ts, Ms)
     
@@ -53,10 +53,10 @@ def CreateAutocorrelationFunctionFiles(quantitiesDirPath, autocorrelDirPath):
             autocorrelLines = CreateAutocorrelationLines(quantitiesFilePath)
             output.SaveLinesToFile(autocorrelLines, autocorrelFilePath) 
 
-def PreparePathsAndRunCalculations():
+def RunCalculations():
     quantitiesDirPath = path.quantitiesDirPath
     autocorrelDirPath = path.autocorrelDirPath
-    path.RecreateDir(autocorrelDirPath)
+    #path.RecreateDir(autocorrelDirPath)
     CreateAutocorrelationFunctionFiles(quantitiesDirPath, autocorrelDirPath)
     
-PreparePathsAndRunCalculations()
+RunCalculations()

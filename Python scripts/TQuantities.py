@@ -1,36 +1,3 @@
-# def ReadQuantities(quantitiesFilePath):
-#     quantitiesLines = input.ReadFileLines(quantitiesFilePath)
-
-#     ts = []
-#     Hs = []
-#     Ms = []
-#     T = 0.0
-#     L = 0
-
-#     i = 0
-#     for quantitiesLine in quantitiesLines:
-#         if i == 0:
-#             quantitiesLine = quantitiesLine.rstrip()
-#             TString = quantitiesLine[3:]
-#             T = float(TString)
-#         elif i == 4:
-#             quantitiesLine = quantitiesLine.rstrip()
-#             LString = quantitiesLine[3:]
-#             L = int(LString)
-#         elif i > 8:
-#             quantitiesArray = quantitiesLine.split()
-#             tString = quantitiesArray[0]
-#             t = int(tString)
-#             HString = quantitiesArray[1]
-#             H = float(HString)
-#             MString = quantitiesArray[2]
-#             M = float(MString)
-#             ts.append(t)
-#             Hs.append(H)
-#             Ms.append(M)
-#         i = 1 + i
-#     return ts, Hs, Ms, T, L
-
 def Variance(As):
     sumA = 0
     sumA2 = 0
@@ -42,7 +9,6 @@ def Variance(As):
     aveA2 = sumA2 / AsAmount
     variance = aveA2 - aveA * aveA
     return variance
-
 
 def SpecificHeat(L, T, Es):
     kB = 1

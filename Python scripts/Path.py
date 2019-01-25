@@ -1,9 +1,8 @@
 import os
 import shutil
 
-#C:\Users\Darko\Desktop\4 8 16 32\Fortran\IsingQuantities
-
-resultsDirPath = os.path.join("C:", os.sep, "Users", "Darko", "Desktop", "4 8 16 32", "Nowy generator")
+resultsDirPath = os.path.join("E:", os.sep, "Dadeś", "C++")
+# resultsDirPath = os.path.join("C:", os.sep, "Users", "Darko", "Desktop", "4 8 16 32", "Nowy generator")
 quantitiesDirName = "IsingQuantities"
 autocorrelDirName = "IsingAutocorrelations"
 TQuantitiesDirName = "IsingTQuantities"
