@@ -43,6 +43,8 @@ def AutocorrelationFunction(t, As):
 def ComputeAutocorrelations(ts, As):
     Aautocorrelations = []
     for t in ts:
+        if t % 10 == 0:
+            print("t=" + str(t) + "  ", end="")
         Atautocorrel = AutocorrelationFunction(t, As)
         Aautocorrelations.append(Atautocorrel)
 
