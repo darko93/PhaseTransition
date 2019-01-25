@@ -1,4 +1,5 @@
 import numpy as np
+import Math as math
 
 # As - array of energies or megnetizations
 # t - time interval for which autocorrelation function is being calculated
@@ -6,7 +7,6 @@ def AutocorrelationFunction(t, As):
     Ai = 0.0
     Aiplust = 0.0
     sumA = 0.0
-    sumA2 = 0.0
     sumAiplust = 0.0
     sumAiAiplust = 0.0
     i = 0
@@ -18,10 +18,9 @@ def AutocorrelationFunction(t, As):
         Ai = As[i]
         Aiplust = As[iplust]
 
+        sumA += Ai
         sumAiAiplust += Ai * Aiplust
         sumAiplust += Aiplust
-        sumA += Ai
-        sumA2 += Ai * Ai
 
         i += 1
         iplust = i + t
@@ -29,12 +28,9 @@ def AutocorrelationFunction(t, As):
 
     aveAiAiplust = sumAiAiplust / i
     aveAaveAiplust = (sumA * sumAiplust) / (i*i)
-    aveA = sumA / i
-    aveA2 = sumA2 / i
-    squaredAveA = aveA * aveA
 
-    autocorrelation = (aveAiAiplust - aveAaveAiplust) / (aveA2 - squaredAveA)
-    #autocorrelation = (aveAiAiplust - squaredAveA) / (aveA2 - squaredAveA)
+    autocorrelation = (aveAiAiplust - aveAaveAiplust)
+    #autocorrelation = (aveAiAiplust - squaredAveA)
 
     return autocorrelation
 
@@ -42,10 +38,11 @@ def AutocorrelationFunction(t, As):
 # As - array of energies or megnetizations
 def ComputeAutocorrelations(ts, As):
     Aautocorrelations = []
+    varA = math.Variance(As)
     for t in ts:
-        if t % 10 == 0:
-            print("t=" + str(t) + "  ", end="")
+        print("t=" + str(t) + " ", end="")
         Atautocorrel = AutocorrelationFunction(t, As)
+        Atautocorrel = Atautocorrel / varA # normalization
         Aautocorrelations.append(Atautocorrel)
 
     return Aautocorrelations

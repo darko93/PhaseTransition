@@ -1,25 +1,15 @@
-def Variance(As):
-    sumA = 0
-    sumA2 = 0
-    for A in As:
-        sumA += A
-        sumA2 += A * A
-    AsAmount = len(As)
-    aveA = sumA / AsAmount
-    aveA2 = sumA2 / AsAmount
-    variance = aveA2 - aveA * aveA
-    return variance
+import Math as math
 
 def SpecificHeat(L, T, Es):
     kB = 1
-    varE = Variance(Es)
+    varE = math.Variance(Es)
     N = L * L
     Cv = varE / (N * kB * T * T)
     return Cv
 
 def MagneticSusceptibility(L, T, Ms):
     kB = 1
-    varM = Variance(Ms)
+    varM = math.Variance(Ms)
     N = L * L
     X = varM / (N * kB * T)
     return X
