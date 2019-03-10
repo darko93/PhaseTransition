@@ -23,7 +23,7 @@ namespace PhaseTransitionIO
 		std::string spinsFilePathPattern; // Will be set in create file method and used in save method.
 		std::string meantimeQuantitiesFilePathPattern; // Will be set in create file method and used in save method.
 		std::stringstream spinsStream;
-		int spinsCount;
+		int spinsConfigsCount;
 		std::stringstream meantimeQuantitiesStream;
 		int meantimeQuantitiesCount;
 		std::string getFilePath(const std::string& filePathPattern, const pht::IsingSimulationParameters& simParams) const;

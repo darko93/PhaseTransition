@@ -6,7 +6,7 @@
 namespace PhaseTransitionIO
 {
 	IsingIO::IsingIO()
-		: spinsCount(0), meantimeQuantitiesCount(0)
+		: spinsConfigsCount(0), meantimeQuantitiesCount(0)
 	{
 	}
 
@@ -88,7 +88,7 @@ namespace PhaseTransitionIO
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
 		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl	<< "#T=" << simParams.getT() 
 			<< std::endl << "#h=" << simParams.geth() << std::endl << "#kB=" << simParams.getkB() << std::endl 
-			<< "#spinsMcsInterval=" << simParams.getSavingSpinsMcsInterval() << std::endl << std::endl;
+			<< "#spinsMcsInterval=" << simParams.getSavingSpinsMcsInterval() << std::endl;
 		fstream.close();
 	}
 
@@ -96,6 +96,7 @@ namespace PhaseTransitionIO
 	{
 		pht::IsingSimulationParameters& simParams = isingModel.getSimParams();
 		std::stringstream spinsStream;
+		spinsStream << std::endl;
 		int L = simParams.getL();
 		for (int i = 0; i < L; i++)
 		{
@@ -108,16 +109,10 @@ namespace PhaseTransitionIO
 				}
 				spinsStream << ijSpin;
 			}
-			spinsStream << std::endl;
 		}
-		spinsStream << std::endl;
 		this->spinsStream << spinsStream.str();
 
-		if (this->spinsCount < IsingIO::SPINS_BUFFER_SIZE)
-		{
-			this->spinsCount++;
-		}
-		else
+		if (++this->spinsConfigsCount >= IsingIO::SPINS_BUFFER_SIZE)
 		{
 			flushSpinsWnenExist(simParams);
 		}
@@ -131,12 +126,12 @@ namespace PhaseTransitionIO
 		fstream << this->spinsStream.str();
 		fstream.close();
 		this->spinsStream.str(std::string());
-		this->spinsCount = 0;
+		this->spinsConfigsCount = 0;
 	}
 
 	void IsingIO::flushSpins(const pht::IsingSimulationParameters& simParams)
 	{
-		if (this->spinsCount > 0)
+		if (this->spinsConfigsCount > 0)
 		{
 			flushSpinsWnenExist(simParams);
 		}
