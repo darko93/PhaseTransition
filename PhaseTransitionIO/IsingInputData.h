@@ -26,6 +26,7 @@ namespace PhaseTransitionIO
 		int mcsAmount;
 		int repeats; // Amount of simulations with the same parameters
 		bool saveSpins;
+		int savingSpinsMcsInterval;
 		bool saveMeantimeQuantities;
 		std::string spinsFilePathPattern;
 		std::string meantimeQuantitiesFilePathPattern;
@@ -46,6 +47,7 @@ namespace PhaseTransitionIO
 		int getMcsAmount() const override;
 		int getRepeats() const override;
 		bool getSaveSpins() const override;
+		int getSavingSpinsMcsInterval() const override;
 		bool getSaveMeantimeQuanities() const override;
 		bool getReuseSpins() const override;
 		std::string getSpinsFilePathPattern() const;

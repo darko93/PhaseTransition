@@ -1,4 +1,4 @@
-- ijSpinEnergy typu int, gdy h == 0, a typu double, gdy h != 0
+﻿- ijSpinEnergy typu double, gdy h != 0  =>  w pliku na M przeznaczyć szerokość = 10, a na E taką, żeby zmieścił się double, czyli 25, bo w autokorelacjach najdłuższy double ma 23 (albo wywalić h z rozważań), albo oddzielać wyniki jedną spacją
 - sprawdzić, jak poprawnie się nadpisuje virtualne destruktory
 - Randomizer i IO uczynić niewidoczne poza biblioteka
 

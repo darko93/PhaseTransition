@@ -76,6 +76,11 @@ namespace PhaseTransitionIO
 		return this->saveSpins;
 	}
 
+	int IsingInputData::getSavingSpinsMcsInterval() const
+	{
+		return this->savingSpinsMcsInterval;
+	}
+
 	std::string IsingInputData::getSpinsFilePathPattern() const
 	{
 		return this->spinsFilePathPattern;

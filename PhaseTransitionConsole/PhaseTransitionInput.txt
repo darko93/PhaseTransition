@@ -11,6 +11,7 @@ hStep=0.0
 mcsAmount=300
 repeats=2
 saveSpins=false
+savingSpinsMcsInterval=1
 spinsFilePathPattern=IsingSpins\Spins
 saveMeantimeQuantities=true
 meantimeQuantitiesFilePathPattern=IsingQuantities\Quantities

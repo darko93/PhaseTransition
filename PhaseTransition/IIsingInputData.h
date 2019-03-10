@@ -24,6 +24,7 @@ namespace PhaseTransition
 		virtual int getMcsAmount() const = 0;
 		virtual int getRepeats() const = 0; // Amount of simulations with the same parameters
 		virtual bool getSaveSpins() const = 0;
+		virtual int getSavingSpinsMcsInterval() const = 0;
 		virtual bool getSaveMeantimeQuanities() const = 0;
 		virtual bool getReuseSpins() const = 0;
 		IsingSimulationParameters toFirstSimulationParameters() const;

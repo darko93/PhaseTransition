@@ -99,7 +99,7 @@ namespace PhaseTransition
 	{
 		const IsingSimulationParameters& simParams = this->simParams;
 		int ijNeighboursSpinsSum = neighboursSpinsSum(i, j);
-		int energy = -ijSpin * ((simParams.J) * ijNeighboursSpinsSum + simParams.h);
+		int energy = -ijSpin * (simParams.J * ijNeighboursSpinsSum + simParams.h);
 		return energy;
 	}
 
@@ -211,7 +211,10 @@ namespace PhaseTransition
 				}
 				IsingMeantimeQuantities currentStepQuantieties = computeCurrentStepQuantities();
 				isingIO.saveMeantimeQuantities(currentStepQuantieties, simParams, mcs);
-				isingIO.saveSpins(*this, mcs);
+				if (mcs % simParams.savingSpinsMcsInterval == 0)
+				{
+					isingIO.saveSpins(*this, mcs);
+				}
 			}
 		}
 		else if (!simParams.saveMeantimeQuantities && simParams.saveSpins)
@@ -222,7 +225,10 @@ namespace PhaseTransition
 				{
 					metropolisStep();
 				}
-				isingIO.saveSpins(*this, mcs);
+				if (mcs % simParams.savingSpinsMcsInterval == 0)
+				{
+					isingIO.saveSpins(*this, mcs);
+				}
 			}
 		}
 		else if (simParams.saveMeantimeQuantities && !simParams.saveSpins)

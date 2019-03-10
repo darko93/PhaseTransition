@@ -8,14 +8,14 @@ import Path as path
 def CreateAutocorrelationLines(quantitiesFilePath):
     headerLines, Es, Ms = input.ReadEsAndMsWithHeader(quantitiesFilePath)
 
-    if "Repeat" not in quantitiesFilePath:
-        #Use only termalized data from
-        print("Es length before cut:" + str(len(Es)))
-        print("Ms length before cut:" + str(len(Ms)))
-        Es = Es[50000:]
-        Ms = Ms[50000:]
-        print("Es length after cut:" + str(len(Es)))
-        print("Ms length after cut:" + str(len(Ms)))
+    # if "Repeat" not in quantitiesFilePath:
+    #     #Use only termalized data from
+    #     print("Es length before cut:" + str(len(Es)))
+    #     print("Ms length before cut:" + str(len(Ms)))
+    #     Es = Es[50000:]
+    #     Ms = Ms[50000:]
+    #     print("Es length after cut:" + str(len(Es)))
+    #     print("Ms length after cut:" + str(len(Ms)))
 
     ts = np.arange(1, 300 + 1, 1)
     EAutocorrel = autocorrel.ComputeAutocorrelations(ts, Es)
@@ -27,7 +27,7 @@ def CreateAutocorrelationLines(quantitiesFilePath):
     for headerLine in headerLines:
         autocorrelLines.append(headerLine)
 
-    header = "#" + "{0: >9}".format("t") + "{0: >25}".format("EAutocorrel") + "{0: >25}".format("MAutocorrel") + "\n"
+    header = "#" + "{0: >6}".format("t") + "{0: >25}".format("EAutocorrel") + "{0: >25}".format("MAutocorrel") + "\n"
     autocorrelLines.append("\n\n" + header + "\n")
 
     tString = ""
@@ -37,7 +37,7 @@ def CreateAutocorrelationLines(quantitiesFilePath):
         tString = str(ts[i])
         EAutocorrelString = repr(EAutocorrel[i])
         MAutocorrelString = repr(MAutocorrel[i])
-        autocorrelLine = "{0: >10}".format(tString) + "{0: >25}".format(EAutocorrelString) + "{0: >25}".format(MAutocorrelString) + "\n"
+        autocorrelLine = "{0: >7}".format(tString) + "{0: >25}".format(EAutocorrelString) + "{0: >25}".format(MAutocorrelString) + "\n"
         autocorrelLines.append(autocorrelLine)
 
     return autocorrelLines

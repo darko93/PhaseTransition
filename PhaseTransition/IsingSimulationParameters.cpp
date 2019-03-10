@@ -8,9 +8,10 @@ namespace PhaseTransition
 		return IsingSimulationParameters(1, 20, 2.269, 0.0, 300000);
 	}
 
-	IsingSimulationParameters::IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount,
-		int repeat, bool saveSpins, bool saveMeantimeQuantities, bool reuseSpins)
-		: h(h), mcsAmount(mcsAmount), repeat(repeat), saveSpins(saveSpins), saveMeantimeQuantities(saveMeantimeQuantities), reuseSpins(reuseSpins)
+	IsingSimulationParameters::IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount, int repeat, bool saveSpins, 
+		int savingSpinsMcsInterval, bool saveMeantimeQuantities, bool reuseSpins)
+		: h(h), mcsAmount(mcsAmount), repeat(repeat), saveSpins(saveSpins), savingSpinsMcsInterval(savingSpinsMcsInterval),
+		  saveMeantimeQuantities(saveMeantimeQuantities), reuseSpins(reuseSpins)
 	{
 		setT(T);
 		setJ(J);

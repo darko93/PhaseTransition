@@ -40,7 +40,7 @@ def ComputeAutocorrelations(ts, As):
     Aautocorrelations = []
     varA = math.Variance(As)
     for t in ts:
-        print("t=" + str(t) + " ", end="")
+        print("t=" + str(t) + " ", end="\r", flush=True)
         Atautocorrel = AutocorrelationFunction(t, As)
         Atautocorrel = Atautocorrel / varA # normalization
         Aautocorrelations.append(Atautocorrel)

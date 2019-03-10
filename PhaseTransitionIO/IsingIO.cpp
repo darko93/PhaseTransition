@@ -52,6 +52,7 @@ namespace PhaseTransitionIO
 		int mcsAmount = readIntValue(isingIfstream);
 		int repeats = readIntValue(isingIfstream);
 		bool saveSpins = readBoolValue(isingIfstream);
+		int savingSpinsMcsInterval = readIntValue(isingIfstream);
 		std::string spinsFilePathPattern = readStringValue(isingIfstream);
 		bool saveMeantimeQuantities = readBoolValue(isingIfstream);
 		std::string meantimeQuantitiesFilePathPattern = readStringValue(isingIfstream);
@@ -71,6 +72,7 @@ namespace PhaseTransitionIO
 		isingInputData.mcsAmount = mcsAmount;
 		isingInputData.repeats = repeats;
 		isingInputData.saveSpins = saveSpins;
+		isingInputData.savingSpinsMcsInterval = savingSpinsMcsInterval;
 		isingInputData.spinsFilePathPattern = spinsFilePathPattern;
 		isingInputData.saveMeantimeQuantities = saveMeantimeQuantities;
 		isingInputData.meantimeQuantitiesFilePathPattern = meantimeQuantitiesFilePathPattern;

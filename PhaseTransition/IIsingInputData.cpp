@@ -6,7 +6,7 @@ namespace PhaseTransition
 	{
 		int repeat = 1;
 		IsingSimulationParameters simParams = IsingSimulationParameters(getJ(), getMinL(), getMinT(), getMinh(),
-			getMcsAmount(), repeat, getSaveSpins(), getSaveMeantimeQuanities(), getReuseSpins());
+			getMcsAmount(), repeat, getSaveSpins(), getSavingSpinsMcsInterval(), getSaveMeantimeQuanities(), getReuseSpins());
 		return simParams;
 	}
 

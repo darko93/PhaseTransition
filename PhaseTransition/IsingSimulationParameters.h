@@ -19,6 +19,7 @@ namespace PhaseTransition
 		int mcsAmount; // MCS-es amount
 		int repeat; // Which time the simulation is run with such parameters
 		bool saveSpins;
+		int savingSpinsMcsInterval;
 		bool saveMeantimeQuantities;
 		bool reuseSpins;
 		void setT(double T);
@@ -26,8 +27,8 @@ namespace PhaseTransition
 		void setL(int L);
 	public:
 		static IsingSimulationParameters getDefault();
-		IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount, int repeat = 1,
-			bool saveSpins = false,	bool saveMeantimeQuantities = false, bool reuseSpins = false);
+		IsingSimulationParameters(int J, int L, double T, double h, int mcsAmount, int repeat = 1, bool saveSpins = false, 
+			int savingSpincsMcsInterval = 1, bool saveMeantimeQuantities = false, bool reuseSpins = false);
 		~IsingSimulationParameters();
 		double getT() const;
 		int getJ() const;
