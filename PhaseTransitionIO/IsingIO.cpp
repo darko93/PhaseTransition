@@ -86,17 +86,16 @@ namespace PhaseTransitionIO
 		std::fstream fstream;
 		std::string spinsFilePath = getFilePath(spinsFilePathPattern, simParams);
 		fstream.open(spinsFilePath.c_str(), std::ios::out | std::ios::app);
-		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
-			<< "#T=" << simParams.getT() << std::endl << "#h=" << simParams.geth() << std::endl
-			<< "#kB=" << simParams.getkB() << std::endl << std::endl << std::endl;
+		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl	<< "#T=" << simParams.getT() 
+			<< std::endl << "#h=" << simParams.geth() << std::endl << "#kB=" << simParams.getkB() << std::endl 
+			<< "#spinsMcsInterval=" << simParams.getSavingSpinsMcsInterval() << std::endl << std::endl;
 		fstream.close();
 	}
 
-	void IsingIO::saveSpins(const pht::IsingModel& isingModel, int mcs)
+	void IsingIO::saveSpins(const pht::IsingModel& isingModel)
 	{
 		pht::IsingSimulationParameters& simParams = isingModel.getSimParams();
 		std::stringstream spinsStream;
-		spinsStream << "MCS=" << mcs << std::endl;
 		int L = simParams.getL();
 		for (int i = 0; i < L; i++)
 		{

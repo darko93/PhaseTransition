@@ -37,5 +37,6 @@ namespace PhaseTransition
 		int getL() const;
 		int getMcsAmount() const;
 		int getRepeat() const;
+		int getSavingSpinsMcsInterval() const;
 	};
 }

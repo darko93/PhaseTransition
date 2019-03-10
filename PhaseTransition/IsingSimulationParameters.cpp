@@ -57,6 +57,11 @@ namespace PhaseTransition
 		return this->repeat;
 	}
 
+	int IsingSimulationParameters::getSavingSpinsMcsInterval() const
+	{
+		return this->savingSpinsMcsInterval;
+	}
+
 	void IsingSimulationParameters::setT(double T)
 	{
 		this->T = T;

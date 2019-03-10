@@ -13,7 +13,7 @@ namespace PhaseTransition
 	{
 	public:
 		virtual ~IIsingIO() {};
-		virtual void saveSpins(const IsingModel& isingModel, int mcs) = 0;
+		virtual void saveSpins(const IsingModel& isingModel) = 0;
 		virtual void saveMeantimeQuantities(const IsingMeantimeQuantities& meantimeQuantities, const IsingSimulationParameters& simParams, int mcs) = 0;
 	};
 }
