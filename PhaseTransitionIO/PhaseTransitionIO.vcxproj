@@ -22,7 +22,7 @@
     <ProjectGuid>{62FDA671-25AB-466F-9603-6D9059370CCE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>PhaseTransitionIO</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

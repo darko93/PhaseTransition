@@ -147,18 +147,14 @@ namespace PhaseTransitionIO
 		fstream << "#J=" << simParams.getJ() << std::endl << "#L=" << simParams.getL() << std::endl
 			<< "#T=" << simParams.getT() << std::endl << "#h=" << simParams.geth() << std::endl
 			<< "#kB=" << simParams.getkB() << std::endl << std::endl << std::endl;
-		int width = IsingIO::COLUMN_WIDTH;
-		fstream << "#" << std::setw(IsingIO::NARROW_COLUMN_WIDTH - 1) << "MCS" << std::setw(width) << "E" // Reducing narrow column width because of a '#' char
-			<< std::setw(width) << "M" << std::endl << std::endl;
+		fstream << "#" << "MCS\tE\tM" << std::endl << std::endl;
 		fstream.close();
 	}
 
 	void IsingIO::saveMeantimeQuantities(const pht::IsingMeantimeQuantities& meantimeQuantities, const pht::IsingSimulationParameters& simParams, int mcs)
 	{
-		int width = IsingIO::COLUMN_WIDTH;
 		std::stringstream meantimeQuantitiesStream;
-		meantimeQuantitiesStream << std::fixed << std::setw(IsingIO::NARROW_COLUMN_WIDTH) << mcs << std::setw(width)
-			<< meantimeQuantities.getE() << std::setw(width) << meantimeQuantities.getM() << std::endl;
+		meantimeQuantitiesStream << mcs << " " << meantimeQuantities.getE() << " " << meantimeQuantities.getM() << std::endl;
 		this->meantimeQuantitiesStream << meantimeQuantitiesStream.str();
 
 		if (this->meantimeQuantitiesCount < IsingIO::QUANTITIES_BUFFER_SIZE)

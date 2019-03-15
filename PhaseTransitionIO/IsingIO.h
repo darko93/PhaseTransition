@@ -15,8 +15,6 @@ namespace PhaseTransitionIO
 	class IsingIO : public IO, public pht::IIsingIO
 	{
 	private:
-		static const int NARROW_COLUMN_WIDTH = 10;
-		static const int COLUMN_WIDTH = 10;
 		static const int PRECISION_IN_FILE_NAME = 3;
 		static const int SPINS_BUFFER_SIZE = 1000;
 		static const int QUANTITIES_BUFFER_SIZE = 10000;

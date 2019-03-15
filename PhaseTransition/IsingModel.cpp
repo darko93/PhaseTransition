@@ -193,9 +193,9 @@ namespace PhaseTransition
 		int N = simParams.N;
 		if (!simParams.saveMeantimeQuantities && !simParams.saveSpins)
 		{
-			for (int i = 1; i <= mcsAmount; i++)
+			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= N; j++)
+				for (int i = 1; i <= N; i++)
 				{
 					metropolisStep();
 				}
@@ -221,7 +221,7 @@ namespace PhaseTransition
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= N; j++)
+				for (int i = 1; i <= N; i++)
 				{
 					metropolisStep();
 				}
@@ -235,7 +235,7 @@ namespace PhaseTransition
 		{
 			for (int mcs = 1; mcs <= mcsAmount; mcs++)
 			{
-				for (int j = 1; j <= N; j++)
+				for (int i = 1; i <= N; i++)
 				{
 					metropolisStep();
 				}
