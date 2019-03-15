@@ -6,9 +6,11 @@ resultsDirPath = os.path.join("E:", os.sep, "Dadeś", "3 mln", "C++")
 quantitiesDirName = "IsingQuantities"
 autocorrelDirName = "IsingAutocorrelations"
 TQuantitiesDirName = "IsingTQuantities"
+spinsDirName = "IsingSpins"
 quantitiesDirPath = os.path.join(resultsDirPath, quantitiesDirName)
 autocorrelDirPath = os.path.join(resultsDirPath, autocorrelDirName)
 TQuantitiesDirPath = os.path.join(resultsDirPath, TQuantitiesDirName)
+spinsDirPath = os.path.join(resultsDirPath, spinsDirName)
 dataFileExtension = ".dat"
 
 def RecreateDir(dirPath):

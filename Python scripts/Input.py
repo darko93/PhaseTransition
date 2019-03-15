@@ -203,3 +203,22 @@ def ReadtsAndEsAndMs(resultsFilePath):
         i = 1 + i
     return ts, Es, Ms
 
+
+def ReadSpins(spinsFilePath):
+    spinsLines = ReadFileLines(spinsFilePath)
+
+    headerLines = spinsLines[:6]
+    L = 0.0
+    for headerLine in headerLines:
+        if str.startswith("#L="):
+            LString = headerLine.rstrip()[:3]
+            L = float(LString)
+
+    spinsLines = spinsLines[7:]
+    spinsConfigs = []
+    spinsConfig = []
+    for spinsLine in spinsLines:
+        spinsConfig = [int(i) for i in spinsLine.rstrip()]
+        spinsConfigs.append(spinsConfig)
+
+    return L, spinsConfigs
