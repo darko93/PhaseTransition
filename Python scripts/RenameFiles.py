@@ -10,4 +10,4 @@ def RenameFiles(filesDirPath, oldName, newName):
             newFilePath = filePath.replace(oldName, newName)
             os.rename(filePath, newFilePath)
 
-RenameFiles(path.autocorrelDirPath, "Quantites", "Autocorrelations")
+RenameFiles("E:\\Ising2\\IsingSpins", ".dat", "_2.dat")

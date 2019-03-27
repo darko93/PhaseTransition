@@ -211,11 +211,12 @@ def ReadSpins(spinsFilePath):
     L = 0.0
     T = 0.0
     for headerLine in headerLines:
-        if str.startswith("#L="):
-            LString = headerLine.rstrip()[:3]
+        headerLine.rstrip()
+        if headerLine.startswith("#L="):
+            LString = headerLine.rstrip()[3:]
             L = float(LString)
-        if str.startswith("#T="):
-            LString = headerLine.rstrip()[:3]
+        if headerLine.startswith("#T="):
+            LString = headerLine.rstrip()[3:]
             T = float(LString)
 
     spinsLines = spinsLines[7:]
