@@ -29,6 +29,17 @@ def ReadSpins():
         spinsDic[T]= spinsConfigs
     return spinsDic
 
+def ReadSpins2():
+    spinsDic = dict()
+    spinsDirPath = path.spinsDirPath
+    for spinsFileName in os.listdir(spinsDirPath):
+        spinsFilePath = os.path.join(spinsDirPath, spinsFileName)
+        L, T, spinsConfigs = input.ReadSpins(spinsFilePath)
+        if L not in spinsDic:
+            spinsDic[L] = dict()
+        spinsDic[L][T]= spinsConfigs
+    return spinsDic
+
 def PrepareSpinsData():
     spinsDic = ReadSpins()
     spinsConfigsAmount = GetFirstKeyInDictListLength(spinsDic)
@@ -39,6 +50,21 @@ def PrepareSpinsData():
             labelsDic[T] = np.tile(np.array([1, 0]), (spinsConfigsAmount, 1))
         else:
             labelsDic[T] = np.tile(np.array([0, 1]), (spinsConfigsAmount, 1))
+    return spinsDic, labelsDic
+
+def PrepareSpinsData2():
+    spinsDic = ReadSpins()
+    labelsDic = dict()
+    for L, spinsDicT in spinsDic.items():
+        spinsConfigsAmount = GetFirstKeyInDictListLength(spinsDicT)
+        labelsDicT = dict()
+        for T in spinsDicT:
+            #labelsDic[T] = np.zeros((spinsConfigsAmount, 2), dtype=int)
+            if T < Tc:
+                labelsDicT[T] = np.tile(np.array([1, 0]), (spinsConfigsAmount, 1))
+            else:
+                labelsDicT[T] = np.tile(np.array([0, 1]), (spinsConfigsAmount, 1))
+        labelsDic[L] = labelsDicT
     return spinsDic, labelsDic
 
 def PrepareSplittedSpinsData():
@@ -85,21 +111,25 @@ def TrainEvaluatePredict():
     history = model.fit(allTrainSpinsConfigs, allTrainLabels, epochs=epochs, batch_size=20)
     # 4. evaluate the network
     loss, accuracy = model.evaluate(allTestSpinsConfigs, allTestLabels)
-    print("\nLoss: %.2f, Accuracy: %.2f%%" % (loss, accuracy*100))
     # 5. make predictions
     avePredictions = dict()
+    predictionsAcc = dict()
     for T, testSpinsConfigs in testSpinsDic.items():
         print("T=" + str(T))
         probabilities = model.predict(testSpinsConfigs)
         predictions = np.array([np.round(x) for x in probabilities])
         avePredictions[T] = np.average(predictions, axis=0)
         accuracy = np.mean(predictions == testLabelsDic[T])
+        predictionsAcc[T] = accuracy
         print("Prediction Accuracy: %.2f%%" % (accuracy*100))
-    return avePredictions
+    return avePredictions, predictionsAcc
 
-avePredictions = TrainEvaluatePredict()
+avePredictions, predictionsAcc = TrainEvaluatePredict()
 Ts = avePredictions.keys()
 lowTNeuronActivities = [item[1][0] for item in avePredictions.items()]
 highTNeuronActivities = [item[1][1] for item in avePredictions.items()]
 plt.plot(Ts, lowTNeuronActivities, "b-^", Ts, highTNeuronActivities, "r-x")
+plt.show()
+predictionsAcc = [item[1] for item in predictionsAcc.items()]
+plt.plot(Ts, predictionsAcc, "b-^")
 plt.show()
