@@ -7,10 +7,10 @@ import Path as path
 
 Tc = 2.269
 epochs = 50
-trainSpinsDic = {}
-trainLabelsDic = {}
-testSpinsDic = {}
-testLabelsDic = {}
+trainSpinsDic = dict()
+trainLabelsDic = dict()
+testSpinsDic = dict()
+testLabelsDic = dict()
 allTrainSpinsConfigs = []
 allTrainLabels = []
 allTestSpinsConfigs = []
@@ -29,42 +29,15 @@ def ReadSpins():
         spinsDic[T]= spinsConfigs
     return spinsDic
 
-def ReadSpins2():
-    spinsDic = dict()
-    spinsDirPath = path.spinsDirPath
-    for spinsFileName in os.listdir(spinsDirPath):
-        spinsFilePath = os.path.join(spinsDirPath, spinsFileName)
-        L, T, spinsConfigs = input.ReadSpins(spinsFilePath)
-        if L not in spinsDic:
-            spinsDic[L] = dict()
-        spinsDic[L][T]= spinsConfigs
-    return spinsDic
-
 def PrepareSpinsData():
     spinsDic = ReadSpins()
     spinsConfigsAmount = GetFirstKeyInDictListLength(spinsDic)
     labelsDic = dict()
     for T in spinsDic:
-        #labelsDic[T] = np.zeros((spinsConfigsAmount, 2), dtype=int)
         if T < Tc:
             labelsDic[T] = np.tile(np.array([1, 0]), (spinsConfigsAmount, 1))
         else:
             labelsDic[T] = np.tile(np.array([0, 1]), (spinsConfigsAmount, 1))
-    return spinsDic, labelsDic
-
-def PrepareSpinsData2():
-    spinsDic = ReadSpins()
-    labelsDic = dict()
-    for L, spinsDicT in spinsDic.items():
-        spinsConfigsAmount = GetFirstKeyInDictListLength(spinsDicT)
-        labelsDicT = dict()
-        for T in spinsDicT:
-            #labelsDic[T] = np.zeros((spinsConfigsAmount, 2), dtype=int)
-            if T < Tc:
-                labelsDicT[T] = np.tile(np.array([1, 0]), (spinsConfigsAmount, 1))
-            else:
-                labelsDicT[T] = np.tile(np.array([0, 1]), (spinsConfigsAmount, 1))
-        labelsDic[L] = labelsDicT
     return spinsDic, labelsDic
 
 def PrepareSplittedSpinsData():
@@ -73,8 +46,6 @@ def PrepareSplittedSpinsData():
     trainSpinsDic, trainLabelsDic = PrepareSpinsData()
     spinsConfigsAmount = GetFirstKeyInDictListLength(trainSpinsDic)
     lastTrainingIndex = int(0.7 * spinsConfigsAmount)
-    testSpinsDic = dict()
-    testLabelsDic = dict()
     for T in trainSpinsDic:
         testSpinsDic[T] = trainSpinsDic[T][lastTrainingIndex:]
         trainSpinsDic[T] = trainSpinsDic[T][:lastTrainingIndex]
@@ -109,9 +80,10 @@ def TrainEvaluatePredict():
     model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
     # 3. fit the network
     history = model.fit(allTrainSpinsConfigs, allTrainLabels, epochs=epochs, batch_size=20)
-    # 4. evaluate the network
+    # 4. evaluate the network for all Ts
     loss, accuracy = model.evaluate(allTestSpinsConfigs, allTestLabels)
-    # 5. make predictions
+    print("All Ts: loss=" + str(loss) + "\taccuracy=" + str(accuracy))
+    # 5. make predictions (evaluate for each T separately)
     avePredictions = dict()
     predictionsAcc = dict()
     for T, testSpinsConfigs in testSpinsDic.items():
@@ -124,12 +96,15 @@ def TrainEvaluatePredict():
         print("Prediction Accuracy: %.2f%%" % (accuracy*100))
     return avePredictions, predictionsAcc
 
-avePredictions, predictionsAcc = TrainEvaluatePredict()
-Ts = avePredictions.keys()
-lowTNeuronActivities = [item[1][0] for item in avePredictions.items()]
-highTNeuronActivities = [item[1][1] for item in avePredictions.items()]
-plt.plot(Ts, lowTNeuronActivities, "b-^", Ts, highTNeuronActivities, "r-x")
-plt.show()
-predictionsAcc = [item[1] for item in predictionsAcc.items()]
-plt.plot(Ts, predictionsAcc, "b-^")
-plt.show()
+def LearnAndPlotResults():
+    avePredictions, predictionsAcc = TrainEvaluatePredict()
+    Ts = avePredictions.keys()
+    lowTNeuronActivities = [item[1][0] for item in avePredictions.items()]
+    highTNeuronActivities = [item[1][1] for item in avePredictions.items()]
+    plt.plot(Ts, lowTNeuronActivities, "b-^", Ts, highTNeuronActivities, "r-x")
+    plt.show()
+    predictionsAcc = [item[1] for item in predictionsAcc.items()]
+    plt.plot(Ts, predictionsAcc, "b-^")
+    plt.show()
+
+LearnAndPlotResults()
