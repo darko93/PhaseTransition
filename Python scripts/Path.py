@@ -13,6 +13,9 @@ spinsDirPath = os.path.join("D:", os.sep)
 spinsDirName = "Spiny"
 spinsDirPath = os.path.join(spinsDirPath, spinsDirName)
 dataFileExtension = ".dat"
+activitiesFilePath = "D:\\activities" + dataFileExtension
+predictAccsFilePath = "D:\\accuracies" + dataFileExtension
+
 
 def RecreateDir(dirPath):
     if os.path.exists(dirPath):

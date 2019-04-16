@@ -4,6 +4,7 @@ import numpy as np
 import tensorflow as tf
 import Input as input
 import Path as path
+import Output as output
 
 Tc = 2.269
 epochs = 30
@@ -86,12 +87,12 @@ def PrepareSplittedSpinsData():
 def TrainEvaluatePredict():
     PrepareSplittedSpinsData()    
 
-    avePredictionsDic = dict()
-    predictionsAccDic = dict()
+    avePredictDic = dict()
+    predictAccDic = dict()
 
     for L in allTrainSpinsConfigs:
-        avePredictionsDic[L] = dict()
-        predictionsAccDic[L] = dict()
+        avePredictDic[L] = dict()
+        predictAccDic[L] = dict()
 
         inputDim = L*L
         # 1. define the network
@@ -111,36 +112,40 @@ def TrainEvaluatePredict():
             print("T=" + str(T))
             probabilities = model.predict(testSpinsConfigs)
             predictions = np.array([np.round(x) for x in probabilities])
-            avePredictionsDic[L][T] = np.average(predictions, axis=0)
+            avePredictDic[L][T] = np.average(predictions, axis=0)
             accuracy = np.mean(predictions == testLabelsDic[L][T])
-            predictionsAccDic[L][T] = accuracy
+            predictAccDic[L][T] = accuracy
             print("Prediction Accuracy: %.2f%%" % (accuracy*100))
-    return avePredictionsDic, predictionsAccDic
+    return avePredictDic, predictAccDic
 
 def LearnAndPlotResults():
-    avePredictionsDic, predictionsAccDic = TrainEvaluatePredict()
-    Ts = list(avePredictionsDic.values())[0].keys()
-    lowTNeuronActivitiesDic = dict()
-    highTNeuronActivitiesDic = dict()
-    for L, avePredictionsDicT in avePredictionsDic.items():
-        lowTNeuronActivitiesDic[L] = [item[1][0] for item in avePredictionsDicT.items()]
-        highTNeuronActivitiesDic[L] = [item[1][1] for item in avePredictionsDicT.items()]
-        predictionsAccDic[L] = [item[1] for item in predictionsAccDic[L].items()]
+    avePredictDic, predictAccDic = TrainEvaluatePredict()
+    Ts = list(avePredictDic.values())[0].keys()
 
-    plt.plot(Ts, lowTNeuronActivitiesDic[10], "b-x", Ts, highTNeuronActivitiesDic[10], "r-x",\
-             Ts, lowTNeuronActivitiesDic[20], "b-^", Ts, highTNeuronActivitiesDic[20], "r-^",\
-             Ts, lowTNeuronActivitiesDic[30], "b-o", Ts, highTNeuronActivitiesDic[30], "r-o",\
-             Ts, lowTNeuronActivitiesDic[40], "b-d", Ts, highTNeuronActivitiesDic[40], "r-d",\
-             Ts, lowTNeuronActivitiesDic[50], "b-s", Ts, highTNeuronActivitiesDic[50], "r-s")
-    # plt.plot(Ts, lowTNeuronActivitiesDic[30], "b-^", Ts, highTNeuronActivitiesDic[30], "r-x", Ts, lowTNeuronActivitiesDic[50], "b-^", Ts, highTNeuronActivitiesDic[50], "r-x")
+    output.SaveActivities(path.activitiesFilePath, avePredictDic)
+    output.SavePredictAccuracies(path.predictAccsFilePath, predictAccDic)
+    
+    lowTActivitiesDic = dict()
+    highTActivitiesDic = dict()
+    for L, avePredictionsDicT in avePredictDic.items():
+        # item[0] - key, item[1] - value
+        # value = zero-one vector of length two, which represents low and high T neurons average activities
+        lowTActivitiesDic[L] = [item[1][0] for item in avePredictionsDicT.items()]
+        highTActivitiesDic[L] = [item[1][1] for item in avePredictionsDicT.items()]
+        predictAccDic[L] = [item[1] for item in predictAccDic[L].items()]
+
+    plt.plot(Ts, lowTActivitiesDic[10], "b-x", Ts, highTActivitiesDic[10], "r-x",\
+             Ts, lowTActivitiesDic[20], "b-^", Ts, highTActivitiesDic[20], "r-^",\
+             Ts, lowTActivitiesDic[30], "b-o", Ts, highTActivitiesDic[30], "r-o",\
+             Ts, lowTActivitiesDic[40], "b-d", Ts, highTActivitiesDic[40], "r-d",\
+             Ts, lowTActivitiesDic[50], "b-s", Ts, highTActivitiesDic[50], "r-s")
     plt.show()
     
-    plt.plot(Ts, predictionsAccDic[10], "b-x",\
-             Ts, predictionsAccDic[20], "b-^",\
-             Ts, predictionsAccDic[30], "b-o",\
-             Ts, predictionsAccDic[40], "b-d",\
-             Ts, predictionsAccDic[50], "r-s")
-    # plt.plot(Ts, predictionsAccDic[30], "b-^", Ts, predictionsAccDic[50], "r-x")
+    plt.plot(Ts, predictAccDic[10], "b-x",\
+             Ts, predictAccDic[20], "b-^",\
+             Ts, predictAccDic[30], "b-o",\
+             Ts, predictAccDic[40], "b-d",\
+             Ts, predictAccDic[50], "r-s")
     plt.show()
 
 LearnAndPlotResults()

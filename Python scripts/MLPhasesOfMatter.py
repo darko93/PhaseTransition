@@ -6,7 +6,7 @@ import Input as input
 import Path as path
 
 Tc = 2.269
-epochs = 50
+epochs = 5
 trainSpinsDic = dict()
 trainLabelsDic = dict()
 testSpinsDic = dict()
