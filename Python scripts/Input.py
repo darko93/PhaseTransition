@@ -214,7 +214,7 @@ def ReadSpins(spinsFilePath):
         headerLine.rstrip()
         if headerLine.startswith("#L="):
             LString = headerLine.rstrip()[3:]
-            L = float(LString)
+            L = int(LString)
         if headerLine.startswith("#T="):
             LString = headerLine.rstrip()[3:]
             T = float(LString)
@@ -227,3 +227,47 @@ def ReadSpins(spinsFilePath):
         spinsConfigs.append(spinsConfig)
 
     return L, T, spinsConfigs
+
+def ReadNeuronsActivities(activitiesFilePath):
+    activitiesLines = ReadFileLines(activitiesFilePath)
+    activitiesLines = activitiesLines[2:]
+    Ts = []
+    lowTActivitiesDic = dict()
+    highTActivitiesDic = dict()
+    L = 0
+    for activitiesLine in activitiesLines:
+        if activitiesLine.startswith("L="):
+            LString = activitiesLine.rstrip()[2:]
+            L = int(LString)
+            lowTActivitiesDic[L] = []
+            highTActivitiesDic[L] = []
+        else:
+            activitiesStrings = activitiesLine.split()
+            if L == list(lowTActivitiesDic)[0]: # If actual L is the first key in a activities dict
+                T = float(activitiesStrings[0])
+                Ts.append(T)
+            lowTActivity = float(activitiesStrings[1])
+            highTActivity = float(activitiesStrings[2])
+            lowTActivitiesDic[L].append(lowTActivity)
+            highTActivitiesDic[L].append(highTActivity)
+    return Ts, lowTActivitiesDic, highTActivitiesDic
+
+def ReadAccuracies(accuraciesFilePath):
+    accuraciesLines = ReadFileLines(accuraciesFilePath)
+    accuraciesLines = accuraciesLines[2:]
+    Ts = []
+    predictAccDic = dict()
+    L = 0
+    for accuraciesLine in accuraciesLines:
+        if accuraciesLine.startswith("L="):
+            LString = accuraciesLine.rstrip()[2:]
+            L = int(LString)
+            predictAccDic[L] = []
+        else:
+            accuracyStrings = accuraciesLine.split()
+            if L == list(predictAccDic)[0]: # If actual L is the first key in a activities dict
+                T = float(accuracyStrings[0])
+                Ts.append(T)
+            accuracy = float(accuracyStrings[1])
+            predictAccDic[L].append(accuracy)
+    return Ts, predictAccDic

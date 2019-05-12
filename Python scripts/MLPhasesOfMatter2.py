@@ -146,6 +146,14 @@ def LearnAndPlotResults():
              Ts, predictAccDic[30], "b-o",\
              Ts, predictAccDic[40], "b-d",\
              Ts, predictAccDic[50], "r-s")
+    # plt.plot(Ts, lowTActivitiesDic[10], "b-x", Ts, highTActivitiesDic[10], "r-x",\
+    #          Ts, lowTActivitiesDic[20], "b-^", Ts, highTActivitiesDic[20], "r-^",\
+    #          Ts, lowTActivitiesDic[30], "b-o", Ts, highTActivitiesDic[30], "r-o")
+    # plt.show()
+    
+    # plt.plot(Ts, predictAccDic[10], "b-x",\
+    #          Ts, predictAccDic[20], "b-^",\
+    #          Ts, predictAccDic[30], "b-o")
     plt.show()
 
 LearnAndPlotResults()

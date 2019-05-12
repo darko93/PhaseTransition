@@ -1,16 +1,15 @@
 import os
 import shutil
 
-resultsDirPath = os.path.join("E:", os.sep, "Dadeś", "3 mln", "C++")
-# resultsDirPath = os.path.join("C:", os.sep, "Users", "Darko", "Desktop", "4 8 16 32", "Nowy generator")
-quantitiesDirName = "IsingQuantities"
+resultsDirPath = os.path.join("E:", os.sep, "Darek", "30 mln", "C++", "4 8 16 32", "T=2.269")
+quantitiesDirName = "quick"
 autocorrelDirName = "IsingAutocorrelations"
 TQuantitiesDirName = "IsingTQuantities"
 quantitiesDirPath = os.path.join(resultsDirPath, quantitiesDirName)
 autocorrelDirPath = os.path.join(resultsDirPath, autocorrelDirName)
 TQuantitiesDirPath = os.path.join(resultsDirPath, TQuantitiesDirName)
 spinsDirPath = os.path.join("D:", os.sep)
-spinsDirName = "Spiny"
+spinsDirName = "SpinyDuzo"
 spinsDirPath = os.path.join(spinsDirPath, spinsDirName)
 dataFileExtension = ".dat"
 activitiesFilePath = "D:\\activities" + dataFileExtension
