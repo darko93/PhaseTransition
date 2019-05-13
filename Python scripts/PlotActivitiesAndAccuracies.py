@@ -10,17 +10,21 @@ def PlotActivities():
              Ts, lowTActivitiesDic[30], "b-o", Ts, highTActivitiesDic[30], "r-o",\
              Ts, lowTActivitiesDic[40], "b-d", Ts, highTActivitiesDic[40], "r-d",\
              Ts, lowTActivitiesDic[50], "b-s", Ts, highTActivitiesDic[50], "r-s")
+    plt.xlabel('T')
+    plt.ylabel('Output layer neurons activities')
     plt.show()
     
 
 def PlotAccuracies():
     Ts, predictAccDic = input.ReadAccuracies(path.predictAccsFilePath)
 
-    plt.plot(Ts, predictAccDic[10], "b-x",\
-             Ts, predictAccDic[20], "b-^",\
+    plt.plot(Ts, predictAccDic[10], "g-x",\
+             Ts, predictAccDic[20], "c-^",\
              Ts, predictAccDic[30], "b-o",\
-             Ts, predictAccDic[40], "b-d",\
+             Ts, predictAccDic[40], "m-d",\
              Ts, predictAccDic[50], "r-s")
+    plt.xlabel('T')
+    plt.ylabel('Prediction accuracies')
     plt.show()
 
 PlotActivities()
