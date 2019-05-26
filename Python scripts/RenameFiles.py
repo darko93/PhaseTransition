@@ -10,4 +10,4 @@ def RenameFiles(filesDirPath, oldName, newName):
             newFilePath = filePath.replace(oldName, newName)
             os.rename(filePath, newFilePath)
 
-RenameFiles("C:\\Users\\Darko\\Desktop\\Ising502\\IsingSpins", ".dat", "_2.dat")
+RenameFiles("D:\\DUżo spinów\\10_2\\IsingSpins", ".dat", "_2.dat")

@@ -10,11 +10,12 @@ dE = 0.1
 gamma = dE
 mu = 0
 U = 0.5
+samplesAmount = 1000
 
 def CalculateEnergies():
     matrixH = t * np.matrix(np.eye(N, k=1), dtype=float) + t * np.matrix(np.eye(N, k=-1), dtype=float) - mu * np.matrix(np.eye(N), dtype=float)
     ApplyPeriodicBoundaryConditions(matrixH)
-    #ApplyFalKimInteractions(matrixH)
+    ApplyFalKimInteractions(matrixH)
     eigVals, eigVecs = la.eig(matrixH)
     eigVals.sort()
     return eigVals
@@ -34,8 +35,8 @@ def Lorentzian(x, x0):
     return lorentzian
 
 def CalculateDensityOfStates(energies):
-    minE = min(energies)
-    maxE = max(energies)
+    minE = -2 * t - 0.25
+    maxE = 2 * t + 1
     Es = []
     densityOfStates = []
     E = minE
@@ -48,10 +49,28 @@ def CalculateDensityOfStates(energies):
         E += dE
     return Es, densityOfStates
 
-energies = CalculateEnergies()
-Xs = np.arange(1, N + 1, 1)
-plt.plot(Xs, energies)
+def CalculateAverageDensityOfStates():
+    aveDensityOfStates = []
+    Es = {}
+    for i in range(samplesAmount):
+        energies = CalculateEnergies()
+        Es, densityOfStates = CalculateDensityOfStates(energies)
+        if i == 0:
+            aveDensityOfStates = [0.0] * len(densityOfStates)
+        for j in range(len(densityOfStates)):
+            aveDensityOfStates[j] += densityOfStates[j]
+    for k in range(len(aveDensityOfStates)):
+        aveDensityOfStates[k] = aveDensityOfStates[k] / samplesAmount
+    return Es, aveDensityOfStates
+
+Es, aveDensityOfStates = CalculateAverageDensityOfStates()
+plt.plot(Es, aveDensityOfStates)
 plt.show()
-Es, densityOfStates = CalculateDensityOfStates(energies)
-plt.plot(Es, densityOfStates)
-plt.show()
+
+# energies = CalculateEnergies()
+# Xs = np.arange(1, N + 1, 1)
+# plt.plot(Xs, energies)
+# plt.show()
+# Es, densityOfStates = CalculateDensityOfStates(energies)
+# plt.plot(Es, densityOfStates)
+# plt.show()
