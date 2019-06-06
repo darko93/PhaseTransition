@@ -5,6 +5,8 @@ import AutocorrelationFunction as autocorrel
 import Output as output
 import Path as path
 
+maxt = 100
+
 def CreateAutocorrelationLines(quantitiesFilePath):
     headerLines, Es, Ms = input.ReadEsAndMsWithHeader(quantitiesFilePath)
 
@@ -17,7 +19,7 @@ def CreateAutocorrelationLines(quantitiesFilePath):
     #     print("Es length after cut:" + str(len(Es)))
     #     print("Ms length after cut:" + str(len(Ms)))
 
-    ts = np.arange(1, 300 + 1, 1)
+    ts = np.arange(1, maxt + 1, 1)
     EAutocorrel = autocorrel.ComputeAutocorrelations(ts, Es)
     MAutocorrel = autocorrel.ComputeAutocorrelations(ts, Ms)
     

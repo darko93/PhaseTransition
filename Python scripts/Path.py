@@ -1,8 +1,8 @@
 import os
 import shutil
 
-resultsDirPath = os.path.join("E:", os.sep, "Darek", "30 mln", "C++", "4 8 16 32", "T=2.269")
-quantitiesDirName = "quick"
+resultsDirPath = os.path.join("E:", os.sep, "Darek", "30 mln", "C++", "10-30")
+quantitiesDirName = "IsingQuantities10"
 autocorrelDirName = "IsingAutocorrelations"
 TQuantitiesDirName = "IsingTQuantities"
 quantitiesDirPath = os.path.join(resultsDirPath, quantitiesDirName)

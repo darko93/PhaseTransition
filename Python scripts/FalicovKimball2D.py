@@ -8,11 +8,11 @@ t = 1
 L = 20
 N = L*L
 
-dE = 0.25
-gamma = dE
+dE = 0.5
+gamma = 0.1
 mu = 0
-U = 1
-samplesAmount = 1000
+U = 8
+samplesAmount = 50
 
 def FillHamiltonianMatrix():
     matrixH = np.matrix(np.zeros([N, N], dtype=float))
@@ -64,7 +64,7 @@ def Lorentzian(x, x0):
 
 def CalculateDensityOfStates(energies):
     minE = -4 * t - 0.5
-    maxE = 4 * t + 1.5
+    maxE = 4 * t + 9.5
     Es = []
     densityOfStates = []
     E = minE
@@ -92,12 +92,10 @@ def CalculateAverageDensityOfStates():
     return Es, aveDensityOfStates
 
 def f():
-    energies = CalculateEnergies()
-    Xs = np.arange(1, N + 1, 1)
-    plt.plot(Xs, energies)
-    plt.show()
-    # Es, densityOfStates = CalculateDensityOfStates(energies)
-    # plt.plot(Es, densityOfStates)
+    # energies = CalculateEnergies()
+    # Xs = np.arange(1, N + 1, 1)
+    # plt.plot(Xs, energies)
+    # plt.show()
     Es, aveDensityOfStates = CalculateAverageDensityOfStates()
     plt.plot(Es, aveDensityOfStates)
     plt.show()

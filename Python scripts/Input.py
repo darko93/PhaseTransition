@@ -228,6 +228,7 @@ def ReadSpins(spinsFilePath):
 
     return L, T, spinsConfigs
 
+# Read only one set of Ts with the assumption, that it is the same for each L
 def ReadNeuronsActivities(activitiesFilePath):
     activitiesLines = ReadFileLines(activitiesFilePath)
     activitiesLines = activitiesLines[2:]
@@ -252,6 +253,7 @@ def ReadNeuronsActivities(activitiesFilePath):
             highTActivitiesDic[L].append(highTActivity)
     return Ts, lowTActivitiesDic, highTActivitiesDic
 
+# Read only one set of Ts with the assumption, that it is the same for each L
 def ReadAccuracies(accuraciesFilePath):
     accuraciesLines = ReadFileLines(accuraciesFilePath)
     accuraciesLines = accuraciesLines[2:]
@@ -271,3 +273,32 @@ def ReadAccuracies(accuraciesFilePath):
             accuracy = float(accuracyStrings[1])
             predictAccDic[L].append(accuracy)
     return Ts, predictAccDic
+
+def ReadAutocorrelations(autocorrelFilePath):
+    autocorrelLines = ReadFileLines(autocorrelFilePath)
+    headerLines = autocorrelLines[:5]
+    L = 0
+    for headerLine in headerLines:
+        if headerLine.startswith("#L="):
+            LString = headerLine.rstrip()[3:]
+            L = int(LString)
+            break
+    
+    autocorrelLines = autocorrelLines[9:]
+    ts = list()
+    EAutocorrels = list()
+    MAutocorrels = list()
+    for autocorrelLine in autocorrelLines:
+        autocorrels = autocorrelLine.split()
+        tString = autocorrels[0]
+        t = int(tString)
+        ts.append(t)
+        EAutocorrelString = autocorrels[1]
+        EAutocorrel = float(EAutocorrelString)
+        EAutocorrels.append(EAutocorrel)
+        MAutocorrelString = autocorrels[2]
+        MAutocorrel = float(MAutocorrelString)
+        MAutocorrels.append(MAutocorrel)
+
+    return L, ts, EAutocorrels, MAutocorrels
+
