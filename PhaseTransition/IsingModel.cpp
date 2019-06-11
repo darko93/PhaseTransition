@@ -171,7 +171,7 @@ namespace PhaseTransition
 		int ijSpin = spins[i][j];
 		// Calculate energy change due to random spin flipping
 		double deltaE = spinEnergyChange(i, j, ijSpin);
-		// Apply spin change, when deltaE < 0 <=> E2 < E1 or with probability exp(-deltaE/T), when deltaE > 0 <=> E2 > E1
+		// Apply spin change, when deltaE < 0 <=> E2 < E1 or with probability exp(-beta*deltaE), when deltaE > 0 <=> E2 > E1
 		if (deltaE > 0)
 		{
 			double boltzmanFactor = exp(-beta * deltaE);

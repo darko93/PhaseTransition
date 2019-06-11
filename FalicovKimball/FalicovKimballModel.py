@@ -6,12 +6,24 @@ from FkSimulationParameters import FkSimulationParameters
 
 class FalicovKimballModel:
 
-    def GetFilledHamiltonianMatrix(self, simParams):
-        matrixH = np.matrix(np.zeros([simParams.N, simParams.N], dtype=float))
-        L = simParams.L
-        t = simParams.t
-        for i in range(simParams.L):
-            for j in range(simParams.L):
+    mcs = 1
+    simParams = None
+    matrixH = None
+    occupiedSites = None
+    emptySites = None
+    ionicConfig = None
+    lastFreeEn = 0.0
+
+    def fillHamiltonianMatrix(self):
+
+        if self.mcs > 1:
+            return
+
+        matrixH = np.matrix(np.zeros([self.simParams.N, self.simParams.N], dtype=float))
+        L = self.simParams.L
+        t = self.simParams.t
+        for i in range(L):
+            for j in range(L):
                 jLeft = j-1
                 jRight = j+1
                 iUp = i-1
@@ -37,50 +49,138 @@ class FalicovKimballModel:
                 matrixH[(ijNodeNr, rightNodeNr)] = t
                 matrixH[(ijNodeNr, upNodeNr)] = t
                 matrixH[(ijNodeNr, downNodeNr)] = t
-        return matrixH
 
-    def ApplyFalKimInteractions(self, simParams, matrixH):
-        for i in range(simParams.N):
-            randomNr = random.randint(0, 1)
-            if randomNr == 1:
-                matrixH[(i, i)] += simParams.U
+                self.applyFalKimInteractions(matrixH)
+        self.matrixH = matrixH
 
-    def CalculateEnergies(self, simParams):
-        matrixH = self.GetFilledHamiltonianMatrix(simParams)
-        self.ApplyFalKimInteractions(simParams, matrixH)
-        eigVals, eigVecs = la.eig(matrixH)
+    def applyFalKimInteractions(self, matrixH):
+        for i in range(self.simParams.N):
+            if self.ionicConfig[i] == 1:
+                matrixH[(i, i)] += self.simParams.U
+
+    def energies(self):
+        self.fillHamiltonianMatrix()
+        eigVals, eigVecs = la.eig(self.matrixH)
         eigVals.sort()
         return eigVals
 
-    def Lorentzian(self, gamma, x, x0):
+    def lorentzian(self, x, x0):
+        gamma = self.simParams.gamma
         lorentzian = 1 / (math.pi*gamma * (1 + ( (x-x0)/gamma )**2 ))
         return lorentzian
 
-    def CalculateDensityOfStates(self, simParams, energies):
-        minE = -4 * simParams.t - 0.5
-        maxE = 4 * simParams.t + 9.5
+    def densityOfStates(self, energies):
+        t = self.simParams.t
+        dE = self.simParams.dE
+        minE = -4 * t - 0.5
+        maxE = 4 * t + 9.5
         Es = []
         densityOfStates = []
         E = minE
         while E <= maxE:
             densityOfStateSum = 0.0
             for energy in energies:
-                densityOfStateSum += self.Lorentzian(simParams.gamma, energy, E) 
+                densityOfStateSum += self.lorentzian(energy, E) 
             Es.append(E)
             densityOfStates.append(densityOfStateSum)
-            E += simParams.dE
+            E += dE
         return Es, densityOfStates
 
-    def CalculateAverageDensityOfStates(self, simParams):
+    def averageDensityOfStates(self):
+        mcsAmount = self.simParams.mcsAmount
         aveDensityOfStates = []
         Es = {}
-        for i in range(simParams.mcsAmount):
-            energies = self.CalculateEnergies(simParams)
-            Es, densityOfStates = self.CalculateDensityOfStates(simParams, energies)
+        for i in range(mcsAmount):
+            energies = self.energies()
+            Es, densityOfStates = self.densityOfStates(energies)
             if i == 0:
                 aveDensityOfStates = [0.0] * len(densityOfStates)
             for j in range(len(densityOfStates)):
                 aveDensityOfStates[j] += densityOfStates[j]
         for k in range(len(aveDensityOfStates)):
-            aveDensityOfStates[k] /= simParams.mcsAmount
+            aveDensityOfStates[k] /= mcsAmount
         return Es, aveDensityOfStates
+
+
+
+    def chooseIonicConfiguration(self):
+        N = self.simParams.N
+        possibleIndices = list()
+        for i in range(N):
+            possibleIndices.append(i)
+        halfN = int(0.5 * N)
+        occupiedSites = random.sample(possibleIndices, k=halfN)
+        emptySites = list()
+        for siteIndex in possibleIndices:
+            if not siteIndex in occupiedSites:
+                emptySites.append(siteIndex)
+        
+        sitesOccupation = [0] * N
+        for occupiedSite in self.occupiedSites:
+            sitesOccupation[i] = 1
+
+        self.occupiedSites = occupiedSites
+        self.emptySites = emptySites
+        self.ionicConfig = sitesOccupation
+
+    def freeEnergy(self, energies):
+        simParams = self.simParams
+        product = 1.0
+        for energy in energies:
+            product *= (1 + math.exp(-simParams.beta * (energy - simParams.mu)))
+        freeEnergy = -simParams.kB * simParams.T * math.log(product)
+        return freeEnergy
+
+    def metropolisStep(self):
+        freeEn1 = 0.0
+        if self.mcs == 1:
+            energies = self.energies()
+            freeEn1 = self.freeEnergy(energies)
+        else:
+            freeEn1 = self.lastFreeEn
+        # Do a trial ionic configuration change
+        sourceSite = random.choice(self.occupiedSites)
+        destSite = random.choice(self.emptySites)
+        self.occupiedSites.remove(sourceSite)
+        self.occupiedSites.add(destSite)
+        self.emptySites.remove(destSite)
+        self.emptySites.add(sourceSite)
+        self.ionicConfig[sourceSite] = 0
+        self.ionicConfig[destSite] = 1
+        self.matrixH[(sourceSite, sourceSite)] = 0
+        self.matrixH[(destSite, destSite)] = 1
+        energies = self.energies()
+        freeEn2 = self.freeEnergy(energies)
+        self.lastFreeEnergy = freeEn2
+        if freeEn2 > freeEn1:
+            deltaFreeEn = freeEn2 - freeEn1
+            boltzmanFactor = math.exp(-self.simParams.beta * deltaFreeEn)
+            random = random.random()
+            if random > boltzmanFactor:
+                # Revert ionic configuration change, when deltaF > 0 <=> F2 > F1 and random > boltzmanFactor
+                self.occupiedSites.remove(destSite)
+                self.occupiedSites.add(sourceSite)
+                self.emptySites.remove(sourceSite)
+                self.emptySites.add(destSite)
+                self.ionicConfig[sourceSite] = 1
+                self.ionicConfig[destSite] = 0
+                self.matrixH[(sourceSite, sourceSite)] = 1
+                self.matrixH[(destSite, destSite)] = 0
+                self.lastFreeEn = freeEn1
+
+    def initialize(self, simParams, initIonicConfig = None):
+        self.simParams = simParams
+        if initIonicConfig is None:
+            self.chooseIonicConfiguration()
+        else:
+            self.ionicConfig = initIonicConfig
+
+    def fullSimulation(self, simParams, initIonicConfig = None):
+        self.initialize(simParams, initIonicConfig)
+        if simParams.saveMeantimeQuantities and simParams.saveIonicConfig:
+            for self.mcs in range(1, simParams.mcsAmount + 1):
+                self.metropolisStep()
+            #save meantime quantities
+            if self.mcs % simParams.savingIonicConfigMcsInterval == 0:
+                #save ionic config
+            

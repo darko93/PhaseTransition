@@ -1,18 +1,19 @@
 class FkSimulationParameters:
 
-    kB = 1
+    dE = 0.0
+    gamma = 0.0
+    kB = 1.0
+    t = 1.0
+    mu = 0.0
+    mcsAmount = 1
+    L = 0
     N = 0
+    U = 0.0
+    T = 0.0
     beta = 0.0
-
-    def __init__(self, dE, gamma, t, mu, mcsAmount, L, U, T):
-        self.dE = dE
-        self.gamma = gamma
-        self.t = t
-        self.mu = mu
-        self.mcsAmount = mcsAmount
-        self.setL(L)
-        self.U = U
-        self.setT(T)
+    saveMeantimeQuantities = False
+    saveIonicConfig = False
+    savingIonicConfigMcsInterval = 1
 
     def setL(self, L):
         self.L = L
