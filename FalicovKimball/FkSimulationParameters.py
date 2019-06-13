@@ -1,5 +1,9 @@
 class FkSimulationParameters:
 
+    saveMeantimeQuantities = False
+    saveIonicConfig = False
+    savingIonicConfigMcsInterval = 1
+    repeat = 1
     dE = 0.0
     gamma = 0.0
     kB = 1.0
@@ -8,16 +12,15 @@ class FkSimulationParameters:
     mcsAmount = 1
     L = 0
     N = 0
+    NFactor = 0.0
     U = 0.0
     T = 0.0
     beta = 0.0
-    saveMeantimeQuantities = False
-    saveIonicConfig = False
-    savingIonicConfigMcsInterval = 1
 
     def setL(self, L):
         self.L = L
         self.N = L*L
+        self.NFactor = 1.0 / self.N
 
     def setT(self, T):
         self.T = T
