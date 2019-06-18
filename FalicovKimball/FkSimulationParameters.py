@@ -1,14 +1,15 @@
 class FkSimulationParameters:
 
     saveMeantimeQuantities = False
-    saveIonicConfig = False
-    savingIonicConfigMcsInterval = 1
+    saveIons = False
+    savingIonsMcsInterval = 1
     repeat = 1
     dE = 0.0
     gamma = 0.0
     kB = 1.0
     t = 1.0
     mu = 0.0
+    elConc = 0.0
     mcsAmount = 1
     L = 0
     N = 0

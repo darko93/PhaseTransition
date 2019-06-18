@@ -1,23 +1,52 @@
 from FkSimulationParameters import FkSimulationParameters
+from FkInputData import FkInputData
+from FkInput import FkInput
+from FkOutput import FkOutput
 from FalicovKimballModel import FalicovKimballModel
-import matplotlib.pyplot as plt
 
 def main():
-    simParams = FkSimulationParameters()
-    simParams.dE = 0.05
-    simParams.gamma = 0.05
-    simParams.kB = 1
-    simParams.t = 1
-    simParams.mu = 0
-    simParams.mcsAmount = 50
-    simParams.setL(20)
-    simParams.U = 20
-    simParams.setT(1)
-    simParams.saveMeantimeQuantities = True
-    simParams.saveIonicConfig = True
-    fkModel = FalicovKimballModel()
+    input = FkInput()
+    inputData = input.readInputData("FalicovKimballInput.txt")
+    simParams = inputData.toFirstSimParams()
+    
+    print("kB={0}\tt={1}\telConc={2}".format(simParams.kB, simParams.t, simParams.elConc))
+    
+    output = FkOutput()
+    fkModel = FalicovKimballModel(output)
+    
+    minT = simParams.T
+    nextSimParamsExist = True
+    while nextSimParamsExist:
+        print("L={0}\tU={1}\tT={2}\tRepeat={3}".format(simParams.L, simParams.U, simParams.T, simParams.repeat))
+        
+        if simParams.saveMeantimeQuantities:
+            output.createMeantimeQuantitiesFile(inputData.meantimeQuantitiesFilePathPattern, simParams)
+        if simParams.saveIons:
+            output.createIonsFile(inputData.ionsFilePathPattern, simParams)
 
-    fkModel.fullSimulation(simParams)
+        fkModel.fullSimulation(simParams)
+
+        output.flushMeantimeQuantities(simParams)
+        output.flushIons(simParams)
+
+        nextSimParamsExist = inputData.toNextSimParams(simParams)
+
+    print("Finished")
+
+    # simParams = FkSimulationParameters()
+    # simParams.dE = 0.05
+    # simParams.gamma = 0.05
+    # simParams.kB = 1
+    # simParams.t = 1
+    # simParams.mu = 0
+    # simParams.mcsAmount = 50
+    # simParams.setL(20)
+    # simParams.U = 20
+    # simParams.setT(1)
+    # simParams.saveMeantimeQuantities = True
+    # simParams.saveIons = True
+    # fkModel = FalicovKimballModel()
+    # fkModel.fullSimulation(simParams)
 
     # fkModel.initialize(simParams)
     # Es, aveDensityOfStates = fkModel.averageDensityOfStates()

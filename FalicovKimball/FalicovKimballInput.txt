@@ -1,0 +1,16 @@
+saveMeantimeQuantities=true
+meantimeQuantitiesFilePathPattern=Quantities/FkQuantities
+saveIons=true
+ionsFilePathPattern=Ions/Ions
+savingIonsMcsInterval=1
+dE=0.05
+gamma=0.05
+mu=0
+elCons=0.5
+mcsAmount=20
+minL=10
+maxL=20
+LStep=10
+TStep=0.01
+U=5;minT=0.01;maxT=0.101
+U=20;minT=0.01;maxT=0.101

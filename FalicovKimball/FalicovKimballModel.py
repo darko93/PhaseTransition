@@ -3,6 +3,7 @@ import numpy.linalg as la
 import math
 import random
 from FkSimulationParameters import FkSimulationParameters
+from FkMeantimeQuantities import FkMeantimeQuantities
 
 class FalicovKimballModel:
 
@@ -11,8 +12,13 @@ class FalicovKimballModel:
     matrixH = None
     occupiedSites = None
     emptySites = None
-    ionicConfig = None
-    lastFreeEn = 0.0
+    ions = None
+    prevFreeEn = 0.0
+    Es = None
+    output = None
+
+    def __init__(self, output):
+        self.output = output
 
     def getNeigboringSitesNrs(self, i, j):
         L = self.simParams.L
@@ -62,7 +68,7 @@ class FalicovKimballModel:
 
     def applyFalKimInteractions(self, matrixH):
         for i in range(self.simParams.N):
-            if self.ionicConfig[i] == 1:
+            if self.ions[i] == 1:
                 matrixH[(i, i)] += self.simParams.U
 
     def energies(self):
@@ -89,8 +95,8 @@ class FalicovKimballModel:
             for energy in energies:
                 densityOfStateSum += self.lorentzian(energy, E) 
             Es.append(E)
-            #densityOfStatePerSite = densityOfStateSum * NFactor
-            densityOfStates.append(densityOfStateSum)
+            densityOfStatePerSite = densityOfStateSum * NFactor
+            densityOfStates.append(densityOfStatePerSite)
             E += dE
         return Es, densityOfStates
 
@@ -109,27 +115,25 @@ class FalicovKimballModel:
             aveDensityOfStates[k] /= mcsAmount
         return Es, aveDensityOfStates
 
-
-
     def chooseIonicConfiguration(self):
         N = self.simParams.N
         possibleIndices = list()
         for i in range(N):
             possibleIndices.append(i)
-        halfN = int(0.5 * N)
-        occupiedSites = random.sample(possibleIndices, k=halfN)
+        occupiedSitesAmount = int(self.simParams.elConc * N)
+        occupiedSites = random.sample(possibleIndices, k=occupiedSitesAmount)
         emptySites = list()
         for siteIndex in possibleIndices:
             if not siteIndex in occupiedSites:
                 emptySites.append(siteIndex)
         
-        ionicConfig = [0] * N
+        ions = [0] * N
         for occupiedSite in occupiedSites:
-            ionicConfig[occupiedSite] = 1
+            ions[occupiedSite] = 1
 
         self.occupiedSites = occupiedSites
         self.emptySites = emptySites
-        self.ionicConfig = ionicConfig
+        self.ions = ions
 
     def freeEnergy(self, energies):
         simParams = self.simParams
@@ -147,13 +151,24 @@ class FalicovKimballModel:
 
         return freeEnergy
 
+    def correlationFunction(self, n=1):
+        L = self.simParams.L
+        ions = self.ions
+        correl = 0.0
+        for i in range(L):
+            for j in range(L):
+                ijSiteNr, leftSiteNr, rightSiteNr, upSiteNr, downSiteNr = self.getNeigboringSitesNrs(i, j)
+                correl = ions[ijSiteNr] * (ions[leftSiteNr] + ions[rightSiteNr] + ions[upSiteNr] + ions[downSiteNr])
+        correl *= 4 * self.simParams.NFactor
+        return correl
+
     def metropolisStep(self):
         freeEn1 = 0.0
         if self.mcs == 1:
-            energies = self.energies()
-            freeEn1 = self.freeEnergy(energies)
+            self.Es = self.energies()
+            freeEn1 = self.freeEnergy(self.Es)
         else:
-            freeEn1 = self.lastFreeEn
+            freeEn1 = self.prevFreeEn
         # Do a trial ionic configuration change
         sourceSite = random.choice(self.occupiedSites)
         destSite = random.choice(self.emptySites)
@@ -161,13 +176,14 @@ class FalicovKimballModel:
         self.occupiedSites.append(destSite)
         self.emptySites.remove(destSite)
         self.emptySites.append(sourceSite)
-        self.ionicConfig[sourceSite] = 0
-        self.ionicConfig[destSite] = 1
+        self.ions[sourceSite] = 0
+        self.ions[destSite] = 1
         self.matrixH[(sourceSite, sourceSite)] = 0
         self.matrixH[(destSite, destSite)] = 1
-        energies = self.energies()
-        freeEn2 = self.freeEnergy(energies)
-        self.lastFreeEn = freeEn2
+        prevEs = self.Es
+        self.Es = self.energies()
+        freeEn2 = self.freeEnergy(self.Es)
+        self.prevFreeEn = freeEn2
         if freeEn2 > freeEn1:
             deltaFreeEn = freeEn2 - freeEn1
             boltzmanFactor = math.exp(-self.simParams.beta * deltaFreeEn)
@@ -178,36 +194,58 @@ class FalicovKimballModel:
                 self.occupiedSites.append(sourceSite)
                 self.emptySites.remove(sourceSite)
                 self.emptySites.append(destSite)
-                self.ionicConfig[sourceSite] = 1
-                self.ionicConfig[destSite] = 0
+                self.ions[sourceSite] = 1
+                self.ions[destSite] = 0
                 self.matrixH[(sourceSite, sourceSite)] = 1
                 self.matrixH[(destSite, destSite)] = 0
-                self.lastFreeEn = freeEn1
+                self.Es = prevEs
+                self.prevFreeEn = freeEn1
 
-    def initialize(self, simParams, initIonicConfig = None):
+    def initialize(self, simParams, initIons = None):
         self.simParams = simParams
-        if initIonicConfig is None:
+        if initIons is None:
             self.chooseIonicConfiguration()
         else:
-            self.ionicConfig = initIonicConfig
+            self.ions = initIons
 
-    def correlationFunction(self, n=1):
-        L = self.simParams.L
-        ionicConfig = self.ionicConfig
-        correl = 0.0
-        for i in range(L):
-            for j in range(L):
-                ijSiteNr, leftSiteNr, rightSiteNr, upSiteNr, downSiteNr = self.getNeigboringSitesNrs(i, j)
-                correl = ionicConfig[ijSiteNr] * (ionicConfig[leftSiteNr] + ionicConfig[rightSiteNr] + ionicConfig[upSiteNr] + ionicConfig[downSiteNr])
-        correl *= 4 * self.simParams.NFactor
-        return correl
-
-
-    def fullSimulation(self, simParams, initIonicConfig = None):
-        self.initialize(simParams, initIonicConfig)
-        if simParams.saveMeantimeQuantities and simParams.saveIonicConfig:
+    def fullSimulationAfterInitialization(self):
+        simParams = self.simParams
+        if simParams.saveMeantimeQuantities and simParams.saveions:
             for self.mcs in range(1, simParams.mcsAmount + 1):
-                self.metropolisStep()
-                # #save meantime quantities
-                # if self.mcs % simParams.savingIonicConfigMcsInterval == 0:
-                #     #save ionic config
+                for i in range(simParams.N):
+                    self.metropolisStep()
+                
+                groundStateE = min(self.Es)
+                g1 = self.correlationFunction(n=1)
+                quantities = FkMeantimeQuantities(groundStateE, g1)
+                self.output.saveMeantimQuantities(quantities, simParams, self.mcs)
+
+                if self.mcs % simParams.savingIonsMcsInterval == 0:
+                    self.output.saveIons(self)
+
+        elif simParams.saveMeantimQuantities and not simParams.saveIons:
+            for self.mcs in range(1, simParams.mcsAmount + 1):
+                for i in range(simParams.N):
+                    self.metropolisStep()
+                
+                groundStateE = min(self.Es)
+                g1 = self.correlationFunction(n=1)
+                quantities = FkMeantimeQuantities(groundStateE, g1)
+                self.output.saveMeantimQuantities(quantities, simParams, self.mcs)
+
+        elif not simParams.saveMeantimQuantities and simParams.saveIons:
+            for self.mcs in range(1, simParams.mcsAmount + 1):
+                for i in range(simParams.N):
+                    self.metropolisStep()
+
+                if self.mcs % simParams.savingIonsMcsInterval == 0:
+                    self.output.saveIons(self)
+
+        elif not simParams.saveMeantimQuantities and not simParams.saveIons:
+            for self.mcs in range(1, simParams.mcsAmount + 1):
+                for i in range(simParams.N):
+                    self.metropolisStep()
+
+    def fullSimulation(self, simParams, initIons = None):
+        self.initialize(simParams, initIons)
+        self.fullSimulationAfterInitialization()

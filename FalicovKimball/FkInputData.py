@@ -3,13 +3,14 @@ from FkSimulationParameters import FkSimulationParameters
 class FkInputData:
     saveMeantimeQuantitites = False
     meantimeQuantitiesFilePathPattern = ""
-    saveIonicConfig = False
-    ionicConfigFilePathPattern = ""
-    savingIonicConfigMcsInterval = 0
+    saveIons = False
+    IonsFilePathPattern = ""
+    savingIonsMcsInterval = 0
     repeats = 0
     dE = 0.0
     gamma = 0.0
     mu = 0.0
+    elConc = 0.0
     mcsAmount = 0
     minL = 0
     maxL = 0
@@ -23,8 +24,8 @@ class FkInputData:
     def toFirstSimParams(self):
         simParams = FkSimulationParameters()
         simParams.saveMeantimeQuantities = self.saveMeantimeQuantitites
-        simParams.saveIonicConfig = self.saveIonicConfig
-        simParams.savingIonicConfigMcsInterval = self.savingIonicConfigMcsInterval
+        simParams.saveIons = self.saveIons
+        simParams.savingIonsMcsInterval = self.savingIonsMcsInterval
         simParams.repeat = 1
         simParams.dE = self.dE
         simParams.gamma = self.gamma
