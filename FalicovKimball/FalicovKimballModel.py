@@ -7,9 +7,8 @@ from FkMeantimeQuantities import FkMeantimeQuantities
 
 class FalicovKimballModel:
 
-    mcs = 1
     simParams = None
-    matrixH = None
+    filledMatrixH = None
     occupiedSites = None
     emptySites = None
     ions = None
@@ -17,8 +16,10 @@ class FalicovKimballModel:
     Es = None
     output = None
 
+
     def __init__(self, output):
         self.output = output
+
 
     def getNeigboringSitesNrs(self, i, j):
         L = self.simParams.L
@@ -46,10 +47,11 @@ class FalicovKimballModel:
 
         return ijSiteNr, leftSiteNr, rightSiteNr, upSitesNr, downSitesNr
 
-    def fillHamiltonianMatrix(self):
 
-        if self.mcs > 1:
-            return
+    def getFilledHamiltonianMatrix(self):
+
+        if self.filledMatrixH is not None:
+            return self.filledMatrixH
 
         matrixH = np.matrix(np.zeros([self.simParams.N, self.simParams.N], dtype=float))
         L = self.simParams.L
@@ -63,23 +65,28 @@ class FalicovKimballModel:
                 matrixH[(ijSiteNr, upSiteNr)] = t
                 matrixH[(ijSiteNr, downSiteNr)] = t
 
-                self.applyFalKimInteractions(matrixH)
-        self.matrixH = matrixH
+        self.filledMatrixH = matrixH
+        return matrixH
+
 
     def applyFalKimInteractions(self, matrixH):
         for i in range(self.simParams.N):
             if self.ions[i] == 1:
                 matrixH[(i, i)] += self.simParams.U
 
+
     def energies(self):
-        self.fillHamiltonianMatrix()
-        eigVals, eigVecs = la.eig(self.matrixH)
+        matrixH = self.getFilledHamiltonianMatrix()
+        self.applyFalKimInteractions(matrixH)
+        eigVals, eigVecs = la.eig(self.filledMatrixH)
         return eigVals
+
 
     def lorentzian(self, x, x0):
         gamma = self.simParams.gamma
         lorentzian = 1 / (math.pi*gamma * (1 + ( (x-x0)/gamma )**2 ))
         return lorentzian
+
 
     def densityOfStates(self, energies):
         t = self.simParams.t
@@ -100,6 +107,7 @@ class FalicovKimballModel:
             E += dE
         return Es, densityOfStates
 
+
     def averageDensityOfStates(self):
         mcsAmount = self.simParams.mcsAmount
         aveDensityOfStates = []
@@ -114,6 +122,7 @@ class FalicovKimballModel:
         for k in range(len(Es)):
             aveDensityOfStates[k] /= mcsAmount
         return Es, aveDensityOfStates
+
 
     def chooseIonicConfiguration(self):
         N = self.simParams.N
@@ -135,6 +144,7 @@ class FalicovKimballModel:
         self.emptySites = emptySites
         self.ions = ions
 
+
     def freeEnergy(self, energies):
         simParams = self.simParams
 
@@ -151,6 +161,7 @@ class FalicovKimballModel:
 
         return freeEnergy
 
+
     def correlationFunction(self, n=1):
         L = self.simParams.L
         ions = self.ions
@@ -162,9 +173,10 @@ class FalicovKimballModel:
         correl *= 4 * self.simParams.NFactor
         return correl
 
+
     def metropolisStep(self):
         freeEn1 = 0.0
-        if self.mcs == 1:
+        if self.Es is None: # If this is totally first Metropolis step in the simulation
             self.Es = self.energies()
             freeEn1 = self.freeEnergy(self.Es)
         else:
@@ -178,8 +190,8 @@ class FalicovKimballModel:
         self.emptySites.append(sourceSite)
         self.ions[sourceSite] = 0
         self.ions[destSite] = 1
-        self.matrixH[(sourceSite, sourceSite)] = 0
-        self.matrixH[(destSite, destSite)] = 1
+        self.filledMatrixH[(sourceSite, sourceSite)] = 0
+        self.filledMatrixH[(destSite, destSite)] = 1
         prevEs = self.Es
         self.Es = self.energies()
         freeEn2 = self.freeEnergy(self.Es)
@@ -196,10 +208,11 @@ class FalicovKimballModel:
                 self.emptySites.append(destSite)
                 self.ions[sourceSite] = 1
                 self.ions[destSite] = 0
-                self.matrixH[(sourceSite, sourceSite)] = 1
-                self.matrixH[(destSite, destSite)] = 0
+                self.filledMatrixH[(sourceSite, sourceSite)] = 1
+                self.filledMatrixH[(destSite, destSite)] = 0
                 self.Es = prevEs
                 self.prevFreeEn = freeEn1
+
 
     def initialize(self, simParams, initIons = None):
         self.simParams = simParams
@@ -208,43 +221,45 @@ class FalicovKimballModel:
         else:
             self.ions = initIons
 
+
     def fullSimulationAfterInitialization(self):
         simParams = self.simParams
-        if simParams.saveMeantimeQuantities and simParams.saveions:
-            for self.mcs in range(1, simParams.mcsAmount + 1):
+        if simParams.saveMeantimeQuantities and simParams.saveIons:
+            for mcs in range(1, simParams.mcsAmount + 1):
                 for i in range(simParams.N):
                     self.metropolisStep()
                 
                 groundStateE = min(self.Es)
                 g1 = self.correlationFunction(n=1)
                 quantities = FkMeantimeQuantities(groundStateE, g1)
-                self.output.saveMeantimQuantities(quantities, simParams, self.mcs)
+                self.output.saveMeantimQuantities(quantities, simParams, mcs)
 
-                if self.mcs % simParams.savingIonsMcsInterval == 0:
+                if mcs % simParams.savingIonsMcsInterval == 0:
                     self.output.saveIons(self)
 
         elif simParams.saveMeantimQuantities and not simParams.saveIons:
-            for self.mcs in range(1, simParams.mcsAmount + 1):
+            for mcs in range(1, simParams.mcsAmount + 1):
                 for i in range(simParams.N):
                     self.metropolisStep()
                 
                 groundStateE = min(self.Es)
                 g1 = self.correlationFunction(n=1)
                 quantities = FkMeantimeQuantities(groundStateE, g1)
-                self.output.saveMeantimQuantities(quantities, simParams, self.mcs)
+                self.output.saveMeantimQuantities(quantities, simParams, mcs)
 
         elif not simParams.saveMeantimQuantities and simParams.saveIons:
-            for self.mcs in range(1, simParams.mcsAmount + 1):
+            for mcs in range(1, simParams.mcsAmount + 1):
                 for i in range(simParams.N):
                     self.metropolisStep()
 
-                if self.mcs % simParams.savingIonsMcsInterval == 0:
+                if mcs % simParams.savingIonsMcsInterval == 0:
                     self.output.saveIons(self)
 
         elif not simParams.saveMeantimQuantities and not simParams.saveIons:
-            for self.mcs in range(1, simParams.mcsAmount + 1):
+            for mcs in range(1, simParams.mcsAmount + 1):
                 for i in range(simParams.N):
                     self.metropolisStep()
+
 
     def fullSimulation(self, simParams, initIons = None):
         self.initialize(simParams, initIons)

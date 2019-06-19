@@ -8,37 +8,44 @@ class FkInput:
             fileLines = file.readlines()
         return fileLines
 
+   
     def readStringValue(self, dataLine):
         indexOfEquals = dataLine.index("=")
         stringValue = dataLine.rstrip()[indexOfEquals + 1:]
         return stringValue
 
+   
     def readIntValue(self, dataLine):
-        floatValue = float(self.readStringValue(dataLine))
+        floatValue = int(self.readStringValue(dataLine))
         return floatValue
 
+   
     def readFloatValue(self, dataLine):
         floatValue = float(self.readStringValue(dataLine))
         return floatValue
 
+   
     def toBool(self, strVal):
         boolValue = strVal.lower() in ["true", "1", "yes"]
         return boolValue
 
+   
     def readBoolValue(self, dataLine):
         boolValue = self.toBool(self.readStringValue(dataLine))
         return boolValue
 
+   
     def readTRangeDict(self, fileLines):
         TRangeDict = dict()
         for line in fileLines:
             TRange = line.split(";")
-            U = float(TRange[0])
-            minT = float(TRange[1])
-            maxT = float(TRange[2])
+            U = float(self.readStringValue(TRange[0]))
+            minT = float(self.readStringValue(TRange[1]))
+            maxT = float(self.readStringValue(TRange[2]))
             TRangeDict[U] = [minT, maxT]
         return TRangeDict
 
+   
     def readInputData(self, inputDataFilePath):
         fileLines = self.readFileLines(inputDataFilePath)
         saveMeantimeQuantities = self.readBoolValue(fileLines[0])

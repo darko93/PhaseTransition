@@ -1,7 +1,7 @@
 from FkSimulationParameters import FkSimulationParameters
 
 class FkInputData:
-    saveMeantimeQuantitites = False
+    saveMeantimeQuantities = False
     meantimeQuantitiesFilePathPattern = ""
     saveIons = False
     IonsFilePathPattern = ""
@@ -18,24 +18,29 @@ class FkInputData:
     TStep = 0.0
     TRangeDict = dict() # Key - U; Value - tuple, tuple[0] - minT, tuple[1] - maxT
 
+  
     def addTRange(self, U, minT, maxT):
         self.TRangeDict[U] = [minT, maxT]
 
+  
     def toFirstSimParams(self):
         simParams = FkSimulationParameters()
-        simParams.saveMeantimeQuantities = self.saveMeantimeQuantitites
+        simParams.saveMeantimeQuantities = self.saveMeantimeQuantities
         simParams.saveIons = self.saveIons
         simParams.savingIonsMcsInterval = self.savingIonsMcsInterval
         simParams.repeat = 1
         simParams.dE = self.dE
         simParams.gamma = self.gamma
         simParams.mu = self.mu
+        simParams.elConc = self.elConc
         simParams.mcsAmount = self.mcsAmount
         simParams.setL(self.minL)
-        simParams.U = 0.0
-        simParams.setT(self.TRangeDict.values()[0][0]) # min T for first U
+        firstU = list(self.TRangeDict.keys())[0]
+        simParams.U = firstU
+        simParams.setT(self.TRangeDict[firstU][0]) # min T for first U
         return simParams
 
+  
     def toNextSimParams(self, simParams):
         nextRepeatNr = simParams.repeat + 1
         if nextRepeatNr <= self.repeats:

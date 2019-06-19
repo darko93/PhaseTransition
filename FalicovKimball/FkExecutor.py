@@ -14,7 +14,6 @@ def main():
     output = FkOutput()
     fkModel = FalicovKimballModel(output)
     
-    minT = simParams.T
     nextSimParamsExist = True
     while nextSimParamsExist:
         print("L={0}\tU={1}\tT={2}\tRepeat={3}".format(simParams.L, simParams.U, simParams.T, simParams.repeat))
