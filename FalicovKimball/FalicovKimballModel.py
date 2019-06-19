@@ -65,6 +65,8 @@ class FalicovKimballModel:
                 matrixH[(ijSiteNr, upSiteNr)] = t
                 matrixH[(ijSiteNr, downSiteNr)] = t
 
+        self.applyFalKimInteractions(matrixH)
+
         self.filledMatrixH = matrixH
         return matrixH
 
@@ -77,8 +79,8 @@ class FalicovKimballModel:
 
     def energies(self):
         matrixH = self.getFilledHamiltonianMatrix()
-        self.applyFalKimInteractions(matrixH)
-        eigVals, eigVecs = la.eig(self.filledMatrixH)
+        #self.applyFalKimInteractions(matrixH)
+        eigVals, eigVecs = la.eig(matrixH)
         return eigVals
 
 
@@ -169,12 +171,13 @@ class FalicovKimballModel:
         for i in range(L):
             for j in range(L):
                 ijSiteNr, leftSiteNr, rightSiteNr, upSiteNr, downSiteNr = self.getNeigboringSitesNrs(i, j)
-                correl = ions[ijSiteNr] * (ions[leftSiteNr] + ions[rightSiteNr] + ions[upSiteNr] + ions[downSiteNr])
+                correl += ions[ijSiteNr] * (ions[leftSiteNr] + ions[rightSiteNr] + ions[upSiteNr] + ions[downSiteNr])
         correl *= 4 * self.simParams.NFactor
         return correl
 
 
     def metropolisStep(self):
+        U = self.simParams.U
         freeEn1 = 0.0
         if self.Es is None: # If this is totally first Metropolis step in the simulation
             self.Es = self.energies()
@@ -190,8 +193,8 @@ class FalicovKimballModel:
         self.emptySites.append(sourceSite)
         self.ions[sourceSite] = 0
         self.ions[destSite] = 1
-        self.filledMatrixH[(sourceSite, sourceSite)] = 0
-        self.filledMatrixH[(destSite, destSite)] = 1
+        self.filledMatrixH[(sourceSite, sourceSite)] -= U
+        self.filledMatrixH[(destSite, destSite)] += U
         prevEs = self.Es
         self.Es = self.energies()
         freeEn2 = self.freeEnergy(self.Es)
@@ -208,8 +211,8 @@ class FalicovKimballModel:
                 self.emptySites.append(destSite)
                 self.ions[sourceSite] = 1
                 self.ions[destSite] = 0
-                self.filledMatrixH[(sourceSite, sourceSite)] = 1
-                self.filledMatrixH[(destSite, destSite)] = 0
+                self.filledMatrixH[(sourceSite, sourceSite)] += U
+                self.filledMatrixH[(destSite, destSite)] -= U
                 self.Es = prevEs
                 self.prevFreeEn = freeEn1
 

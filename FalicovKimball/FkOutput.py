@@ -69,7 +69,7 @@ class FkOutput:
     def createIonsFile(self, ionsFilePathPattern, simParams):
         self.ionsFilePathPattern = ionsFilePathPattern
         filePath = self.getFilePath(ionsFilePathPattern, simParams)
-        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n#ionsMcsInterval={5}\n\n\n"\
+        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n#ionsMcsInterval={5}\n\n"\
             .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.kB, simParams.savingIonsMcsInterval)
         self.writeToFile(filePath, header)
 
