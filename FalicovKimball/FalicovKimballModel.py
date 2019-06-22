@@ -8,12 +8,12 @@ from FkMeantimeQuantities import FkMeantimeQuantities
 class FalicovKimballModel:
 
     simParams = None
-    filledMatrixH = None
+    matrixH = None
     occupiedSites = None
     emptySites = None
     ions = None
     prevFreeEn = 0.0
-    Es = None
+    currentEnergies = None
     output = None
 
 
@@ -50,8 +50,8 @@ class FalicovKimballModel:
 
     def getFilledHamiltonianMatrix(self):
 
-        if self.filledMatrixH is not None:
-            return self.filledMatrixH
+        if self.matrixH is not None:
+            return self.matrixH
 
         matrixH = np.matrix(np.zeros([self.simParams.N, self.simParams.N], dtype=float))
         L = self.simParams.L
@@ -67,7 +67,7 @@ class FalicovKimballModel:
 
         self.applyFalKimInteractions(matrixH)
 
-        self.filledMatrixH = matrixH
+        self.matrixH = matrixH
         return matrixH
 
 
@@ -79,51 +79,8 @@ class FalicovKimballModel:
 
     def energies(self):
         matrixH = self.getFilledHamiltonianMatrix()
-        #self.applyFalKimInteractions(matrixH)
         eigVals, eigVecs = la.eig(matrixH)
         return eigVals
-
-
-    def lorentzian(self, x, x0):
-        gamma = self.simParams.gamma
-        lorentzian = 1 / (math.pi*gamma * (1 + ( (x-x0)/gamma )**2 ))
-        return lorentzian
-
-
-    def densityOfStates(self, energies):
-        t = self.simParams.t
-        dE = self.simParams.dE
-        NFactor = self.simParams.NFactor
-        minE = -4 * t - 0.5
-        maxE = 4 * t + 9.5
-        Es = []
-        densityOfStates = []
-        E = minE
-        while E <= maxE:
-            densityOfStateSum = 0.0
-            for energy in energies:
-                densityOfStateSum += self.lorentzian(energy, E) 
-            Es.append(E)
-            densityOfStatePerSite = densityOfStateSum * NFactor
-            densityOfStates.append(densityOfStatePerSite)
-            E += dE
-        return Es, densityOfStates
-
-
-    def averageDensityOfStates(self):
-        mcsAmount = self.simParams.mcsAmount
-        aveDensityOfStates = []
-        Es = {}
-        for i in range(mcsAmount):
-            energies = self.energies()
-            Es, densityOfStates = self.densityOfStates(energies)
-            if i == 0:
-                aveDensityOfStates = [0.0] * len(densityOfStates)
-            for j in range(len(Es)):
-                aveDensityOfStates[j] += densityOfStates[j]
-        for k in range(len(Es)):
-            aveDensityOfStates[k] /= mcsAmount
-        return Es, aveDensityOfStates
 
 
     def chooseIonicConfiguration(self):
@@ -176,12 +133,54 @@ class FalicovKimballModel:
         return correl
 
 
+    def lorentzian(self, x, x0):
+        gamma = self.simParams.gamma
+        lorentzian = 1 / (math.pi*gamma * (1 + ( (x-x0)/gamma )**2 ))
+        return lorentzian
+
+
+    def densityOfStates(self, energies):
+        t = self.simParams.t
+        dE = self.simParams.dE
+        NFactor = self.simParams.NFactor
+        minE = -4 * t - 0.5
+        maxE = 4 * t + 9.5
+        Es = []
+        densitiesOfStates = []
+        E = minE
+        while E <= maxE:
+            densityOfState = 0.0
+            for energy in energies:
+                densityOfState += math.log(self.lorentzian(energy, E))
+            Es.append(E)
+            densityOfStatePerSite = math.exp(NFactor * densityOfState)
+            densitiesOfStates.append(densityOfStatePerSite)
+            E += dE
+        return Es, densitiesOfStates
+
+
+    # def averageDensityOfStates(self):
+    #     mcsAmount = self.simParams.mcsAmount
+    #     aveDensityOfStates = []
+    #     Es = {}
+    #     for i in range(mcsAmount):
+    #         energies = self.energies()
+    #         Es, densityOfStates = self.densityOfStates(energies)
+    #         if i == 0:
+    #             aveDensityOfStates = [0.0] * len(densityOfStates)
+    #         for j in range(len(Es)):
+    #             aveDensityOfStates[j] += densityOfStates[j]
+    #     for k in range(len(Es)):
+    #         aveDensityOfStates[k] /= mcsAmount
+    #     return Es, aveDensityOfStates
+
+
     def metropolisStep(self):
         U = self.simParams.U
         freeEn1 = 0.0
-        if self.Es is None: # If this is totally first Metropolis step in the simulation
-            self.Es = self.energies()
-            freeEn1 = self.freeEnergy(self.Es)
+        if self.currentEnergies is None: # If this is totally first Metropolis step in the simulation
+            self.currentEnergies = self.energies()
+            freeEn1 = self.freeEnergy(self.currentEnergies)
         else:
             freeEn1 = self.prevFreeEn
         # Do a trial ionic configuration change
@@ -193,11 +192,11 @@ class FalicovKimballModel:
         self.emptySites.append(sourceSite)
         self.ions[sourceSite] = 0
         self.ions[destSite] = 1
-        self.filledMatrixH[(sourceSite, sourceSite)] -= U
-        self.filledMatrixH[(destSite, destSite)] += U
-        prevEs = self.Es
-        self.Es = self.energies()
-        freeEn2 = self.freeEnergy(self.Es)
+        self.matrixH[(sourceSite, sourceSite)] -= U
+        self.matrixH[(destSite, destSite)] += U
+        prevEnergies = self.currentEnergies
+        self.currentEnergies = self.energies()
+        freeEn2 = self.freeEnergy(self.currentEnergies)
         self.prevFreeEn = freeEn2
         if freeEn2 > freeEn1:
             deltaFreeEn = freeEn2 - freeEn1
@@ -211,14 +210,14 @@ class FalicovKimballModel:
                 self.emptySites.append(destSite)
                 self.ions[sourceSite] = 1
                 self.ions[destSite] = 0
-                self.filledMatrixH[(sourceSite, sourceSite)] += U
-                self.filledMatrixH[(destSite, destSite)] -= U
-                self.Es = prevEs
+                self.matrixH[(sourceSite, sourceSite)] += U
+                self.matrixH[(destSite, destSite)] -= U
+                self.currentEnergies = prevEnergies
                 self.prevFreeEn = freeEn1
 
 
     def initialize(self, simParams, initIons = None):
-        reuseIons = simParams.reuseIons and self.ions is not None and self.simParams is not None and self.simParams.L = simParams.L
+        reuseIons = simParams.reuseIons and self.ions is not None and self.simParams is not None and self.simParams.L == simParams.L
         self.simParams = simParams
         if initIons is None and not reuseIons:
             self.chooseIonicConfiguration()
@@ -226,45 +225,18 @@ class FalicovKimballModel:
             self.ions = initIons
 
 
-    def fullSimulationAfterInitialization(self):
-        simParams = self.simParams
-        if simParams.saveMeantimeQuantities and simParams.saveIons:
-            for mcs in range(1, simParams.mcsAmount + 1):
-                for i in range(simParams.N):
-                    self.metropolisStep()
-                
-                groundStateE = min(self.Es)
-                g1 = self.correlationFunction(n=1)
-                quantities = FkMeantimeQuantities(groundStateE, g1)
-                self.output.saveMeantimQuantities(quantities, simParams, mcs)
-
-                if mcs % simParams.savingIonsMcsInterval == 0:
-                    self.output.saveIons(self)
-
-        elif simParams.saveMeantimQuantities and not simParams.saveIons:
-            for mcs in range(1, simParams.mcsAmount + 1):
-                for i in range(simParams.N):
-                    self.metropolisStep()
-                
-                groundStateE = min(self.Es)
-                g1 = self.correlationFunction(n=1)
-                quantities = FkMeantimeQuantities(groundStateE, g1)
-                self.output.saveMeantimQuantities(quantities, simParams, mcs)
-
-        elif not simParams.saveMeantimQuantities and simParams.saveIons:
-            for mcs in range(1, simParams.mcsAmount + 1):
-                for i in range(simParams.N):
-                    self.metropolisStep()
-
-                if mcs % simParams.savingIonsMcsInterval == 0:
-                    self.output.saveIons(self)
-
-        elif not simParams.saveMeantimQuantities and not simParams.saveIons:
-            for mcs in range(1, simParams.mcsAmount + 1):
-                for i in range(simParams.N):
-                    self.metropolisStep()
+    def calculateAndSaveMeantimeQuantities(self, mcs):
+        groundStateE = min(self.currentEnergies)
+        g1 = self.correlationFunction(n=1)
+        quantities = FkMeantimeQuantities(groundStateE, g1)
+        self.output.saveMeantimQuantities(quantities, self.simParams, mcs)
 
 
-    def fullSimulation(self, simParams, initIons = None):
-        self.initialize(simParams, initIons)
-        self.fullSimulationAfterInitialization()
+    def calculateAndSaveDoS(self):
+        Es, densitiesOfStates = self.densityOfStates(self.currentEnergies)
+        self.output.saveDoS(Es, densitiesOfStates, self.simParams)
+
+
+    def saveIons(self, mcs):
+        if mcs % self.simParams.savingIonsMcsInterval == 0:
+            self.output.saveIons(self)

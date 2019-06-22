@@ -9,6 +9,7 @@ class FkOutput:
     DATA_FILE_EXTENSION = ".dat"
 
     quantitiesFilePathPattern = ""
+    DoSFilePathPattern = ""
     ionsFilePathPattern = ""
 
     quantitiesCount = 0
@@ -64,6 +65,15 @@ class FkOutput:
             self.writeToFile(filePath, quantitiesStr)
             self.quantities.clear()
             self.quantitiesCount = 0
+
+
+    def createDoSFile(self, DoSFilePathPattern, simParams):
+        self.DoSFilePathPattern = DoSFilePathPattern
+        filePath = self.getFilePath(DoSFilePathPattern, simParams)
+
+
+    def saveDoS(self, Es, densitiesOfStates, simParams):
+        filePath = self.getFilePath(self.DoSFilePathPattern, simParams)
 
         
     def createIonsFile(self, ionsFilePathPattern, simParams):

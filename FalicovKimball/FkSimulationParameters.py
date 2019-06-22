@@ -1,6 +1,7 @@
 class FkSimulationParameters:
 
     saveMeantimeQuantities = False
+    saveDoS = False
     saveIons = False
     savingIonsMcsInterval = 1
     reuseIons = False

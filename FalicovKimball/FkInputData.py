@@ -3,6 +3,8 @@ from FkSimulationParameters import FkSimulationParameters
 class FkInputData:
     saveMeantimeQuantities = False
     meantimeQuantitiesFilePathPattern = ""
+    saveDoS = False
+    DoSFilePathPattern = ""
     saveIons = False
     IonsFilePathPattern = ""
     savingIonsMcsInterval = 0
@@ -27,6 +29,7 @@ class FkInputData:
     def toFirstSimParams(self):
         simParams = FkSimulationParameters()
         simParams.saveMeantimeQuantities = self.saveMeantimeQuantities
+        simParams.saveDoS = self.saveDoS
         simParams.saveIons = self.saveIons
         simParams.savingIonsMcsInterval = self.savingIonsMcsInterval
         simParams.reuseIons = self.reuseIons

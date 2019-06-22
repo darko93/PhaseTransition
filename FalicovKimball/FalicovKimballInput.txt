@@ -1,5 +1,7 @@
 saveMeantimeQuantities=true
 meantimeQuantitiesFilePathPattern=FkQuantities/Quantities
+saveDoS=true
+DoSFilePathPattern=FkDoS/DoS
 saveIons=true
 ionsFilePathPattern=FkIons/Ions
 savingIonsMcsInterval=1
