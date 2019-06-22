@@ -53,16 +53,17 @@ class FkInput:
         saveIons = self.readBoolValue(fileLines[2])
         ionsFilePathPattern = self.readStringValue(fileLines[3])
         savingIonsMcsInterval = self.readIntValue(fileLines[4])
-        dE = self.readFloatValue(fileLines[5])
-        gamma = self.readFloatValue(fileLines[6])
-        mu = self.readFloatValue(fileLines[7])
-        elConc = self.readFloatValue(fileLines[8])
-        mcsAmount = self.readIntValue(fileLines[9])
-        minL = self.readIntValue(fileLines[10])
-        maxL = self.readIntValue(fileLines[11])
-        LStep = self.readIntValue(fileLines[12])
-        TStep = self.readFloatValue(fileLines[13])
-        TRangeDict = self.readTRangeDict(fileLines[14:])
+        reuseIons = self.readBoolValue(fileLines[5])
+        dE = self.readFloatValue(fileLines[6])
+        gamma = self.readFloatValue(fileLines[7])
+        mu = self.readFloatValue(fileLines[8])
+        elConc = self.readFloatValue(fileLines[9])
+        mcsAmount = self.readIntValue(fileLines[10])
+        minL = self.readIntValue(fileLines[11])
+        maxL = self.readIntValue(fileLines[12])
+        LStep = self.readIntValue(fileLines[13])
+        TStep = self.readFloatValue(fileLines[14])
+        TRangeDict = self.readTRangeDict(fileLines[15:])
 
         inputData = FkInputData()
         inputData.saveMeantimeQuantities = saveMeantimeQuantities
@@ -70,6 +71,7 @@ class FkInput:
         inputData.saveIons = saveIons
         inputData.ionsFilePathPattern = ionsFilePathPattern
         inputData.savingIonsMcsInterval = savingIonsMcsInterval
+        inputData.reuseIons = reuseIons
         inputData.dE = dE
         inputData.gamma = gamma
         inputData.mu = mu

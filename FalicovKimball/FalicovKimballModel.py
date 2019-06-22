@@ -218,8 +218,9 @@ class FalicovKimballModel:
 
 
     def initialize(self, simParams, initIons = None):
+        reuseIons = simParams.reuseIons and self.ions is not None and self.simParams is not None and self.simParams.L = simParams.L
         self.simParams = simParams
-        if initIons is None:
+        if initIons is None and not reuseIons:
             self.chooseIonicConfiguration()
         else:
             self.ions = initIons

@@ -6,6 +6,7 @@ class FkInputData:
     saveIons = False
     IonsFilePathPattern = ""
     savingIonsMcsInterval = 0
+    reuseIons = False
     repeats = 0
     dE = 0.0
     gamma = 0.0
@@ -28,6 +29,7 @@ class FkInputData:
         simParams.saveMeantimeQuantities = self.saveMeantimeQuantities
         simParams.saveIons = self.saveIons
         simParams.savingIonsMcsInterval = self.savingIonsMcsInterval
+        simParams.reuseIons = self.reuseIons
         simParams.repeat = 1
         simParams.dE = self.dE
         simParams.gamma = self.gamma

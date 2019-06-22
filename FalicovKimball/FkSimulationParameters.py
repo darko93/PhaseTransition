@@ -3,6 +3,7 @@ class FkSimulationParameters:
     saveMeantimeQuantities = False
     saveIons = False
     savingIonsMcsInterval = 1
+    reuseIons = False
     repeat = 1
     dE = 0.0
     gamma = 0.0

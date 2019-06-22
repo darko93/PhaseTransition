@@ -268,3 +268,6 @@ Python scripts/.vscode/.ropeproject/config.py
 /PhaseTransitionConsole/IsingSpins
 /PhaseTransitionConsole/IsingQuantities
 /FalicovKimball/.vscode
+FkIons
+FkQuantities
+FkTQuantities
