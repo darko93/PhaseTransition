@@ -232,9 +232,9 @@ class FalicovKimballModel:
         self.output.saveMeantimQuantities(quantities, self.simParams, mcs)
 
 
-    def calculateAndSaveDoS(self):
+    def calculateAndSaveDoS(self, mcs):
         Es, densitiesOfStates = self.densityOfStates(self.currentEnergies)
-        self.output.saveDoS(Es, densitiesOfStates, self.simParams)
+        self.output.saveDoS(Es, densitiesOfStates, self.simParams, mcs)
 
 
     def saveIons(self, mcs):

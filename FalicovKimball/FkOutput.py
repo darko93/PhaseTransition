@@ -70,11 +70,29 @@ class FkOutput:
     def createDoSFile(self, DoSFilePathPattern, simParams):
         self.DoSFilePathPattern = DoSFilePathPattern
         filePath = self.getFilePath(DoSFilePathPattern, simParams)
+        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n\n\n"\
+            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.kB)
+        self.writeToFile(filePath, header)
 
 
-    def saveDoS(self, Es, densitiesOfStates, simParams):
+    def saveDoS(self, Es, densitiesOfStates, simParams, mcs):
         filePath = self.getFilePath(self.DoSFilePathPattern, simParams)
 
+        if mcs == 1:
+            headerList = list()
+            headerList.append("#mcs\tE\n")
+            for E in Es:
+                headerList.append(str(E) + " ")
+            headerList.append("\n#mcs\tDoS(E)")
+            header = "".join(headerList)
+            self.writeToFile(filePath, header)
+
+        densities = list()
+        densities.append("\n")
+        for DoS in densitiesOfStates:
+            densities.append(str(DoS) + " ")
+        densitiesStr = "".join(densities)
+        self.writeToFile(filePath, densitiesStr)
         
     def createIonsFile(self, ionsFilePathPattern, simParams):
         self.ionsFilePathPattern = ionsFilePathPattern

@@ -15,7 +15,7 @@ class FkSimulationsExecutor:
                     self.fkModel.metropolisStep()
                 
                 self.fkModel.calculateAndSaveMeantimeQuantities(mcs)
-                self.fkModel.calculateAndSaveDoS()
+                self.fkModel.calculateAndSaveDoS(mcs)
                 self.fkModel.saveIons(mcs)
 
         elif simParams.saveMeantimQuantities and simParams.saveDoS and not simParams.saveIons:
@@ -24,7 +24,7 @@ class FkSimulationsExecutor:
                     self.fkModel.metropolisStep()
 
                 self.fkModel.calculateAndSaveMeantimeQuantities(mcs)
-                self.fkModel.calculateAndSaveDoS()
+                self.fkModel.calculateAndSaveDoS(mcs)
 
 
         elif not simParams.saveMeantimQuantities and simParams.saveDoS and simParams.saveIons:
@@ -32,7 +32,7 @@ class FkSimulationsExecutor:
                 for i in range(simParams.N):
                     self.fkModel.metropolisStep()
 
-                self.fkModel.calculateAndSaveDoS()
+                self.fkModel.calculateAndSaveDoS(mcs)
                 self.fkModel.saveIons(mcs)
 
 
@@ -41,7 +41,7 @@ class FkSimulationsExecutor:
                 for i in range(simParams.N):
                     self.fkModel.metropolisStep()
 
-                self.fkModel.calculateAndSaveDoS()
+                self.fkModel.calculateAndSaveDoS(mcs)
 
         ## saveDoS is False (below)
 
