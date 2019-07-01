@@ -25,7 +25,6 @@ void SimulationsManager::performAllSimulations() const
 
 	notifier.notifyConstSimParams(simParams);
 
-	double minT = simParams.getT();
 	pht::IsingModel isingModel(isingIO);
 	do
 	{

@@ -8,41 +8,49 @@ t = 1
 L = 20
 N = L*L
 
-dE = 0.5
-gamma = 0.1
+dE = 0.05
+gamma = 0.05
 mu = 0
 U = 8
 samplesAmount = 50
+
+
+def GetNeigboringSitesNrs(i, j):
+
+    jLeft = j-1
+    jRight = j+1
+    iUp = i-1
+    iDown = i+1
+
+    #Apply periodic boundary conditions
+    if jLeft < 0:
+        jLeft = L-1
+    if jRight >= L:
+        jRight = 0
+    if iUp < 0:
+        iUp = L-1
+    if iDown >= L:
+        iDown = 0
+
+    ijSiteNr = i*L + j
+    leftSiteNr = i*L + jLeft
+    rightSiteNr = i*L + jRight
+    upSitesNr = iUp*L + j
+    downSitesNr = iDown*L + j
+
+    return ijSiteNr, leftSiteNr, rightSiteNr, upSitesNr, downSitesNr
 
 def FillHamiltonianMatrix():
     matrixH = np.matrix(np.zeros([N, N], dtype=float))
     for i in range(L):
         for j in range(L):
-            jLeft = j-1
-            jRight = j+1
-            iUp = i-1
-            iDown = i+1
 
-            #Apply periodic boundary conditions
-            if jLeft < 0:
-                jLeft = L-1
-            if jRight >= L:
-                jRight = 0
-            if iUp < 0:
-                iUp = L-1
-            if iDown >= L:
-                iDown = 0
+            ijSiteNr, leftSiteNr, rightSiteNr, upSiteNr, downSiteNr = GetNeigboringSitesNrs(i, j)
 
-            ijNodeNr = i*L + j
-            leftNodeNr = i*L + jLeft
-            rightNodeNr = i*L + jRight
-            upNodeNr = iUp*L + j
-            downNodeNr = iDown*L + j
-
-            matrixH[(ijNodeNr, leftNodeNr)] = t
-            matrixH[(ijNodeNr, rightNodeNr)] = t
-            matrixH[(ijNodeNr, upNodeNr)] = t
-            matrixH[(ijNodeNr, downNodeNr)] = t
+            matrixH[(ijSiteNr, leftSiteNr)] = t
+            matrixH[(ijSiteNr, rightSiteNr)] = t
+            matrixH[(ijSiteNr, upSiteNr)] = t
+            matrixH[(ijSiteNr, downSiteNr)] = t
     return matrixH
 
 def ApplyFalKimInteractions(matrixH):

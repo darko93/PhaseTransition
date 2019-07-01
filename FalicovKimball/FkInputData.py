@@ -1,6 +1,9 @@
 from FkSimulationParameters import FkSimulationParameters
 
 class FkInputData:
+
+    T_PRECISION = 5
+
     saveMeantimeQuantities = False
     meantimeQuantitiesFilePathPattern = ""
     saveDoS = False
@@ -9,18 +12,17 @@ class FkInputData:
     IonsFilePathPattern = ""
     savingIonsMcsInterval = 0
     reuseIons = False
-    repeats = 0
     dE = 0.0
     gamma = 0.0
     mu = 0.0
     elConc = 0.0
     mcsAmount = 0
+    repeats = 0
     minL = 0
     maxL = 0
     LStep = 0
     TStep = 0.0
     TRangeDict = dict() # Key - U; Value - tuple, tuple[0] - minT, tuple[1] - maxT
-
   
     def addTRange(self, U, minT, maxT):
         self.TRangeDict[U] = [minT, maxT]
@@ -54,7 +56,7 @@ class FkInputData:
         simParams.repeat = 1
 
         isInRange = False
-        nextT = simParams.T + self.TStep
+        nextT = round(simParams.T + self.TStep, self.T_PRECISION)
         minT = self.TRangeDict[simParams.U][0]
         maxT = self.TRangeDict[simParams.U][1]
         UsList = list(self.TRangeDict.keys())

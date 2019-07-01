@@ -1,6 +1,6 @@
 saveMeantimeQuantities=true
 meantimeQuantitiesFilePathPattern=FkQuantities/Quantities
-saveDoS=true
+saveDoS=false
 DoSFilePathPattern=FkDoS/DoS
 saveIons=true
 ionsFilePathPattern=FkIons/Ions
@@ -11,8 +11,9 @@ gamma=0.05
 mu=0
 elConc=0.5
 mcsAmount=500
+repeats=1
 minL=10
 maxL=10
 LStep=10
-TStep=0.01
-U=5;minT=0.05;maxT=0.08
+TStep=0.005
+U=5;minT=0.015;maxT=0.080

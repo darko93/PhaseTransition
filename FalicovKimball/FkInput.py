@@ -61,11 +61,12 @@ class FkInput:
         mu = self.readFloatValue(fileLines[10])
         elConc = self.readFloatValue(fileLines[11])
         mcsAmount = self.readIntValue(fileLines[12])
-        minL = self.readIntValue(fileLines[13])
-        maxL = self.readIntValue(fileLines[14])
-        LStep = self.readIntValue(fileLines[15])
-        TStep = self.readFloatValue(fileLines[16])
-        TRangeDict = self.readTRangeDict(fileLines[17:])
+        repeats = self.readIntValue(fileLines[13])
+        minL = self.readIntValue(fileLines[14])
+        maxL = self.readIntValue(fileLines[15])
+        LStep = self.readIntValue(fileLines[16])
+        TStep = self.readFloatValue(fileLines[17])
+        TRangeDict = self.readTRangeDict(fileLines[18:])
 
         inputData = FkInputData()
         inputData.saveMeantimeQuantities = saveMeantimeQuantities
@@ -81,6 +82,7 @@ class FkInput:
         inputData.mu = mu
         inputData.elConc = elConc
         inputData.mcsAmount = mcsAmount
+        inputData.repeats = repeats
         inputData.minL = minL
         inputData.maxL = maxL
         inputData.LStep = LStep

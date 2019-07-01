@@ -173,6 +173,31 @@ def ReadMsWithHeader(quantitiesFilePath):
 
     return headerLines, Ms
 
+def ReadTQuantityFk(resultsFilePath):
+    resultsLines = ReadFileLines(resultsFilePath)
+
+    resultsArray = []
+    tString = ""
+    t = 0
+    ts = []
+    EString = ""
+    E = 0.0
+    Es = []
+
+    i = 0
+    for resultsLine in resultsLines:
+        if i > 8:
+            resultsArray = resultsLine.split()
+            tString = resultsArray[0]
+            t = float(tString)
+            EString = resultsArray[1]
+            E = float(EString)
+            ts.append(t)
+            Es.append(E)
+        i = 1 + i
+    return ts, Es
+
+
 def ReadtsAndEsAndMs(resultsFilePath):
     resultsLines = ReadFileLines(resultsFilePath)
 
@@ -274,6 +299,7 @@ def ReadAccuracies(accuraciesFilePath):
             predictAccDic[L].append(accuracy)
     return Ts, predictAccDic
 
+
 def ReadAutocorrelations(autocorrelFilePath):
     autocorrelLines = ReadFileLines(autocorrelFilePath)
     headerLines = autocorrelLines[:5]
@@ -302,3 +328,36 @@ def ReadAutocorrelations(autocorrelFilePath):
 
     return L, ts, EAutocorrels, MAutocorrels
 
+
+def ReadAveDoSWithHeader(DoSFilePath):
+    DoSLines = ReadFileLines(DoSFilePath)
+
+    header = DoSLines[:5]
+
+    Es = list()
+    DoSes = list()
+
+    EsLine = DoSLines[8]
+    for EStr in EsLine.split():
+        E = float(EStr)
+        Es.append(E)
+
+    EsAmount = len(Es)
+    DoSLines = DoSLines[10:]
+    for DoSLine in DoSLines:
+        i = 0
+        for DoSStr in DoSLine.split():
+            DoS = float(DoSStr)
+            if len(DoSes) < EsAmount:
+                DoSes.append(DoS)
+            else:
+                DoSes[i] += DoS
+            i += 1
+
+    mcsAmount = len(DoSLines)
+    i = 0
+    for DoSSum in DoSes:
+        DoSes[i] = DoSSum / mcsAmount
+        i += 1
+    
+    return header, Es, DoSes

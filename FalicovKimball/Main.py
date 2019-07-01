@@ -5,6 +5,8 @@ from FkInput import FkInput
 from FkOutput import FkOutput
 from FalicovKimballModel import FalicovKimballModel
 
+import matplotlib.pyplot as plt
+
 def main():
     input = FkInput()
     inputData = input.readInputData("FalicovKimballInput.txt")
@@ -36,6 +38,8 @@ def main():
 
     print("Finished")
 
+
+
     # simParams = FkSimulationParameters()
     # simParams.dE = 0.05
     # simParams.gamma = 0.05
@@ -46,20 +50,23 @@ def main():
     # simParams.setL(20)
     # simParams.U = 20
     # simParams.setT(1)
-    # simParams.saveMeantimeQuantities = True
-    # simParams.saveIons = True
-    # fkModel = FalicovKimballModel()
-    # fkModel.fullSimulation(simParams)
+    # simParams.elConc=0.5
+    # simParams.saveMeantimeQuantities = False
+    # simParams.saveIons = False
+    # # fkModel = FalicovKimballModel()
+    # # fkModel.fullSimulation(simParams)
 
+    # output = FkOutput()
+    # fkModel = FalicovKimballModel(output)
     # fkModel.initialize(simParams)
     # Es, aveDensityOfStates = fkModel.averageDensityOfStates()
     # plt.plot(Es, aveDensityOfStates)
     # plt.show()
     
-    #fkModel = FalicovKimballModel()
-    #occupiedSites, emptySites = fkModel.getOccupiedAndEmptySitesIndices(10)
-    #print(occupiedSites)
-    #print(emptySites)
+    # #fkModel = FalicovKimballModel()
+    # #occupiedSites, emptySites = fkModel.getOccupiedAndEmptySitesIndices(10)
+    # #print(occupiedSites)
+    # #print(emptySites)
 
 if __name__ == "__main__":
     main()

@@ -13,11 +13,11 @@ def GetQuantitiesFilePath(L, U, T):
 
 def CalculateAllCvs(TQuantitiesDirPath):
     Ls = [10]
-    minT = 0.02 #0.5
-    maxT = 0.08 #4.01
-    TStep = 0.01
+    minT = 0.015 #0.5
+    maxT = 0.100 #4.01
+    TStep = 0.005
     T = minT
-    U = 5
+    U = 20
     Cv = 0.0
     Ts = []
     Es = []

@@ -7,6 +7,7 @@ class FkOutput:
     QUANTITIES_BUFFER_SIZE = 100
     IONS_BUFFER_SIZE = 100
     DATA_FILE_EXTENSION = ".dat"
+    DOS_PRECISION = 5
 
     quantitiesFilePathPattern = ""
     DoSFilePathPattern = ""
@@ -44,13 +45,13 @@ class FkOutput:
     def createMeantimeQuantitiesFile(self, quantitiesFilePathPattern, simParams):
         self.quantitiesFilePathPattern = quantitiesFilePathPattern # Setting it here and using in save method
         filePath = self.getFilePath(quantitiesFilePathPattern, simParams)
-        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n\n\n#MCS\tE\tg1\n\n"\
-            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.kB)
+        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#elConc={4}\n\n\n#MCS\tE\tg1\n"\
+            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.elConc)
         self.writeToFile(filePath, header)
 
  
     def saveMeantimQuantities(self, quantities, simParams, mcs):
-        quantitiesLine = "{0} {1} {2}\n".format(mcs, quantities.E, quantities.g1)
+        quantitiesLine = "\n{0} {1} {2}".format(mcs, quantities.E, quantities.g1)
         self.quantities.append(quantitiesLine)
 
         self.quantitiesCount += 1
@@ -70,8 +71,8 @@ class FkOutput:
     def createDoSFile(self, DoSFilePathPattern, simParams):
         self.DoSFilePathPattern = DoSFilePathPattern
         filePath = self.getFilePath(DoSFilePathPattern, simParams)
-        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n\n\n"\
-            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.kB)
+        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#elConc={4}\n\n\n"\
+            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.elConc)
         self.writeToFile(filePath, header)
 
 
@@ -80,25 +81,25 @@ class FkOutput:
 
         if mcs == 1:
             headerList = list()
-            headerList.append("#mcs\tE\n")
+            headerList.append("#E\n")
             for E in Es:
-                headerList.append(str(E) + " ")
-            headerList.append("\n#mcs\tDoS(E)")
+                headerList.append("{0:.5f}".format(E) + " ")
+            headerList.append("\n#DoS(E)")
             header = "".join(headerList)
             self.writeToFile(filePath, header)
 
         densities = list()
         densities.append("\n")
         for DoS in densitiesOfStates:
-            densities.append(str(DoS) + " ")
+            densities.append("{0:.5f}".format(DoS) + " ")
         densitiesStr = "".join(densities)
         self.writeToFile(filePath, densitiesStr)
         
     def createIonsFile(self, ionsFilePathPattern, simParams):
         self.ionsFilePathPattern = ionsFilePathPattern
         filePath = self.getFilePath(ionsFilePathPattern, simParams)
-        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#kB={4}\n#ionsMcsInterval={5}\n\n"\
-            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.kB, simParams.savingIonsMcsInterval)
+        header = "#t={0}\n#L={1}\n#U={2}\n#T={3}\n#elConc={4}\n#ionsMcsInterval={5}\n\n"\
+            .format(simParams.t, simParams.L, simParams.U, simParams.T, simParams.elConc, simParams.savingIonsMcsInterval)
         self.writeToFile(filePath, header)
 
  

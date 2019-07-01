@@ -157,11 +157,7 @@ namespace PhaseTransitionIO
 		meantimeQuantitiesStream << mcs << " " << meantimeQuantities.getE() << " " << meantimeQuantities.getM() << std::endl;
 		this->meantimeQuantitiesStream << meantimeQuantitiesStream.str();
 
-		if (this->meantimeQuantitiesCount < IsingIO::QUANTITIES_BUFFER_SIZE)
-		{
-			this->meantimeQuantitiesCount++;
-		}
-		else
+		if (++this->meantimeQuantitiesCount >= IsingIO::QUANTITIES_BUFFER_SIZE)
 		{
 			flushMeantimeQuantitiesWhenExist(simParams);
 		}

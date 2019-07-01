@@ -143,36 +143,40 @@ class FalicovKimballModel:
         t = self.simParams.t
         dE = self.simParams.dE
         NFactor = self.simParams.NFactor
-        minE = -4 * t - 0.5
-        maxE = 4 * t + 9.5
+        minE = -5 * t
+        maxE = 5 * t
         Es = []
         densitiesOfStates = []
         E = minE
         while E <= maxE:
             densityOfState = 0.0
             for energy in energies:
-                densityOfState += math.log(self.lorentzian(energy, E))
+                densityOfState += self.lorentzian(energy, E)
+                # densityOfState += math.log(self.lorentzian(energy, E))
             Es.append(E)
-            densityOfStatePerSite = math.exp(NFactor * densityOfState)
+            densityOfStatePerSite = NFactor * densityOfState
+            # densityOfStatePerSite = math.exp(NFactor * densityOfState)
             densitiesOfStates.append(densityOfStatePerSite)
             E += dE
         return Es, densitiesOfStates
 
 
-    # def averageDensityOfStates(self):
-    #     mcsAmount = self.simParams.mcsAmount
-    #     aveDensityOfStates = []
-    #     Es = {}
-    #     for i in range(mcsAmount):
-    #         energies = self.energies()
-    #         Es, densityOfStates = self.densityOfStates(energies)
-    #         if i == 0:
-    #             aveDensityOfStates = [0.0] * len(densityOfStates)
-    #         for j in range(len(Es)):
-    #             aveDensityOfStates[j] += densityOfStates[j]
-    #     for k in range(len(Es)):
-    #         aveDensityOfStates[k] /= mcsAmount
-    #     return Es, aveDensityOfStates
+    def averageDensityOfStates(self):
+        mcsAmount = self.simParams.mcsAmount
+        aveDensityOfStates = []
+        Es = {}
+        for i in range(mcsAmount):
+            print("mcs={0}".format(i+1), end="\r", flush=True)
+            self.chooseIonicConfiguration()
+            energies = self.energies()
+            Es, densityOfStates = self.densityOfStates(energies)
+            if i == 0:
+                aveDensityOfStates = [0.0] * len(densityOfStates)
+            for j in range(len(Es)):
+                aveDensityOfStates[j] += densityOfStates[j]
+        for k in range(len(Es)):
+            aveDensityOfStates[k] /= mcsAmount
+        return Es, aveDensityOfStates
 
 
     def metropolisStep(self):
@@ -219,10 +223,10 @@ class FalicovKimballModel:
     def initialize(self, simParams, initIons = None):
         reuseIons = simParams.reuseIons and self.ions is not None and self.simParams is not None and self.simParams.L == simParams.L
         self.simParams = simParams
-        if initIons is None and not reuseIons:
-            self.chooseIonicConfiguration()
-        else:
+        if initIons is not None:
             self.ions = initIons
+        elif not reuseIons:
+            self.chooseIonicConfiguration()
 
 
     def calculateAndSaveMeantimeQuantities(self, mcs):
