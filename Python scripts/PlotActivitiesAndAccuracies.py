@@ -5,11 +5,17 @@ import Path as path
 def PlotActivities():
     Ts, lowTActivitiesDic, highTActivitiesDic = input.ReadNeuronsActivities(path.activitiesFilePath)
     
-    plt.plot(Ts, lowTActivitiesDic[10], "b-x", Ts, highTActivitiesDic[10], "r-x",\
-             Ts, lowTActivitiesDic[20], "b-^", Ts, highTActivitiesDic[20], "r-^",\
-             Ts, lowTActivitiesDic[30], "b-o", Ts, highTActivitiesDic[30], "r-o",\
-             Ts, lowTActivitiesDic[40], "b-d", Ts, highTActivitiesDic[40], "r-d",\
-             Ts, lowTActivitiesDic[50], "b-s", Ts, highTActivitiesDic[50], "r-s")
+    plt.plot(Ts, lowTActivitiesDic[10], "b-x", label="L=10")
+    plt.plot(Ts, highTActivitiesDic[10], "r-x")
+    plt.plot(Ts, lowTActivitiesDic[20], "b-^", label="L=20")
+    plt.plot(Ts, highTActivitiesDic[20], "r-^")
+    plt.plot(Ts, lowTActivitiesDic[30], "b-o", label="L=30")
+    plt.plot(Ts, highTActivitiesDic[30], "r-o")
+    plt.plot(Ts, lowTActivitiesDic[40], "b-d", label="L=40")
+    plt.plot(Ts, highTActivitiesDic[40], "r-d")
+    plt.plot(Ts, lowTActivitiesDic[50], "b-s", label="L=50")
+    plt.plot(Ts, highTActivitiesDic[50], "r-s")
+    plt.legend(loc='center right')
     plt.xlabel('T')
     plt.ylabel('Output layer neurons activities')
     plt.show()
@@ -18,11 +24,12 @@ def PlotActivities():
 def PlotAccuracies():
     Ts, predictAccDic = input.ReadAccuracies(path.predictAccsFilePath)
 
-    plt.plot(Ts, predictAccDic[10], "g-x",\
-             Ts, predictAccDic[20], "c-^",\
-             Ts, predictAccDic[30], "b-o",\
-             Ts, predictAccDic[40], "m-d",\
-             Ts, predictAccDic[50], "r-s")
+    plt.plot(Ts, predictAccDic[10], "g-x", label="L=10")
+    plt.plot(Ts, predictAccDic[20], "c-^", label="L=20")
+    plt.plot(Ts, predictAccDic[30], "r-o", label="L=30")
+    plt.plot(Ts, predictAccDic[40], "m-d", label="L=40")
+    plt.plot(Ts, predictAccDic[50], "b-s", label="L=50")
+    plt.legend(loc='center right')
     plt.xlabel('T')
     plt.ylabel('Prediction accuracies')
     plt.show()

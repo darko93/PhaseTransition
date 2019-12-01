@@ -15,15 +15,13 @@ quantitiesDirPath = os.path.join(resultsDirPath, quantitiesDirName)
 autocorrelDirPath = os.path.join(resultsDirPath, autocorrelDirName)
 TQuantitiesDirPath = os.path.join(resultsDirPath, TQuantitiesDirName)
 
-spinsDirPath = os.path.join("D:", os.sep)
-spinsDirName = "SpinyDuzo"
-spinsDirPath = os.path.join(spinsDirPath, spinsDirName)
+spinsDirPath = os.path.join("D:", os.sep, "SpinyDuzo")
 dataFileExtension = ".dat"
 
 activitiesFilePath = "D:\\activities" + dataFileExtension
 predictAccsFilePath = "D:\\accuracies" + dataFileExtension
 
-#DoSDirPath = "D:\\Darko\\Programowanie\\Symulacje\\PhaseTransition\\FalicovKimball\\FkDoS"
+DoSDirPath = "D:\\Darko\\Programowanie\\Symulacje\\PhaseTransition\\FalicovKimball\\FkDoS"
 DoSDirPath = "C:\\Users\\Darko\\Desktop\\FK\\FkDoS"
 
 def RecreateDir(dirPath):

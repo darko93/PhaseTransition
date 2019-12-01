@@ -253,6 +253,17 @@ def ReadSpins(spinsFilePath):
 
     return L, T, spinsConfigs
 
+
+def ReadIons(ionsFilePath):
+    ionsLines = ReadFileLines(ionsFilePath)
+    ionsLines = ionsLines[8:]
+    ionsConfigs = []
+    for ionsLine in ionsLines:
+        ionsConfig = [int(i) for i in ionsLine.rstrip()]
+        ionsConfigs.append(ionsConfig)
+    return ionsConfigs
+
+
 # Read only one set of Ts with the assumption, that it is the same for each L
 def ReadNeuronsActivities(activitiesFilePath):
     activitiesLines = ReadFileLines(activitiesFilePath)

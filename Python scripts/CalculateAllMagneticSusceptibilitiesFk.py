@@ -13,11 +13,11 @@ def GetQuantitiesFilePath(L, U, T):
 
 def CalculateAllXs(TQuantitiesDirPath):
     Ls = [10]
-    minT = 0.015 #0.5
-    maxT = 0.100 #4.01
+    minT = 0.020 #0.5
+    maxT = 0.080 #4.01
     TStep = 0.005
     T = minT
-    U = 20
+    U = 8
     X = 0.0
     Ts = []
     Ms = []

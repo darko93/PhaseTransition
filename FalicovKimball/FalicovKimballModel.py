@@ -53,7 +53,8 @@ class FalicovKimballModel:
         if self.matrixH is not None:
             return self.matrixH
 
-        matrixH = np.matrix(np.zeros([self.simParams.N, self.simParams.N], dtype=float))
+        N = self.simParams.N
+        matrixH = np.matrix(np.zeros([N, N], dtype=float)) - self.simParams.mu * np.matrix(np.eye(N), dtype=float)
         L = self.simParams.L
         t = self.simParams.t
         for i in range(L):
@@ -80,7 +81,19 @@ class FalicovKimballModel:
     def energies(self):
         matrixH = self.getFilledHamiltonianMatrix()
         eigVals, eigVecs = la.eig(matrixH)
-        return eigVals
+        realEigVals = list()
+
+        i = 0
+        for eigVal in eigVals:
+            if isinstance(eigVal, complex):
+                #if eigVal.imag != 0:
+                    #print("Complex energy found {0}".format(eigVal))
+                realEigVals.append(eigVal.real)
+            else:
+                realEigVals.append(eigVal)
+            i += 1
+        
+        return realEigVals
 
 
     def chooseIonicConfiguration(self):
@@ -110,16 +123,25 @@ class FalicovKimballModel:
         # version optimized, but probably not really accurate - taking logarithm of product instead of sum of logarithm
         # product = 1.0
         # for energy in energies:
-        #     product *= (1 + math.exp(-simParams.beta * (energy - simParams.mu)))
+        #     product *= (1 + math.exp(-simParams.beta * energy))
         # freeEnergy = -simParams.kB * simParams.T * math.log(product)
 
         sum = 0.0
         for energy in energies:
-            sum += math.log(1 + math.exp(-simParams.beta * (energy - simParams.mu)))
+            sum += math.log(1 + math.exp(-simParams.beta * energy))
         freeEnergy = -simParams.kB * simParams.T * sum
 
         return freeEnergy
 
+    def groundStateEnergy(self):
+        # Sum the energies up to mu=U/2 for elConc=0.5
+        # Since mu is considered in the Hamiltonian matrix, we sum the energies up to 0
+        ESum = 0.0
+        for E in self.currentEnergies:
+            if E < 0:
+                ESum += E
+        return ESum
+        
 
     def correlationFunction(self, n=1):
         L = self.simParams.L
@@ -143,8 +165,8 @@ class FalicovKimballModel:
         t = self.simParams.t
         dE = self.simParams.dE
         NFactor = self.simParams.NFactor
-        minE = -5 * t
-        maxE = 5 * t
+        minE = -9 * t
+        maxE = 9 * t
         Es = []
         densitiesOfStates = []
         E = minE
@@ -227,10 +249,11 @@ class FalicovKimballModel:
             self.ions = initIons
         elif not reuseIons:
             self.chooseIonicConfiguration()
+        self.currentEnergies = None
 
 
     def calculateAndSaveMeantimeQuantities(self, mcs):
-        groundStateE = min(self.currentEnergies)
+        groundStateE = self.groundStateEnergy()
         g1 = self.correlationFunction(n=1)
         quantities = FkMeantimeQuantities(groundStateE, g1)
         self.output.saveMeantimQuantities(quantities, self.simParams, mcs)

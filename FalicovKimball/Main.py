@@ -12,7 +12,7 @@ def main():
     inputData = input.readInputData("FalicovKimballInput.txt")
     simParams = inputData.toFirstSimParams()
     
-    print("kB={0}\tt={1}\telConc={2}".format(simParams.kB, simParams.t, simParams.elConc))
+    print("kB={0}\tt={1}\telConc={2}\tmu={3}".format(simParams.kB, simParams.t, simParams.elConc, simParams.mu))
     
     output = FkOutput()
     fkModel = FalicovKimballModel(output)
